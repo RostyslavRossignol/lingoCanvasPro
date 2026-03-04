@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UA Studio | LingoCanvas Pro Beta V1.0</title>
+        <!-- ФАВІКОН (Іконка сайту) -->
+        <link rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Animate.css -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <!-- JSZip для пакетного завантаження -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <!-- Lucide Icons -->
+        <script src="https://unpkg.com/lucide@latest"></script>
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root { 
+            --bg-dark: #020205; 
+            --panel-dark: #08080a; 
+            --accent: #6366f1; 
+            --accent-glow: rgba(99, 102, 241, 0.3); 
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --cyan: #06b6d4;
+        }
+        
+        html, body { height: 100%; margin: 0; background-color: var(--bg-dark); color: #d1d1d6; font-size: 13px; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased; 
+            overflow-x: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100%;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- СВІТЛА ТЕМА (LIGHT MODE OVERRIDES) --- */
+        html.light body { background-color: #f1f5f9; color: #0f172a; }
+        html.light .space-engine { background-color: #f8fafc; }
+        html.light .nebula { opacity: 0.5; filter: blur(120px); }
+        html.light .star { background: #6366f1; opacity: 0.15; }
+        
+        html.light .glass-panel, html.light .login-panel { 
+            background: rgba(255, 255, 255, 0.9); 
+            border-color: rgba(0,0,0,0.08) !important; 
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.1) !important; 
+        }
+        html.light .text-white { color: #0f172a !important; }
+        html.light .text-zinc-400 { color: #475569 !important; }
+        html.light .text-zinc-500 { color: #64748b !important; }
+        html.light .text-zinc-600 { color: #94a3b8 !important; }
+        html.light .text-zinc-700 { color: #cbd5e1 !important; }
+        html.light .text-zinc-800 { color: #e2e8f0 !important; }
+        html.light .text-emerald-400 { color: #059669 !important; }
+        html.light .text-rose-400 { color: #e11d48 !important; }
+        html.light .text-indigo-400 { color: #4f46e5 !important; }
+        
+        html.light .bg-zinc-950, html.light .bg-zinc-900, html.light .bg-black\/40, html.light .bg-black\/30, html.light .bg-black\/20 { 
+            background-color: rgba(241, 245, 249, 0.9) !important; 
+        }
+        html.light .bg-zinc-950\/50, html.light .bg-zinc-900\/50 { background-color: rgba(248, 250, 252, 0.9) !important; }
+        html.light .bg-white\/5 { background-color: rgba(0,0,0,0.03) !important; }
+        html.light .bg-white\/10 { background-color: rgba(0,0,0,0.06) !important; }
+        html.light .bg-black\/80 { background-color: rgba(255,255,255,0.7) !important; }
+        
+        html.light .border-white\/5, html.light .border-white\/10, html.light .border-white\/20 { 
+            border-color: rgba(0,0,0,0.08) !important; 
+        }
+        
+        /* Фікс інпутів та селектів для світлої теми */
+        html.light input:not([type="checkbox"]):not([type="radio"]), 
+        html.light select, 
+        html.light textarea {
+            background-color: #ffffff !important;
+            border-color: rgba(0,0,0,0.15) !important;
+            color: #0f172a !important;
+            color-scheme: light; /* Фікс кольору нативних дропдаунів */
+        }
+        html.light select option { background-color: #ffffff !important; color: #0f172a !important; }
+
+        /* Фікс чекбоксів та радіо для світлої теми (щоб галочки було видно) */
+        html.light .custom-check, html.light .custom-radio {
+            background-color: #ffffff;
+            border-color: rgba(0,0,0,0.2);
+        }
+        html.light .custom-check:checked, html.light .custom-radio:checked {
+            background-color: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+        
+        /* Чорні стильні кнопки для світлої теми */
+        html.light .btn-action {
+            background: linear-gradient(135deg, #1e293b 0%, #020617 100%) !important;
+            border-color: rgba(0,0,0,0.8) !important;
+            color: #ffffff !important;
+        }
+        html.light .btn-action:hover:not(:disabled) {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;
+        }
+        
+        html.light .tooltip-text { background-color: #ffffff; color: #0f172a; border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        html.light .tooltip-text::after { border-color: #ffffff transparent transparent transparent; }
+        html.light .tooltip-down .tooltip-text::after { border-color: transparent transparent #ffffff transparent; }
+        
+        html.light .hover\:border-indigo-500\/30:hover, html.light .hover\:border-indigo-500\/40:hover { border-color: rgba(99, 102, 241, 0.5) !important; }
+        html.light .hover\:text-white:hover { color: #000000 !important; }
+        html.light .shadow-inner { box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05) !important; }
+        html.light .drop-zone { background-color: rgba(248, 250, 252, 0.6); border-color: rgba(0,0,0,0.1); }
+        
+        html.light .live-model-indicator { background: rgba(6, 182, 212, 0.15); color: #0891b2; border-color: rgba(6, 182, 212, 0.3); }
+
+        /* --- SPACE BACKGROUND (FIXED CHROME BUG) --- */
+        .space-engine { 
+            position: fixed; inset: 0; z-index: -10; 
+            background-color: var(--bg-dark); overflow: hidden; pointer-events: none; 
+            transition: background-color 0.5s ease;
+        }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.2; animation: twinkle var(--d) infinite ease-in-out; }
+        
+        .moon-asset { 
+            position: absolute; width: 450px; height: 450px; top: 2%; right: -5%; 
+            filter: drop-shadow(0 0 60px rgba(129, 140, 248, 0.15)); 
+            animation: floatMoon 25s infinite ease-in-out; z-index: 3; object-fit: contain;
+        }
+        .astronaut-asset { 
+            position: absolute; width: 240px; height: 240px; bottom: 8%; left: 5%; 
+            filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.25)); 
+            animation: floatAstro 40s infinite ease-in-out; opacity: 0.8; z-index: 2; object-fit: contain;
+        }
+
+        @keyframes nebulaFloat { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.4; } }
+        @keyframes floatMoon { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-40px, 30px) rotate(3deg); } }
+        @keyframes floatAstro { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(80px, -50px) rotate(-10deg); } }
+
+        /* --- TOOLTIPS --- */
+        .tooltip-container { position: relative; display: inline-flex; align-items: center; justify-content: center; cursor: help; z-index: 50; }
+        
+        .tooltip-text {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%);
+            background-color: #1f2937; color: #f3f4f6; text-align: center; padding: 12px 16px; border-radius: 12px;
+            font-size: 11px; white-space: normal; width: max-content; max-width: 260px;
+            z-index: 99999; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; 
+            border: 1px solid rgba(255,255,255,0.15); font-weight: 500; letter-spacing: normal; text-transform: none; line-height: 1.5;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+        .tooltip-text::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -6px;
+            border-width: 6px; border-style: solid; border-color: #1f2937 transparent transparent transparent;
+        }
+        
+        .tooltip-left .tooltip-text { left: auto; right: -10px; transform: none; }
+        .tooltip-left .tooltip-text::after { left: auto; right: 15px; margin-left: 0; }
+        
+        .tooltip-down .tooltip-text { bottom: auto; top: 140%; }
+        .tooltip-down .tooltip-text::after { top: auto; bottom: 100%; border-color: transparent transparent #1f2937 transparent; }
+        .tooltip-down:hover .tooltip-text { top: 160%; bottom: auto; }
+
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .tooltip-container:not(.tooltip-down):hover .tooltip-text { bottom: 160%; }
+
+        /* --- STUDIO UI --- */
+        #accessGate, #toolApp { position: relative; z-index: 10; }
+        
+        .login-panel {
+            background: rgba(15, 15, 20, 0.98); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 1); 
+            transition: all 0.5s ease;
+        }
+
+        .btn-action { 
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); font-weight: 800; color: white; 
+        }
+        .btn-action:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(99,102,241, 0.3); }
+        .btn-action:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+
+        .tab-btn { transition: all 0.3s ease; border-bottom: 2px solid transparent; opacity: 0.4; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.65rem; padding: 0.4rem 1rem; }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); opacity: 1; transform: translateY(-1px); }
+
+        .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.05); transition: all 0.4s ease; min-height: 100px; position: relative; background: rgba(24, 24, 27, 0.4); border-radius: 1.2rem; }
+        .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); }
+        
+        .badge-counter { font-size: 8px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 99px; font-weight: 900; }
+
+        /* INPUTS & SELECTS BASE (Dark Theme) */
+        select, input[type="text"], input[type="password"], textarea { 
+            appearance: none; background: #0c0c0f !important; border: 1px solid rgba(255,255,255,0.08); 
+            outline: none; transition: all 0.2s; color: #fff; border-radius: 0.7rem; font-size: 0.75rem;
+            color-scheme: dark; /* Фікс білого фону нативних дропдаунів (macOS/Win) в темній темі */
+        }
+        select option { background-color: #18181b !important; color: #ffffff !important; padding: 10px !important; }
+        select:focus, input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(99,102,241,0.2); }
+
+        /* CHECKBOXES & RADIOS */
+        .custom-check {
+            width: 1.1rem; height: 1.1rem; border-radius: 5px; border: 2px solid rgba(255,255,255,0.15);
+            cursor: pointer; appearance: none; position: relative; background-color: #0c0c0f;
+        }
+        .custom-check:checked { background-color: var(--accent); border-color: #818cf8; }
+        .custom-check:checked::after {
+            content: ''; position: absolute; left: 3px; top: 0px; width: 5px; height: 8px;
+            border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+        }
+        
+        .custom-radio {
+            width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15);
+            cursor: pointer; appearance: none; position: relative; background-color: #0c0c0f; transition: all 0.2s;
+        }
+        .custom-radio:checked { background-color: var(--accent); border-color: #818cf8; }
+        .custom-radio:checked::after {
+            content: ''; position: absolute; left: 3px; top: 3px; width: 6px; height: 6px;
+            background: white; border-radius: 50%;
+        }
+
+        .task-card { transition: all 0.3s ease; border-left: 5px solid transparent; }
+        .task-card:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.02); }
+
+        .main-app-container { flex: 1; display: flex; flex-direction: column; padding: 1rem; max-width: 95rem; margin: 0 auto; width: 100%; overflow: hidden; z-index: 10; }
+        
+        .preview-box { 
+            width: 90px; height: 90px; background: #000; border-radius: 0.8rem; 
+            border: 1px solid rgba(255,255,255,0.08); overflow: hidden; cursor: pointer; transition: all 0.3s;
+        }
+        .preview-box:hover { transform: scale(1.05); border-color: var(--accent); }
+
+        .geo-chip {
+            font-size: 7px; font-weight: 900; text-transform: uppercase; padding: 3px 8px; border-radius: 5px;
+            background: rgba(99, 102, 241, 0.08); color: var(--accent); border: 1px solid rgba(99, 102, 241, 0.15);
+            display: inline-flex; align-items: center; gap: 4px;
+        }
+
+        /* LIVE MODEL INDICATOR */
+        .live-model-indicator {
+            font-size: 8px; font-weight: 900; text-transform: uppercase; padding: 5px 12px; border-radius: 6px;
+            background: rgba(6, 182, 212, 0.1); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.2);
+            display: flex; align-items: center; gap: 6px; opacity: 0.5; transition: all 0.3s;
+        }
+        .live-model-indicator.active { opacity: 1; animation: pulseCyan 2s infinite; background: rgba(6, 182, 212, 0.2); }
+        @keyframes pulseCyan { 0% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4); } 70% { box-shadow: 0 0 0 5px rgba(6, 182, 212, 0); } 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); } }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #222226; border-radius: 10px; }
+
+        @media (max-width: 1024px) {
+            .main-app-container { overflow-y: auto; padding: 0.5rem; }
+            .grid-studio { grid-template-columns: 1fr !important; }
+            header { flex-direction: column; align-items: flex-start !important; }
+            .queue-header-actions { flex-direction: column; align-items: flex-start; width: 100%; gap: 10px; }
+            .live-model-indicator { width: 100%; justify-content: center; }
+        }
+    </style>
+    </head>
+    <body>
+
+        <!-- Космічний фон -->
+        <div class="space-engine" id="spaceEngine">
+            <div class="nebula"></div>
+            <img
+                src="depositphotos_52007201-stock-photo-moon-on-a-white-background.jpg"
+                class="moon-asset" alt onerror="this.style.display='none'">
+            <img src="—Pngtree—an astronaut spaceman in outer_14966325.jpg"
+                class="astronaut-asset" alt onerror="this.style.display='none'">
+        </div>
+
+        <!-- GATE (ACCESS CONTROL) -->
+        <div id="accessGate"
+            class="flex fixed inset-0 z-[2000] items-center justify-center p-4 bg-black/80 overflow-y-auto transition-colors duration-500">
+            <div
+                class="login-panel w-full max-w-[350px] p-8 rounded-[2.5rem] animate__animated animate__zoomIn my-auto relative z-10">
+                <!-- THEME TOGGLE (LOGIN) -->
+                <button onclick="toggleTheme()"
+                    class="absolute top-6 right-6 p-2 bg-zinc-900/50 hover:bg-indigo-500/20 text-zinc-500 hover:text-indigo-500 rounded-xl border border-white/5 transition-all z-20"
+                    title="Змінити тему">
+                    <i data-lucide="sun" id="themeIconLogin"
+                        class="w-4 h-4"></i>
+                </button>
+
+                <div class="text-center mb-8 mt-4">
+                    <div
+                        class="w-14 h-14 bg-indigo-600 rounded-[1.2rem] flex items-center justify-center mx-auto mb-6 shadow-lg border-t border-white/20">
+                        <i data-lucide="lock" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h1
+                        class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
+                        <span class="text-indigo-500">PRO</span></h1>
+                    <p
+                        class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.0
+                        UA STUDIO BETA</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <label
+                            class="text-[9px] font-black text-zinc-500 uppercase ml-2 tracking-widest flex items-center gap-2"><i
+                                data-lucide="key"
+                                class="w-3 h-3 text-indigo-500"></i> API Token
+                            2026</label>
+                        <input type="password" id="sessionKey"
+                            class="w-full rounded-xl px-5 py-3.5 text-sm text-white focus:border-indigo-500 border border-white/5 bg-black/40"
+                            placeholder="AIzaSy...">
+                    </div>
+                    <button id="unlockBtn"
+                        class="btn-action w-full py-4 rounded-xl font-black text-[11px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-3">
+                        <span>УВІЙТИ ДО ЦЕХУ</span>
+                        <div id="unlockLoader"
+                            class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    </button>
+                    <div id="gateStatus"
+                        class="mt-4 text-center text-[9px] font-black uppercase text-rose-500 hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN APP STUDIO -->
+        <div id="toolApp" class="hidden main-app-container">
+            <header
+                class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 shrink-0 z-20">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg border-t border-white/10"><i
+                            data-lucide="zap"
+                            class="w-6 h-6 text-white"></i></div>
+                    <div>
+                        <h1
+                            class="text-xl font-black tracking-tighter text-white uppercase leading-none italic">LingoCanvas
+                            <span class="text-indigo-500">PRO</span></h1>
+                        <div class="flex items-center gap-3 mt-1">
+                            <div id="apiStatusBadge"
+                                class="status-offline px-2 py-0.5 rounded-full flex items-center gap-2 bg-rose-500/10 border border-rose-500/20 text-rose-400"><span
+                                    class="w-1 h-1 rounded-full bg-current"></span><span
+                                    class="text-[8px] font-black uppercase tracking-widest">API
+                                    ОФЛАЙН</span></div>
+                            <p
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.0
+                                UA Studio Beta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-4">
+                    <nav
+                        class="flex gap-1 bg-white/5 p-1 rounded-xl border border-white/5">
+                        <button onclick="switchTab('production')" id="tabProd"
+                            class="tab-btn active rounded-lg">Цех
+                            Локалізації</button>
+                        <button onclick="switchTab('lab')" id="tabLab"
+                            class="tab-btn rounded-lg opacity-40">Креативна
+                            Лаба</button>
+                    </nav>
+                    <button onclick="toggleTheme()"
+                        class="p-2 bg-zinc-900/50 hover:bg-indigo-500/20 text-zinc-500 hover:text-indigo-500 rounded-xl border border-white/5 transition-all"
+                        title="Змінити тему">
+                        <i data-lucide="sun" id="themeIconApp"
+                            class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="location.reload()"
+                        class="p-2 bg-zinc-900/50 hover:bg-rose-500/20 text-zinc-500 hover:text-rose-500 rounded-xl border border-white/5 transition-all"
+                        title="Вихід"><i data-lucide="log-out"
+                            class="w-4 h-4"></i></button>
+                </div>
+            </header>
+
+            <main
+                class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0 grid-studio z-10">
+                <!-- LEFT COLUMN: CONTROLS -->
+                <div id="settingsPanel"
+                    class="lg:col-span-5 space-y-6 overflow-y-auto custom-scrollbar pr-2 pb-20">
+
+                    <!-- ====== PRODUCTION TAB ====== -->
+                    <div id="productionControls"
+                        class="space-y-6 animate__animated animate__fadeIn">
+                        <section
+                            class="glass-panel rounded-[2rem] p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h2
+                                    class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                        data-lucide="image"
+                                        class="w-3.5 h-3.5 text-indigo-500"></i>
+                                    1. МАСТЕР-ДЖЕРЕЛО</h2>
+                                <div
+                                    class="tooltip-container tooltip-left tooltip-down z-50">
+                                    <i data-lucide="help-circle"
+                                        class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
+                                    <span class="tooltip-text">Завантажте
+                                        оригінальний креатив для адаптації.
+                                        Система використає найновішу модель 2026
+                                        року для аналізу та рендеру.</span>
+                                </div>
+                            </div>
+                            <div id="dropZoneProd"
+                                class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-white/10 hover:border-indigo-500/40">
+                                <input type="file" id="fileInputProd"
+                                    class="hidden" accept="image/*">
+                                <div id="previewProd"
+                                    class="hidden h-full w-full flex items-center justify-center"></div>
+                                <div id="placeholderProd" class="text-center">
+                                    <i data-lucide="upload"
+                                        class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
+                                    <p
+                                        class="text-zinc-500 font-bold uppercase text-[9px]">Закинь
+                                        вихідний файл</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section
+                            class="glass-panel rounded-[2rem] p-6 space-y-4">
+                            <h2
+                                class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                    data-lucide="shield-check"
+                                    class="w-3.5 h-3.5 text-indigo-500"></i> 2.
+                                SMART CHECKPOINTS</h2>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <label
+                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                    <div
+                                        class="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" id="optFS"
+                                            class="custom-check" checked>
+                                        <span
+                                            class="text-[8px] font-black text-zinc-500 uppercase">Лишати
+                                            'FS'</span>
+                                    </div>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Забороняє ІІ
+                                            перекладати "Free Spins" та "FS",
+                                            залишаючи їх в оригіналі для
+                                            впізнаваності.</span>
+                                    </div>
+                                </label>
+
+                                <label
+                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                    <div
+                                        class="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" id="optCodes"
+                                            class="custom-check" checked>
+                                        <span
+                                            class="text-[8px] font-black text-zinc-500 uppercase">Сховати
+                                            Промо</span>
+                                    </div>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Захищає
+                                            промокоди (наприклад: WIN2026,
+                                            BONUS500) від перекладу іншими
+                                            мовами. Вони залишаться
+                                            латиницею.</span>
+                                    </div>
+                                </label>
+
+                                <label
+                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                    <div
+                                        class="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" id="optLogo"
+                                            class="custom-check" checked>
+                                        <span
+                                            class="text-[8px] font-black text-zinc-500 uppercase">Захист
+                                            Лого</span>
+                                    </div>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">ІІ шукає
+                                            брендові елементи та логотипи на
+                                            картинці і блокує будь-які зміни у
+                                            цих зонах під час рендеру.</span>
+                                    </div>
+                                </label>
+
+                                <div
+                                    class="p-3 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-center">
+                                    <span
+                                        class="text-[8px] text-zinc-600 block mb-1 uppercase font-black">Формат
+                                        виводу</span>
+                                    <select id="fileTypeProd"
+                                        class="bg-transparent border-none p-0 text-[9px] font-black text-indigo-400 cursor-pointer">
+                                        <option value="image/png">PNG Studio
+                                            HQ</option>
+                                        <option value="image/jpeg">JPEG Web
+                                            Optimized</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- ОПЦИОНАЛЬНАЯ ЗАМЕНА ПРОМОКОДА -->
+                            <div class="pt-2">
+                                <div
+                                    class="flex items-center justify-between mb-1">
+                                    <label
+                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Новий
+                                        Промокод (Опціонально)</label>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Якщо хочете
+                                            замінити старий промокод на новий
+                                            (напр. VIP2026), впишіть його тут.
+                                            ІІ автоматично знайде старий код и
+                                            замінить його.</span>
+                                    </div>
+                                </div>
+                                <input type="text" id="customPromoProd"
+                                    placeholder="Залишити порожнім для збереження старого..."
+                                    class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 pt-2">
+                                <div
+                                    class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                    <div
+                                        class="flex items-center justify-between mb-1">
+                                        <span
+                                            class="text-[8px] text-zinc-600 uppercase font-black">Розмір
+                                            (Ratio)</span>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Якщо
+                                                вибрано розмір, відмінний від
+                                                оригіналу, ІІ домалює (outpaint)
+                                                фон, зберігаючи композицію в
+                                                центрі.</span>
+                                        </div>
+                                    </div>
+                                    <select id="resSelector"
+                                        class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                        <option value="original">Original
+                                            (Оригінал)</option>
+                                        <option value="1080x1080">1:1 Square
+                                            (Пост)</option>
+                                        <option value="1080x1350">4:5
+                                            Portrait</option>
+                                        <option value="1080x1920">9:16
+                                            Story</option>
+                                    </select>
+                                </div>
+                                <div
+                                    class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                    <div
+                                        class="flex items-center justify-between mb-1">
+                                        <span
+                                            class="text-[8px] text-zinc-600 uppercase font-black">Модель
+                                            ІІ 2026</span>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">PRO - для
+                                                складної графіки та креативів.
+                                                Flash 2 - для простіших картинок
+                                                та швидкості.</span>
+                                        </div>
+                                    </div>
+                                    <select id="modelSelectorProd"
+                                        class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                        <option
+                                            value="gemini-3-pro-image-preview"
+                                            selected>Nano Banana Pro
+                                            (Elite)</option>
+                                        <option
+                                            value="gemini-3.1-flash-image-preview">Nano
+                                            Banana 2 (Flash)</option>
+                                        <option
+                                            value="gemini-2.5-flash-image">Nano
+                                            Banana (Standard)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section
+                            class="glass-panel rounded-[2rem] p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h2
+                                    class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                        data-lucide="globe"
+                                        class="w-3.5 h-3.5 text-indigo-500"></i>
+                                    3. ТАРГЕТ ГЕО (ЄВРОПА)</h2>
+                                <div class="tooltip-container tooltip-left">
+                                    <i data-lucide="help-circle"
+                                        class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
+                                    <span class="tooltip-text">Оберіть потрібні
+                                        країни. Кожна країна буде згенерована
+                                        окремим ізольованим запитом до
+                                        API.</span>
+                                </div>
+                            </div>
+                            <div id="langGrid"
+                                class="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[160px] overflow-y-auto pr-1 custom-scrollbar"></div>
+
+                            <div class="pt-2">
+                                <div
+                                    class="flex items-center justify-between mb-1">
+                                    <label
+                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Свої
+                                        Мови (через кому)</label>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Якщо мови
+                                            немає в списку, введіть її
+                                            англійською через кому. Приклад:
+                                            Arabic, Hindi, Japanese</span>
+                                    </div>
+                                </div>
+                                <input type="text" id="customLangs"
+                                    placeholder="Напр: Arabic, Thai, Japan..."
+                                    class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                            </div>
+
+                            <div id="selectedSummary"
+                                class="p-3 rounded-xl bg-black/40 border border-white/5 min-h-[40px] flex flex-wrap gap-1.5 items-center">
+                                <span
+                                    class="text-[8px] text-zinc-600 font-black uppercase mr-1">Вибрано:</span>
+                                <div id="geoChips"
+                                    class="flex flex-wrap gap-1.5"></div>
+                            </div>
+                            <textarea id="promptProd" rows="2"
+                                placeholder="Специфічні інструкції (напр. зроби текст агресивним, додай сленг)..."
+                                class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-none"></textarea>
+                        </section>
+
+                        <button id="processProdBtn" disabled
+                            class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                            <i data-lucide="zap" class="w-4 h-4"></i> ЗАПУСТИТИ
+                            ЦЕХ
+                        </button>
+                    </div>
+
+                    <!-- ====== LAB TAB (TRUE GENERATION & STRICT CHARACTER COPY) ====== -->
+                    <div id="labControls"
+                        class="hidden space-y-6 animate__animated animate__fadeIn">
+                        <section
+                            class="glass-panel rounded-[2rem] p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h2
+                                    class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                        data-lucide="layers"
+                                        class="w-3.5 h-3.5 text-indigo-500"></i>
+                                    1. РЕФЕРЕНСИ СТИЛЮ (MAX 3)</h2>
+                                <div
+                                    class="tooltip-container tooltip-left tooltip-down z-50">
+                                    <i data-lucide="help-circle"
+                                        class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
+                                    <span class="tooltip-text">ІІ максимально
+                                        точно скопіює ПЕРСОНАЖА зі скріншотів і
+                                        перенесе його в нову композицію (Carbon
+                                        Copy) без зміни обличчя та одягу.</span>
+                                </div>
+                            </div>
+                            <div id="dropZoneLab"
+                                class="drop-zone p-6 text-center cursor-pointer group border-white/10 hover:border-indigo-500/40">
+                                <input type="file" id="fileInputLab"
+                                    class="hidden" accept="image/*" multiple>
+                                <div id="previewLab"
+                                    class="flex gap-4 h-full w-full items-center justify-center flex-wrap"></div>
+                                <div id="placeholderLab" class="text-center">
+                                    <i data-lucide="copy"
+                                        class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
+                                    <p
+                                        class="text-zinc-500 font-bold uppercase text-[9px]">Завантаж
+                                        скріни рума / персонажів</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section
+                            class="glass-panel rounded-[2rem] p-6 space-y-4">
+                            <h2
+                                class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                    data-lucide="zap"
+                                    class="w-3.5 h-3.5 text-indigo-500"></i> 2.
+                                КОНЦЕПТ ТА БОНУСИ</h2>
+                            <div class="space-y-4">
+                                <label
+                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox"
+                                            id="optIgnoreRefText"
+                                            class="custom-check" checked>
+                                        <span
+                                            class="text-[9px] font-black text-zinc-500 uppercase">Ігнорувати
+                                            текст рефів</span>
+                                    </div>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Якщо
+                                            увімкнено, ІІ категорично ігнорує
+                                            старий текст зі скріншотів,
+                                            використовуючи ТІЛЬКИ ваш новий
+                                            бонус.</span>
+                                    </div>
+                                </label>
+
+                                <div class="space-y-1">
+                                    <div
+                                        class="flex items-center justify-between mb-1">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Текст
+                                            Бонусу для нових картинок</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Введіть
+                                                текст, який ІІ має красиво
+                                                вписати у новий дизайн. Бажано
+                                                до 4-5 слів для кращого
+                                                результату.</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="bonusText"
+                                        placeholder="Напр: 200 FS + 500$ Deposit Bonus"
+                                        class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner">
+                                </div>
+
+                                <!-- Style Checkpoints -->
+                                <div class="space-y-2 mt-2">
+                                    <div
+                                        class="flex items-center justify-between">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Популярні
+                                            Стилі</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Оберіть
+                                                загальний напрямок. Ці чекпоінти
+                                                додадуть необхідні тригери до
+                                                промпту генерації.</span>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <label
+                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <input type="checkbox"
+                                                value="Cyberpunk, Neon, Futuristic, Dark Alley"
+                                                class="style-check custom-check">
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Cyberpunk</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <input type="checkbox"
+                                                value="Luxury Gold, Diamonds, Wealth, Expensive"
+                                                class="style-check custom-check">
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Luxury
+                                                Gold</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <input type="checkbox"
+                                                value="Highly detailed 3D render, Unreal Engine 5, Octane Render, 8K, Ray Tracing"
+                                                class="style-check custom-check">
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">3D
+                                                Realistic</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <input type="checkbox"
+                                                value="Vibrant Cartoonish Mascot style, 2D art, Vector Illustration"
+                                                class="style-check custom-check">
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Cartoonish</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- NEW: Gambling Intensity (Radio) -->
+                                <div class="space-y-2 mt-4">
+                                    <div
+                                        class="flex items-center justify-between">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Агресивність
+                                            (Рівень Гембли)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Налаштуй
+                                                кількість казино-атрибутики.
+                                                "Без казино" повністю забороняє
+                                                карти та слоти, зберігаючи
+                                                тільки персонажа.</span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <label
+                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <div
+                                                class="flex items-center gap-2">
+                                                <input type="radio"
+                                                    name="gambling_level"
+                                                    value="heavy"
+                                                    class="custom-radio">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Hard
+                                                    (Агресивно)</span>
+                                            </div>
+                                            <div
+                                                class="tooltip-container tooltip-left z-50">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span
+                                                    class="tooltip-text">Додасть
+                                                    слоти, фішки, карти, золото.
+                                                    Хардкорний гемблінг.</span>
+                                            </div>
+                                        </label>
+                                        <label
+                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <div
+                                                class="flex items-center gap-2">
+                                                <input type="radio"
+                                                    name="gambling_level"
+                                                    value="moderate"
+                                                    class="custom-radio"
+                                                    checked>
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Medium
+                                                    (Помірно)</span>
+                                            </div>
+                                        </label>
+                                        <label
+                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <div
+                                                class="flex items-center gap-2">
+                                                <input type="radio"
+                                                    name="gambling_level"
+                                                    value="safe"
+                                                    class="custom-radio">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Safe
+                                                    (Без казино)</span>
+                                            </div>
+                                            <div
+                                                class="tooltip-container tooltip-left z-50">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span class="tooltip-text">ІІ
+                                                    видалить всі слоти та карти.
+                                                    Залишить точну копію
+                                                    персонажа у нейтральному
+                                                    безпечному
+                                                    середовищі.</span>
+                                            </div>
+                                        </label>
+                                        <label
+                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                            <div
+                                                class="flex items-center gap-2">
+                                                <input type="radio"
+                                                    name="gambling_level"
+                                                    value="exact"
+                                                    class="custom-radio">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Як
+                                                    на Референсі</span>
+                                            </div>
+                                            <div
+                                                class="tooltip-container tooltip-left z-50">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span class="tooltip-text">ІІ
+                                                    максимально копіює ВСЕ: і
+                                                    персонажа, і фон, і об'єкти
+                                                    (без додавання нових від
+                                                    себе).</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <span
+                                                class="text-[8px] text-zinc-600 block uppercase font-black">Варіанти</span>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span class="tooltip-text">Кожен
+                                                    варіант генерується окремим
+                                                    ізольованим запитом для
+                                                    уникнення
+                                                    галюцинацій.</span>
+                                            </div>
+                                        </div>
+                                        <select id="variationCount"
+                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                            <option value="1">1 Концепт</option>
+                                            <option value="3">3
+                                                Варіанти</option>
+                                            <option value="5" selected>5
+                                                Унікальних</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <span
+                                                class="text-[8px] text-zinc-600 block uppercase font-black">Розмір
+                                                (Ratio)</span>
+                                        </div>
+                                        <select id="resSelectorLab"
+                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                            <option value="1080x1080">1:1
+                                                Square</option>
+                                            <option value="1080x1350">4:5
+                                                Portrait</option>
+                                            <option value="1080x1920">9:16
+                                                Story</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <div
+                                        class="flex items-center justify-between">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
+                                            ІІ (Тільки 2026)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span
+                                                class="tooltip-text">Рекомендуємо
+                                                PRO версію для найкращого
+                                                перенесення облич персонажів з
+                                                референсу.</span>
+                                        </div>
+                                    </div>
+                                    <select id="modelSelectorLab"
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 cursor-pointer">
+                                        <option
+                                            value="gemini-3-pro-image-preview"
+                                            selected>Nano Banana Pro (Elite
+                                            AI)</option>
+                                        <option
+                                            value="gemini-3.1-flash-image-preview">Nano
+                                            Banana 2 (Flash Speed)</option>
+                                        <option
+                                            value="gemini-2.5-flash-image">Nano
+                                            Banana (Standard)</option>
+                                    </select>
+                                </div>
+
+                                <textarea id="promptLab" rows="3"
+                                    placeholder="Додаткові деталі стилю (напр. зроби фон темнішим, зміни позу персонажа)..."
+                                    class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-none"></textarea>
+                            </div>
+                        </section>
+                        <button id="processLabBtn" disabled
+                            class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            СТВОРИТИ НОВІ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: PIPELINE & QUEUE -->
+                <div
+                    class="lg:col-span-7 flex flex-col h-full space-y-6 min-h-0 animate__animated animate__fadeIn">
+                    <div
+                        class="flex items-center justify-between px-5 py-3 bg-white/5 rounded-2xl border border-white/5 shadow-xl queue-header-actions">
+                        <h2
+                            class="text-sm font-black text-white uppercase flex items-center gap-3 tracking-tighter italic">
+                            Черга <span id="queueCount" class="badge-counter">0
+                                ОБ’ЄКТІВ</span>
+                        </h2>
+
+                        <!-- LIVE MODEL INDICATOR -->
+                        <div id="liveModelStatus" class="live-model-indicator">
+                            <i data-lucide="activity" class="w-3 h-3"></i>
+                            <span id="liveModelText">IDLE</span>
+                        </div>
+
+                        <div class="flex gap-2 items-center">
+                            <button id="downloadZipBtn"
+                                class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
+                                EXPORT</button>
+                            <button id="clearAllBtn"
+                                class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
+                                    data-lucide="trash-2" class="w-3 h-3"></i>
+                                Wipe All</button>
+                        </div>
+                    </div>
+
+                    <div id="tasksContainer"
+                        class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-40 space-y-4">
+                        <div id="emptyQueue"
+                            class="flex flex-col items-center justify-center h-full text-zinc-800 border-2 border-dashed border-zinc-900 rounded-[2.5rem] py-20">
+                            <i data-lucide="cpu"
+                                class="w-12 h-12 mb-4 opacity-5"></i>
+                            <p
+                                class="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">Студія
+                                в очікуванні</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ZOOM MODAL (FIXED) -->
+        <div id="zoomModal"
+            class="fixed inset-0 z-[3000] hidden bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 animate__animated animate__fadeIn">
+            <button onclick="closeZoom()"
+                class="absolute top-6 right-6 text-zinc-400 hover:text-white transition-all bg-white/10 p-3 rounded-full border border-white/5 cursor-pointer z-50"><i
+                    data-lucide="x" class="w-6 h-6"></i></button>
+            <img id="zoomContent"
+                class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10">
+        </div>
+
+        <script type="module">
+        // 1. CONFIG & STATE
+        const getEl = id => document.getElementById(id);
+        const setTxt = (id, txt) => { const el = getEl(id); if(el) el.innerText = txt; };
+
+        // MODELS FROM 2026 SCREENSHOT
+        const MODEL_OCR = "gemini-3.1-flash-image-preview";
+        // Default pro model
+        let currentProModel = "gemini-3-pro-image-preview";
+
+        const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, uiLang: 'uk' };
+
+        const geoLangs = [
+            {n:"English",v:"English"}, {n:"German",v:"German"}, {n:"French",v:"French"}, {n:"Spanish",v:"Spanish"},
+            {n:"Italian",v:"Italian"}, {n:"Portuguese",v:"Portuguese"}, {n:"Dutch",v:"Dutch"}, {n:"Polish",v:"Polish"},
+            {n:"Czech",v:"Czech"}, {n:"Hungarian",v:"Hungarian"}, {n:"Greek",v:"Greek"}, {n:"Danish",v:"Danish"},
+            {n:"Swedish",v:"Swedish"}, {n:"Norwegian",v:"Norwegian"}, {n:"Finnish",v:"Finnish"}, {n:"Romanian",v:"Romanian"},
+            {n:"Turkish",v:"Turkish"}, {n:"Bulgarian",v:"Bulgarian"}, {n:"Ukrainian",v:"Ukrainian"}, {n:"Slovak",v:"Slovak"},
+            {n:"Croatian",v:"Croatian"}, {n:"Lithuanian",v:"Lithuanian"}, {n:"Latvian",v:"Latvian"}, {n:"Estonian",v:"Estonian"},
+            {n:"Serbian",v:"Serbian"}, {n:"Irish",v:"Irish"}, {n:"Icelandic",v:"Icelandic"}, {n:"Albanian",v:"Albanian"}
+        ];
+
+        // 2. BOOTSTRAP
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initApp();
+        });
+
+        function initApp() {
+            getEl('langGrid').innerHTML = geoLangs.map(l=>`
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 transition-all group">
+                    <input type="checkbox" value="${l.v}" data-name="${l.n}" class="lang-check custom-check">
+                    <span class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">${l.n}</span>
+                </label>`).join('');
+            
+            document.querySelectorAll('.lang-check').forEach(c => c.onchange = updateChips);
+            getEl('customLangs').oninput = updateChips;
+            
+            getEl('processProdBtn').onclick = startBatchProduction;
+            getEl('processLabBtn').onclick = startLabBatch;
+            getEl('clearAllBtn').onclick = wipeEverything;
+            getEl('downloadZipBtn').onclick = downloadAllZip;
+        }
+
+        // --- THEME TOGGLE LOGIC ---
+        window.toggleTheme = () => {
+            const html = document.documentElement;
+            const iconApp = getEl('themeIconApp');
+            const iconLogin = getEl('themeIconLogin');
+            
+            if(html.classList.contains('light')) {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                if(iconApp) iconApp.setAttribute('data-lucide', 'sun');
+                if(iconLogin) iconLogin.setAttribute('data-lucide', 'sun');
+            } else {
+                html.classList.add('light');
+                html.classList.remove('dark');
+                if(iconApp) iconApp.setAttribute('data-lucide', 'moon');
+                if(iconLogin) iconLogin.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        };
+
+        function updateChips() {
+            const selected = Array.from(document.querySelectorAll('.lang-check:checked'));
+            const custom = getEl('customLangs').value.trim();
+            const manualLangs = custom ? custom.split(/[ ,]+/).filter(s=>s.length>1) : [];
+            
+            let chipsHTML = selected.map(c => `
+                <div class="geo-chip">
+                    ${c.dataset.name} <button onclick="uncheckGeo('${c.value}')"><i data-lucide="x" class="w-3 h-3"></i></button>
+                </div>`).join('');
+                
+            manualLangs.forEach(m => {
+                chipsHTML += `<div class="geo-chip border-indigo-500/50">${m}</div>`;
+            });
+            
+            getEl('geoChips').innerHTML = chipsHTML;
+            lucide.createIcons();
+            validate();
+        }
+
+        window.uncheckGeo = (v) => {
+            const cb = document.querySelector(`.lang-check[value="${v}"]`);
+            if(cb) { cb.checked = false; updateChips(); }
+        };
+
+        // --- LIVE INDICATOR ---
+        function setLiveModel(modelId, isActive) {
+            const indicator = getEl('liveModelStatus');
+            const text = getEl('liveModelText');
+            
+            let readableName = "UNKNOWN MODEL";
+            if(modelId === "gemini-3-pro-image-preview") readableName = "Nano Banana Pro";
+            else if(modelId === "gemini-3.1-flash-image-preview") readableName = "Nano Banana 2 Flash";
+            else if(modelId === "gemini-2.5-flash-image") readableName = "Nano Banana Standard";
+            
+            if(isActive) {
+                indicator.classList.add('active');
+                text.innerText = "RUNNING: " + readableName;
+            } else {
+                indicator.classList.remove('active');
+                text.innerText = "IDLE";
+            }
+        }
+
+        // 3. GATE (API VERIFY)
+        getEl('unlockBtn').onclick = async () => {
+            const key = getEl('sessionKey').value.trim();
+            if (key.length < 30) return;
+            getEl('unlockBtn').disabled = true; getEl('unlockLoader').classList.remove('hidden');
+
+            try {
+                // Testing specific pay-as-you-go activation via 3.1-flash to be 100% sure we are on 2026 stack
+                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_OCR}:generateContent`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': key },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "ping" }] }] })
+                });
+                
+                if(!resp.ok) throw new Error("Rejected");
+                
+                state.apiKey = key; getEl('accessGate').classList.add('hidden'); getEl('toolApp').classList.remove('hidden');
+                getEl('apiStatusBadge').className = "status-online px-3 py-1 rounded-full flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-500/10"; 
+                getEl('apiStatusBadge').children[1].innerText = "API ПІДКЛЮЧЕНО";
+                lucide.createIcons();
+                validate();
+            } catch(e) {
+                getEl('unlockBtn').disabled = false; getEl('unlockLoader').classList.add('hidden');
+                setTxt('gateStatus', "API KEY ВІДХИЛЕНО. Перевір білінг."); getEl('gateStatus').classList.remove('hidden');
+            }
+        };
+
+        // 4. PRODUCTION PIPELINE
+        async function startBatchProduction() {
+            if (state.isProcessing) return;
+            const selected = Array.from(document.querySelectorAll('.lang-check:checked')).map(c => c.value);
+            const manual = getEl('customLangs').value.trim();
+            const allLangs = [...new Set([...selected, ...(manual ? manual.split(/[ ,]+/).filter(s=>s.length>1) : [])])];
+            
+            if(!allLangs.length) return;
+            
+            state.isProcessing = true; getEl('processProdBtn').disabled = true;
+            getEl('emptyQueue')?.remove();
+            setTxt('queueCount', `${state.tasks.length + allLangs.length} ОБ’ЄКТІВ`);
+
+            for(const lang of allLangs){
+                const id = `task-${Math.random().toString(36).substr(2, 7)}`;
+                createTaskUI(lang, id);
+                await runTaskProcess(lang, id);
+                await new Promise(r => setTimeout(r, 2500)); // Затримка для стабільності API
+            }
+            state.isProcessing = false; validate();
+            setLiveModel("", false);
+        }
+
+        async function runTaskProcess(lang, id, forceText = null) {
+            updateTaskUI(id, 15, "Neural OCR...");
+            setLiveModel(MODEL_OCR, true);
+            const modelRender = getEl('modelSelectorProd').value;
+
+            try {
+                // PHASE 1: Neural OCR (Flash 3.1)
+                const ocrText = await callGemini(MODEL_OCR, "Extract ALL text precisely. Return plain text only. Ignore image description.", state.masterB64);
+                
+                updateTaskUI(id, 60, "Рендеринг дизайну...");
+                setLiveModel(modelRender, true);
+
+                // PHASE 2: Production (Pro 3.0 / Flash)
+                const logo = getEl('optLogo').checked ? " RULE: Identify brand logos and keep them 100% original design. DO NOT modify branding." : "";
+                const fs = getEl('optFS').checked ? " RULE: Keep 'FS', 'Free Spins', and 'Spins' strictly English." : "";
+                const codes = getEl('optCodes').checked ? " RULE: Do NOT translate promotional codes (e.g. VIP100, BONUS)." : "";
+                const customPromo = getEl('customPromoProd').value.trim();
+                const replacePromoRule = customPromo ? ` RULE: Find existing promo code and REPLACE IT with EXACTLY this code: "${customPromo}".` : codes;
+                const ratio = getEl('resSelector').value;
+                const outpaint = ratio !== 'original' ? ` Adjust canvas to exactly ${ratio} and fill outpainted margins seamlessly.` : "";
+                
+                const prompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.${forceText ? ' USE EXACT TEXT: ' + forceText : ''} 
+                DATA: "${ocrText}"
+                STRICT RULES: 1. NO HALLUCINATIONS: Preserve faces, characters, and lighting exactly. 2. GHOSTING PROTECTION: Clone background textures over old text before rendering new text. ${logo} ${fs} ${replacePromoRule}
+                FORMAT: ${ratio}.${outpaint}`;
+
+                const resB64 = await callGemini(modelRender, prompt, state.masterB64, true, getEl('fileTypeProd').value);
+                const finalUrl = `data:${getEl('fileTypeProd').value};base64,${resB64}`;
+                state.tasks.push({ id, lang, b64: resB64 });
+                finalizeTaskUI(id, finalUrl, lang, 'prod');
+            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'prod', lang, forceText); }
+        }
+
+        // 5. CREATIVE LAB (CARBON COPY CONSISTENCY ENGINE)
+        async function startLabBatch() {
+            if (state.isProcessing) return;
+            state.isProcessing = true; getEl('processLabBtn').disabled = true;
+            const count = parseInt(getEl('variationCount').value);
+            getEl('emptyQueue')?.remove();
+            setTxt('queueCount', `${state.tasks.length + count} ОБ’ЄКТІВ`);
+
+            for(let i=1; i<=count; i++){
+                const id = `lab-${Math.random().toString(36).substr(2, 7)}`;
+                createTaskUI(`Concept ${i}`, id);
+                await runLabPipeline(id, i);
+                await new Promise(r => setTimeout(r, 4000));
+            }
+            state.isProcessing = false; validate();
+            setLiveModel("", false);
+        }
+
+        async function runLabPipeline(id, num) {
+            updateTaskUI(id, 20, "Стилістичний аналіз...");
+            setLiveModel(MODEL_OCR, true);
+            const labModel = getEl('modelSelectorLab').value;
+
+            try {
+                // STAGE 1: Analysis (Flash 3.1) - Focus on EXACT Character details
+                const analysisPrompt = `[MANDATORY OVERRIDE] You are an Elite Art Director. Analyze the reference images. 
+                Identify the MAIN CHARACTER(S), their exact clothing, facial features, and art style. 
+                Write a highly detailed technical prompt describing this character so another AI can draw this EXACT SAME PERSON/MASCOT as a carbon copy. Do not include text descriptions.`;
+                
+                const analysisPayload = {
+                    contents: [{ parts: [{ text: analysisPrompt }, ...state.labRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }))] }]
+                };
+                const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_OCR}:generateContent`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey },
+                    body: JSON.stringify(analysisPayload)
+                });
+                const analysisData = await analysisResp.json();
+                if(analysisData.error) throw new Error(analysisData.error.message);
+                const techPrompt = analysisData.candidates[0].content.parts[0].text;
+
+                updateTaskUI(id, 55, "Генерація нового дизайну...");
+                setLiveModel(labModel, true);
+
+                // STAGE 2: Render (Selected 2026 Model) - STRICT Character preservation
+                const bonus = getEl('bonusText').value;
+                const ignore = getEl('optIgnoreRefText').checked;
+                const ratio = getEl('resSelectorLab').value;
+                const stylesArray = Array.from(document.querySelectorAll('.style-check:checked')).map(c => c.value);
+                const extraStyles = stylesArray.length > 0 ? ` APPLIED STYLES: ${stylesArray.join(', ')}.` : '';
+                
+                // GAMBLING INTENSITY LOGIC (HYPER-PROMPTING)
+                const gambleLevel = document.querySelector('input[name="gambling_level"]:checked').value;
+                let gamblePrompt = "";
+                switch(gambleLevel) {
+                    case 'heavy': gamblePrompt = "CRITICAL RULE: MAXIMIZE GAMBLING ELEMENTS. Add prominent casino chips, slot machines, playing cards, and gold. Make it a hardcore gambling ad."; break;
+                    case 'moderate': gamblePrompt = "RULE: MODERATE gambling elements. Keep it balanced, subtle casino hints."; break;
+                    case 'safe': gamblePrompt = "ABSOLUTELY STRICT NEGATIVE PROMPT: NO SLOTS, NO COINS, NO CHIPS, NO ROULETTE, NO CARDS. Keep the exact character but make the environment 100% neutral and safe for strict ad moderation."; break;
+                    case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or casino objects unless they are strictly present in the reference images."; break;
+                }
+
+                const finalPrompt = `
+                [MANDATORY OVERRIDE: EXACT CHARACTER CLONING]
+                ACT AS AN ELITE AI IMAGE GENERATOR. GENERATE A PREMIUM GAMBLING CREATIVE VARIATION #${num} (Session ID: ${id}).
+                CRITICAL INSTRUCTION: You MUST extract the EXACT main character from the provided reference images. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
+                DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
+                CHARACTER GUIDE: ${techPrompt}
+                ${extraStyles}
+                ${gamblePrompt}
+                RECOMPOSITION: Generate a brand new layout that perfectly fits the requested ${ratio} dimension.
+                TEXT TO INTEGRATE SEAMLESSLY: "${bonus}".
+                ${ignore ? 'CRITICAL: STRICTLY IGNORE ALL TEXT FROM REFERENCE IMAGES. DO NOT REPLICATE THEIR TEXT.' : ''}
+                QUALITY: UNREAL ENGINE 5, 8K RESOLUTION, AAA-tier casino quality.
+                EXTRA PROMPT: ${getEl('promptLab').value}`;
+
+                const payload = { 
+                    contents: [{ parts: [{ text: finalPrompt }, ...state.labRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }))] }], 
+                    generationConfig: { responseModalities: ["IMAGE"] } 
+                };
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${labModel}:generateContent`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey },
+                    body: JSON.stringify(payload)
+                });
+                const d = await res.json();
+                if(d.error) throw new Error(d.error.message);
+                const b64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
+                const url = `data:image/png;base64,${b64}`;
+                
+                state.tasks.push({ id, lang: `Lab_${num}`, b64: b64 });
+                finalizeTaskUI(id, url, `Concept ${num}`, 'lab');
+            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num); }
+        }
+
+        // 6. SYNTAX AUDIT
+        async function runAudit(id, url, lang) {
+            updateTaskUI(id, 20, "Перевірка граматики...");
+            setLiveModel(MODEL_OCR, true);
+            try {
+                const prompt = `Act as native ${lang} proofreader. Check text in image. Is it correct grammatically? Return JSON: {"ok": boolean, "fix": string}. NO OTHER TEXT.`;
+                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_OCR}:generateContent`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: url.split(',')[1] } }] }] })
+                });
+                const d = await resp.json();
+                const raw = d.candidates[0].content.parts[0].text;
+                const jsonMatch = raw.match(/\{.*\}/s);
+                const res = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
+                const btn = getEl(id).querySelector('.audit-btn');
+                if(res.ok) {
+                    btn.className = "audit-btn p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl";
+                    updateTaskUI(id, 100, "Текст чіткий");
+                } else {
+                    btn.className = "audit-btn p-2.5 bg-rose-500/20 text-rose-400 rounded-xl";
+                    updateTaskUI(id, 100, "Граматичні помилки");
+                    getEl(id).dataset.fix = res.fix;
+                }
+            } catch(e) { updateTaskUI(id, 100, "Аудит Fail"); }
+            setLiveModel("", false);
+        }
+
+        // 7. SHARED CORE & UI CONTROLS
+        async function callGemini(model, text, b64, isImg = false, mime = "image/png") {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+            const payload = {
+                contents: [{ parts: [{ text }, { inlineData: { mimeType: "image/png", data: b64 } }] }],
+                generationConfig: isImg ? { responseModalities: ["IMAGE"] } : {}
+            };
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey }, body: JSON.stringify(payload) });
+            const data = await res.json();
+            if(data.error) throw new Error(data.error.message);
+            if(isImg) return data.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        function createTaskUI(lang, id) {
+            const html = `
+            <div id="${id}" class="task-card glass-panel rounded-[1.8rem] p-4 flex items-center justify-between gap-6 border-l-4 border-indigo-600/20 animate__animated animate__fadeIn">
+                <div class="flex items-center gap-4 flex-1 min-w-0">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-950 flex items-center justify-center text-indigo-400 font-black text-xl uppercase shrink-0 border border-white/5 shadow-2xl">
+                        ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : lang.substring(0, 2)}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <h3 class="font-black text-white text-sm truncate uppercase italic tracking-widest">${lang}</h3>
+                            <button onclick="deleteTask('${id}')" class="text-zinc-700 hover:text-rose-500 transition-all p-1" title="Видалити задачу"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="status-badge text-zinc-600 text-[8px] uppercase tracking-widest font-black">В ЧЕРЗІ</span>
+                            <div class="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden border border-white/5 p-0.5"><div class="progress-bar w-0 h-full bg-indigo-500 rounded-full transition-all duration-500"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-preview preview-box hidden shrink-0 group relative"><div class="absolute inset-0 bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center"><i data-lucide="maximize" class="w-5 h-5 text-white"></i></div></div>
+                <div class="actions hidden flex flex-wrap items-center gap-2">
+                     <button class="audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all" title="Аудит граматики"><i data-lucide="check-circle" class="w-4 h-4"></i></button>
+                     <button class="redo-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all" title="Переробити (з фіксом / Повторити)"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                     <button class="dl-btn p-3 bg-indigo-600/10 rounded-xl text-indigo-400 hover:bg-indigo-600 hover:text-white shadow-xl transition-all" title="Завантажити файл"><i data-lucide="download" class="w-5 h-5"></i></button>
+                </div>
+            </div>`;
+            getEl('tasksContainer')?.insertAdjacentHTML('afterbegin', html);
+            lucide.createIcons();
+        }
+
+        window.deleteTask = (id) => {
+            getEl(id)?.remove();
+            state.tasks = state.tasks.filter(t => t.id !== id);
+            validate();
+        };
+
+        function finalizeTaskUI(id, url, lang, type = 'prod') {
+            const el = getEl(id); el.style.borderLeftColor = 'var(--emerald)';
+            el.querySelector('.progress-bar').style.width = '100%';
+            const sb = el.querySelector('.status-badge');
+            sb.innerText = "ГОТОВО"; sb.className = "status-badge px-2 py-0.5 rounded font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] uppercase tracking-widest";
+            
+            const actions = el.querySelector('.actions');
+            actions.classList.remove('hidden');
+            // Reset visibility of buttons if they were hidden by an error retry
+            el.querySelector('.audit-btn').classList.remove('hidden');
+            el.querySelector('.dl-btn').classList.remove('hidden');
+            el.querySelector('.redo-btn').classList.remove('hidden');
+
+            const redoBtn = el.querySelector('.redo-btn');
+            redoBtn.className = "redo-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all";
+            redoBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4"></i>';
+            redoBtn.title = "Переробити";
+
+            const preview = el.querySelector('.task-preview');
+            preview.classList.remove('hidden'); preview.innerHTML += `<img src="${url}" class="w-full h-full object-cover">`;
+            preview.onclick = () => { getEl('zoomContent').src = url; getEl('zoomModal').classList.remove('hidden'); };
+            
+            el.querySelector('.dl-btn').onclick = () => { 
+                const a = document.createElement('a'); a.href = url; a.download = `${lang.substring(0,2).toUpperCase()}_Final_${Math.floor(10000+Math.random()*90000)}.png`; a.click(); 
+            };
+            
+            if(type === 'prod') {
+                el.querySelector('.audit-btn').onclick = () => runAudit(id, url, lang);
+                redoBtn.onclick = () => {
+                    const fix = el.dataset.fix || null;
+                    runTaskProcess(lang, id, fix);
+                };
+            } else {
+                el.querySelector('.audit-btn').classList.add('hidden'); // No audit for lab
+                redoBtn.onclick = () => runLabPipeline(id, lang.split(' ')[1]); // Pass the number
+            }
+            
+            getEl('downloadZipBtn').classList.remove('hidden');
+            lucide.createIcons();
+            validate();
+        }
+
+        function updateTaskUI(id, progress, text, isError=false, type=null, langOrNum=null, extraData=null) {
+            const el = getEl(id); if(!el) return;
+            el.querySelector('.progress-bar').style.width = `${progress}%`;
+            const sb = el.querySelector('.status-badge');
+            sb.innerText = text;
+            
+            if(isError) { 
+                el.style.borderLeftColor = 'var(--rose)'; 
+                sb.className = "status-badge px-2 py-0.5 rounded font-black bg-rose-500/10 text-rose-500 border border-rose-500/30 text-[8px] uppercase tracking-widest";
+                
+                // Show ONLY the redo button for retry
+                const actions = el.querySelector('.actions');
+                actions.classList.remove('hidden');
+                el.querySelector('.audit-btn').classList.add('hidden');
+                el.querySelector('.dl-btn').classList.add('hidden');
+                
+                const redoBtn = el.querySelector('.redo-btn');
+                redoBtn.classList.remove('hidden');
+                redoBtn.className = "redo-btn px-4 py-2 bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg";
+                redoBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-3 h-3"></i> ПОВТОРИТИ ЗАПИТ';
+                redoBtn.title = "Спробувати ще раз (API відхилило запит)";
+                redoBtn.onclick = () => {
+                    // Reset UI for retry
+                    actions.classList.add('hidden');
+                    el.style.borderLeftColor = 'transparent';
+                    sb.className = "status-badge text-zinc-600 text-[8px] uppercase tracking-widest font-black";
+                    el.querySelector('.progress-bar').style.width = `0%`;
+                    
+                    if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
+                    else if(type === 'lab') runLabPipeline(id, langOrNum);
+                };
+                lucide.createIcons();
+            }
+        }
+
+        // 8. WIPE & EXPORT
+        async function downloadAllZip() {
+            const zip = new JSZip(); const folder = zip.folder("Studio_Export");
+            state.tasks.forEach(t => {
+                const randomId = Math.floor(10000 + Math.random() * 90000);
+                folder.file(`${t.lang.substring(0,2).toUpperCase()}_Final_${randomId}.png`, t.b64, {base64: true});
+            });
+            const content = await zip.generateAsync({type:"blob"});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(content); a.download = `Batch_Export_${Date.now()}.zip`; a.click();
+        }
+
+        window.wipeEverything = () => {
+            if(state.isProcessing) return;
+            getEl('tasksContainer').innerHTML = `
+                <div id="emptyQueue" class="flex flex-col items-center justify-center h-full text-zinc-800 border-2 border-dashed border-zinc-900 rounded-[2.5rem] py-20">
+                    <i data-lucide="cpu" class="w-12 h-12 mb-4 opacity-5"></i>
+                    <p class="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">Студія в очікуванні</p>
+                </div>`;
+            state.tasks = []; 
+            state.labRefs = [];
+            updateLabPreviews();
+            lucide.createIcons(); 
+            getEl('downloadZipBtn').classList.add('hidden');
+            validate();
+        };
+
+        // --- ОНОВЛЕНЕ ПРЕВ'Ю ДЛЯ ЛАБИ З КНОПКОЮ УДАЛЕНИЯ ---
+        function updateLabPreviews() {
+            const container = getEl('previewLab');
+            container.innerHTML = '';
+            state.labRefs.forEach((b64, index) => {
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-white/10 shadow-2xl animate__animated animate__zoomIn relative group">
+                        <img src="data:image/png;base64,${b64}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-rose-500/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer" onclick="removeLabRef(${index})">
+                            <i data-lucide="trash-2" class="text-white w-8 h-8"></i>
+                        </div>
+                    </div>
+                `);
+            });
+            lucide.createIcons();
+            getEl('placeholderLab').classList.toggle('hidden', state.labRefs.length > 0);
+            validate();
+        }
+
+        window.removeLabRef = (index) => {
+            state.labRefs.splice(index, 1);
+            updateLabPreviews();
+        };
+
+        function handleFiles(files, type) {
+            Array.from(files).forEach(f => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const b64 = e.target.result.split(',')[1];
+                    if(type === 'prod') {
+                        state.masterB64 = b64; getEl('previewProd').innerHTML = `<img src="${e.target.result}" class="w-full h-full object-contain rounded-xl">`;
+                        getEl('previewProd').classList.remove('hidden'); getEl('placeholderProd').classList.add('hidden');
+                        validate();
+                    } else {
+                        if(state.labRefs.length >= 3) state.labRefs.shift(); // Max 3
+                        state.labRefs.push(b64);
+                        updateLabPreviews();
+                    }
+                };
+                reader.readAsDataURL(f);
+            });
+        }
+
+        function validate() {
+            const selected = document.querySelectorAll('.lang-check:checked').length;
+            const custom = getEl('customLangs') ? getEl('customLangs').value.trim().split(/[ ,]+/).filter(s=>s.length>1).length : 0;
+            const totalGeo = selected + custom;
+            setTxt('queueCount', `${state.tasks.length + (state.isProcessing ? totalGeo : 0)} ОБ’ЄКТІВ`);
+            
+            getEl('processProdBtn').disabled = !state.masterB64 || totalGeo === 0 || state.isProcessing || !state.apiKey;
+            getEl('processLabBtn').disabled = state.labRefs.length === 0 || state.isProcessing || !state.apiKey;
+        }
+
+        window.switchTab = (t) => {
+            getEl('productionControls').classList.toggle('hidden', t !== 'production');
+            getEl('labControls').classList.toggle('hidden', t !== 'lab');
+            getEl('tabProd').classList.toggle('active', t === 'production');
+            getEl('tabProd').classList.toggle('opacity-40', t !== 'production');
+            getEl('tabLab').classList.toggle('active', t === 'lab');
+            getEl('tabLab').classList.toggle('opacity-40', t !== 'lab');
+        };
+
+        window.closeZoom = () => getEl('zoomModal').classList.add('hidden');
+        getEl('dropZoneProd').onclick = () => getEl('fileInputProd').click();
+        getEl('fileInputProd').onchange = e => handleFiles(e.target.files, 'prod');
+        getEl('dropZoneLab').onclick = () => { if(state.labRefs.length < 3) getEl('fileInputLab').click(); };
+        getEl('fileInputLab').onchange = e => handleFiles(e.target.files, 'lab');
+        
+        const space = getEl('spaceEngine');
+        for(let i=0; i<100; i++) {
+            const star = document.createElement('div'); star.className = 'star';
+            star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 100 + '%';
+            star.style.width = (Math.random() * 2 + 0.5) + 'px'; star.style.height = star.style.width;
+            star.style.setProperty('--d', (Math.random() * 3 + 2) + 's'); space.appendChild(star);
+        }
+    </script>
+    </body>
+</html>
