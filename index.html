@@ -1519,13 +1519,13 @@
                     const fsRule = getEl('optFS').checked ? "5. Keep 'FS', 'Free Spins', and 'Spins' strictly English." : "";
                     const codeRule = getEl('optCodes').checked ? "6. Do NOT translate promotional codes (e.g. VIP100, BONUS)." : "";
                     
-                    // Відновлений прямий промпт (без iGaming-фантазій), але з чіткою вказівкою на ВСІ елементи
-                    const translatePrompt = `Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
+                    // ПОВЕРНЕННЯ ДО СТАРОГО НАДІЙНОГО ПРОМПТУ ПЕРЕКЛАДУ (Без iGaming-фантазій)
+                    const translatePrompt = `Role: Professional Native Translator. Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
                     STRICT RULES: 
                     1. Return ONLY the final translated string. No conversational filler or explanations.
-                    2. Make a natural, semantic translation (not a robotic word-for-word translation). Ensure there are absolutely no grammatical errors in ${lang}.
+                    2. Provide a correct, natural, semantic translation into ${lang}. Ensure there are absolutely no grammatical or spelling errors.
                     3. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
-                    4. Keep formatting and the visual layout of text blocks exactly as close to the reference as possible.
+                    4. Keep the exact same formatting, line breaks, and visual layout of text blocks as the original reference.
                     ${fsRule}
                     ${codeRule}`;
 
@@ -1549,8 +1549,8 @@
                 const renderPrompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.
                 TEXT TO INTEGRATE: "${translatedText}".
                 STRICT RULES: 
-                1. 100% CARBON COPY: Preserve faces, characters, backgrounds, and lighting EXACTLY as in the original. 
-                2. NO HALLUCINATIONS: DO NOT add, draw, or invent any new objects or elements. Just replace the text.
+                1. 100% CARBON COPY: Preserve faces, characters, backgrounds, chat interfaces, and lighting EXACTLY as in the original. 
+                2. NO HALLUCINATIONS: DO NOT add, draw, or invent any new objects, characters, or text elements. Just replace the text.
                 3. GHOSTING PROTECTION: Clone background textures seamlessly over old text before rendering new text. 
                 ${logo} ${replacePromoRule} ${hqProd}
                 FORMAT: ${ratio}.${outpaint}`;
@@ -1704,14 +1704,15 @@
             btn.className = "audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 transition-all animate-pulse";
             
             try {
-                // Промпт перероблено: тепер він "поблажливий", не чіпляється до сленгу/брендів, шукає тільки РЕАЛЬНІ помилки
-                const prompt = `Act as a lenient native ${lang} proofreader for marketing ads. Check the text in the image. 
-                RULES: 
-                1. Ignore brand names, promo codes (like VIP, BONUS, 20FSP), and marketing slang. 
-                2. ONLY flag critical spelling/grammatical errors, or text that clearly failed to translate (left in English). 
-                3. Do not flag missing punctuation or weird layout. 
-                If the text is generally correct and makes sense in ${lang}, return JSON: {"ok": true, "fix": ""}. 
-                If there is a MAJOR error, return JSON: {"ok": false, "fix": "Write the exact fully corrected text to replace the bad text"}. 
+                // ЖОРСТКИЙ ПРОМПТ АУДИТУ: Тепер він карає за залишки англійської мови на картинці
+                const prompt = `Act as a strict native ${lang} proofreader. Check ALL the text in the image.
+                CRITICAL RULES:
+                1. EVERY sentence, question, answer, and button MUST be translated to ${lang}. 
+                2. If ANY part of the main conversational text (e.g., questions like "Why should I install", answers, calls to action) is left in English or a different language, THIS IS A FATAL ERROR.
+                3. Ignore ONLY brand names and specific promo codes (like VIP, BONUS, 20FSP).
+                4. Check for grammatical and spelling errors in the ${lang} text.
+                If the entire text is fully and correctly translated to ${lang} with NO leftover English text, return JSON: {"ok": true, "fix": ""}.
+                If there is ANY untranslated text or grammar error, return JSON: {"ok": false, "fix": "Write the FULL, completely translated and corrected text here in ${lang}"}.
                 RETURN ONLY VALID JSON.`;
                 
                 const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
