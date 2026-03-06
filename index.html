@@ -503,7 +503,7 @@
                                     class="flex items-center justify-between p-3 rounded-xl bg-indigo-950/20 border border-indigo-500/20 cursor-pointer hover:bg-indigo-900/40 transition-all">
                                     <div class="flex items-center gap-3">
                                         <input type="checkbox" id="optSuperHQ"
-                                            class="custom-check">
+                                            class="custom-check hq-checkbox">
                                         <span
                                             class="text-[9px] font-black text-indigo-400 uppercase">Супер
                                             Якість (HQ 2K+)</span>
@@ -514,7 +514,9 @@
                                         <span class="tooltip-text">Збільшує
                                             кількість пікселів та деталізацію
                                             (від 2048x2048). Робить картинку
-                                            максимально чіткою. <b>ГЕНЕРУВАТИ
+                                            максимально чіткою. <b>Оригінал
+                                                (референс) також має бути
+                                                високої якості. ГЕНЕРУВАТИ
                                                 ТІЛЬКИ У ВИНЯТКОВИХ ВИПАДКАХ.
                                                 Поважайте витрати творця
                                                 сервісу!</b></span>
@@ -760,7 +762,7 @@
                                         <div class="flex items-center gap-3">
                                             <input type="checkbox"
                                                 id="optSuperHQLab"
-                                                class="custom-check">
+                                                class="custom-check hq-checkbox">
                                             <span
                                                 class="text-[9px] font-black text-indigo-400 uppercase">Супер
                                                 Якість (HQ 2K+)</span>
@@ -773,7 +775,9 @@
                                                 кількість пікселів та
                                                 деталізацію (від 2048x2048).
                                                 Робить картинку максимально
-                                                чіткою. <b>ГЕНЕРУВАТИ ТІЛЬКИ У
+                                                чіткою. <b>Оригінал (референс)
+                                                    також має бути високої
+                                                    якості. ГЕНЕРУВАТИ ТІЛЬКИ У
                                                     ВИНЯТКОВИХ ВИПАДКАХ.
                                                     Поважайте витрати творця
                                                     сервісу!</b></span>
@@ -1097,6 +1101,12 @@
                         </div>
 
                         <div class="flex gap-2 items-center">
+                            <!-- NEW: STOP ALL BUTTON -->
+                            <button id="stopProcessBtn"
+                                class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
+                                <i data-lucide="octagon" class="w-4 h-4"></i>
+                                ЗУПИНИТИ ВСЕ
+                            </button>
                             <button id="downloadZipBtn"
                                 class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
                                 EXPORT</button>
@@ -1132,6 +1142,102 @@
                 class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10">
         </div>
 
+        <!-- WELCOME MODAL -->
+        <div id="welcomeModal"
+            class="fixed inset-0 z-[3000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+            <div
+                class="glass-panel w-full max-w-[450px] p-8 rounded-[2rem] relative border border-white/10 shadow-2xl bg-zinc-950">
+                <button onclick="closeWelcome()"
+                    class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-all bg-white/5 hover:bg-rose-500/20 p-2 rounded-full border border-white/5 cursor-pointer z-50">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                <div class="flex items-center gap-4 mb-4">
+                    <div
+                        class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400">
+                        <i data-lucide="info" class="w-6 h-6"></i>
+                    </div>
+                    <h2
+                        class="text-lg font-black text-white uppercase tracking-wider">Важливе
+                        повідомлення</h2>
+                </div>
+                <p class="text-zinc-300 text-sm leading-relaxed mb-4">
+                    Шановні колеги! Цей сервіс створений для зручності і є
+                    <b>повністю безкоштовним для вас</b>, але кожна генерація,
+                    переклад та аудит тексту використовує платні ресурси
+                    API.<br><br>
+                    🙏 Будь ласка, поважайте витрати творця сервісу:<br>
+                    <span class="text-rose-400 font-bold">•</span> Не "грайтеся"
+                    кнопками просто так.<br>
+                    <span class="text-rose-400 font-bold">•</span> Запускайте
+                    масову генерацію лише коли впевнені у налаштуваннях.<br>
+                    <span class="text-rose-400 font-bold">•</span>
+                    Використовуйте <i>Супер Якість (HQ)</i> лише у виняткових
+                    випадках.
+                </p>
+                <p class="text-zinc-500 text-xs italic">Підходьте до роботи з
+                    розумом. Дякуємо за розуміння!</p>
+            </div>
+        </div>
+
+        <!-- HQ CONFIRM MODAL -->
+        <div id="hqConfirmModal"
+            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+            <div
+                class="glass-panel w-full max-w-[350px] p-6 rounded-[2rem] relative border border-rose-500/30 shadow-2xl bg-zinc-950 text-center">
+                <div
+                    class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center border border-rose-500/30 text-rose-400 mx-auto mb-4">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                </div>
+                <h2
+                    class="text-md font-black text-white uppercase tracking-wider mb-2">УВАГА:
+                    ВИТРАТИ API</h2>
+                <p class="text-zinc-400 text-xs leading-relaxed mb-6">
+                    Функція <b>Супер Якості</b> споживає значно більше ресурсів
+                    та часу. Використовуйте тільки якщо ваш референс має високу
+                    якість і це дійсно необхідно.<br><br>
+                    Ви точно хочете увімкнути Супер Якість?
+                </p>
+                <div class="flex gap-3 justify-center">
+                    <button id="hqConfirmNo"
+                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
+                        скасувати</button>
+                    <button id="hqConfirmYes"
+                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-rose-600 text-white hover:bg-rose-500 transition-all shadow-lg shadow-rose-500/20">Так,
+                        увімкнути</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- START CONFIRM MODAL -->
+        <div id="startConfirmModal"
+            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+            <div
+                class="glass-panel w-full max-w-[400px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950 text-center">
+                <div
+                    class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400 mx-auto mb-4">
+                    <i data-lucide="check-square" class="w-6 h-6"></i>
+                </div>
+                <h2
+                    class="text-md font-black text-white uppercase tracking-wider mb-2">ПЕРЕВІРТЕ
+                    НАЛАШТУВАННЯ</h2>
+                <p class="text-zinc-400 text-xs leading-relaxed mb-6">
+                    Ви впевнені, що все налаштували правильно? <br>
+                    (Шаблон неймінгу, чекпоінти, мови/концепти). <br><br>
+                    <span class="text-rose-400 font-bold">Генерація витрачає
+                        токени. Краще перевірити двічі, щоб потім не переробляти
+                        10 разів!</span>
+                </p>
+                <div class="flex gap-3 justify-center">
+                    <button id="startConfirmNo"
+                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
+                        перевірю ще раз</button>
+                    <button id="startConfirmYes"
+                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-indigo-600 text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20">Так,
+                        все чітко</button>
+                </div>
+            </div>
+        </div>
+
         <script type="module">
         // 1. CONFIG & STATE
         const getEl = id => document.getElementById(id);
@@ -1144,8 +1250,10 @@
 
         // Графічні моделі беруться з UI селекторів автоматично
 
-        const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, uiLang: 'uk' };
+        const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, isAborted: false, uiLang: 'uk' };
         let taskCounter = 1; // Глобальний лічильник для неймінгу
+        let pendingHqCheckbox = null; // Змінна для підтвердження HQ
+        let pendingTaskType = null; // Змінна для підтвердження запуску
 
         const geoLangs = [
             {n:"English",v:"English"}, {n:"German",v:"German"}, {n:"French",v:"French"}, {n:"Spanish",v:"Spanish"},
@@ -1173,10 +1281,55 @@
             document.querySelectorAll('.lang-check').forEach(c => c.onchange = updateChips);
             getEl('customLangs').oninput = updateChips;
             
-            getEl('processProdBtn').onclick = startBatchProduction;
-            getEl('processLabBtn').onclick = startLabBatch;
             getEl('clearAllBtn').onclick = wipeEverything;
             getEl('downloadZipBtn').onclick = downloadAllZip;
+
+            // Start Confirmation Logic
+            getEl('processProdBtn').onclick = () => { pendingTaskType = 'prod'; getEl('startConfirmModal').classList.remove('hidden'); };
+            getEl('processLabBtn').onclick = () => { pendingTaskType = 'lab'; getEl('startConfirmModal').classList.remove('hidden'); };
+
+            getEl('startConfirmYes').onclick = () => {
+                getEl('startConfirmModal').classList.add('hidden');
+                if (pendingTaskType === 'prod') startBatchProduction();
+                if (pendingTaskType === 'lab') startLabBatch();
+                pendingTaskType = null;
+            };
+
+            getEl('startConfirmNo').onclick = () => {
+                getEl('startConfirmModal').classList.add('hidden');
+                pendingTaskType = null;
+            };
+
+            // HQ Confirmation Logic
+            document.querySelectorAll('.hq-checkbox').forEach(cb => {
+                cb.addEventListener('click', (e) => {
+                    if (e.target.checked) {
+                        e.preventDefault(); // Зупиняємо миттєве вмикання
+                        pendingHqCheckbox = e.target;
+                        getEl('hqConfirmModal').classList.remove('hidden');
+                    }
+                });
+            });
+
+            getEl('hqConfirmYes').onclick = () => {
+                if(pendingHqCheckbox) pendingHqCheckbox.checked = true;
+                getEl('hqConfirmModal').classList.add('hidden');
+                pendingHqCheckbox = null;
+            };
+
+            getEl('hqConfirmNo').onclick = () => {
+                getEl('hqConfirmModal').classList.add('hidden');
+                pendingHqCheckbox = null;
+            };
+
+            // Stop logic
+            getEl('stopProcessBtn').onclick = () => {
+                state.isAborted = true;
+                getEl('stopProcessBtn').innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> ЗУПИНЯЮ...';
+                getEl('stopProcessBtn').classList.remove('bg-rose-600', 'hover:bg-rose-500');
+                getEl('stopProcessBtn').classList.add('bg-zinc-600', 'opacity-50');
+                lucide.createIcons();
+            };
         }
 
         // --- THEME TOGGLE LOGIC ---
@@ -1252,14 +1405,14 @@
                 template = getEl('namingTemplateLab').value.trim();
             }
 
-            // Якщо шаблон порожній, використовуємо стару логіку
+            // Очищаємо пробіли в назві мови/концепту та робимо з маленької літери
+            let cleanLang = lang.replace(/\s+/g, '_').toLowerCase(); 
+
+            // Якщо шаблон порожній, використовуємо нову логіку (повна назва мови з маленької літери)
             if (!template) {
-                return `${lang.substring(0,2).toUpperCase()}_Final_${Math.floor(10000+Math.random()*90000)}.png`;
+                return `${cleanLang}_final_${Math.floor(10000+Math.random()*90000)}.png`;
             }
 
-            // Очищаємо пробіли в назві мови/концепту
-            let cleanLang = lang.replace(/\s+/g, '_').toLowerCase(); 
-            
             // Спробуємо замінити 'english' або перше слово до '_'
             let newName = template.replace(/english/i, cleanLang);
             
@@ -1295,7 +1448,13 @@
                     throw new Error(err.error?.message || "API Error");
                 }
                 
-                state.apiKey = key; getEl('accessGate').classList.add('hidden'); getEl('toolApp').classList.remove('hidden');
+                state.apiKey = key; 
+                getEl('accessGate').classList.add('hidden'); 
+                getEl('toolApp').classList.remove('hidden');
+                
+                // Show Welcome Warning Modal
+                getEl('welcomeModal').classList.remove('hidden');
+
                 getEl('apiStatusBadge').className = "status-online px-3 py-1 rounded-full flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-500/10"; 
                 getEl('apiStatusBadge').children[1].innerText = "API ПІДКЛЮЧЕНО";
                 lucide.createIcons();
@@ -1306,6 +1465,8 @@
             }
         };
 
+        window.closeWelcome = () => getEl('welcomeModal').classList.add('hidden');
+
         // 4. PRODUCTION PIPELINE
         async function startBatchProduction() {
             if (state.isProcessing) return;
@@ -1315,17 +1476,32 @@
             
             if(!allLangs.length) return;
             
-            state.isProcessing = true; getEl('processProdBtn').disabled = true;
+            state.isProcessing = true; 
+            state.isAborted = false;
+            getEl('processProdBtn').disabled = true;
             getEl('emptyQueue')?.remove();
             setTxt('queueCount', `${state.tasks.length + allLangs.length} ОБ’ЄКТІВ`);
 
+            // Reset and show stop button
+            const stopBtn = getEl('stopProcessBtn');
+            stopBtn.classList.remove('hidden', 'bg-zinc-600', 'opacity-50');
+            stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+            stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
+            lucide.createIcons();
+
             for(const lang of allLangs){
+                if (state.isAborted) break;
                 const id = `task-${Math.random().toString(36).substr(2, 7)}`;
                 createTaskUI(lang, id);
                 await runTaskProcess(lang, id);
+                if (state.isAborted) break;
                 await new Promise(r => setTimeout(r, 2500)); // Затримка для стабільності API
             }
-            state.isProcessing = false; validate();
+            
+            state.isProcessing = false; 
+            state.isAborted = false;
+            stopBtn.classList.add('hidden');
+            validate();
             setLiveModel("", false);
         }
 
@@ -1402,18 +1578,33 @@
         // 5. CREATIVE LAB (CARBON COPY CONSISTENCY ENGINE)
         async function startLabBatch() {
             if (state.isProcessing) return;
-            state.isProcessing = true; getEl('processLabBtn').disabled = true;
+            state.isProcessing = true; 
+            state.isAborted = false;
+            getEl('processLabBtn').disabled = true;
             const count = parseInt(getEl('variationCount').value);
             getEl('emptyQueue')?.remove();
             setTxt('queueCount', `${state.tasks.length + count} ОБ’ЄКТІВ`);
 
+            // Reset and show stop button
+            const stopBtn = getEl('stopProcessBtn');
+            stopBtn.classList.remove('hidden', 'bg-zinc-600', 'opacity-50');
+            stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+            stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
+            lucide.createIcons();
+
             for(let i=1; i<=count; i++){
+                if (state.isAborted) break;
                 const id = `lab-${Math.random().toString(36).substr(2, 7)}`;
                 createTaskUI(`Concept ${i}`, id);
                 await runLabPipeline(id, i);
+                if (state.isAborted) break;
                 await new Promise(r => setTimeout(r, 4000));
             }
-            state.isProcessing = false; validate();
+            
+            state.isProcessing = false; 
+            state.isAborted = false;
+            stopBtn.classList.add('hidden');
+            validate();
             setLiveModel("", false);
         }
 
