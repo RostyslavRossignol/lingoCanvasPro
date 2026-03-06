@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V1.0</title>
+        <title>UA Studio | LingoCanvas Pro Beta V1.1</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -295,7 +295,7 @@
                         class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                         <span class="text-indigo-500">PRO</span></h1>
                     <p
-                        class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.0
+                        class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.1
                         UA STUDIO BETA</p>
                 </div>
                 <div class="space-y-6">
@@ -341,7 +341,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.0
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.1
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -497,6 +497,31 @@
                                 </div>
                             </div>
 
+                            <!-- NEW: SUPER HQ (PROD) -->
+                            <div class="pt-2">
+                                <label
+                                    class="flex items-center justify-between p-3 rounded-xl bg-indigo-950/20 border border-indigo-500/20 cursor-pointer hover:bg-indigo-900/40 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" id="optSuperHQ"
+                                            class="custom-check">
+                                        <span
+                                            class="text-[9px] font-black text-indigo-400 uppercase">Супер
+                                            Якість (HQ 2K+)</span>
+                                    </div>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-4 h-4 text-indigo-400 hover:text-indigo-300"></i>
+                                        <span class="tooltip-text">Збільшує
+                                            кількість пікселів та деталізацію
+                                            (від 2048x2048). Робить картинку
+                                            максимально чіткою. <b>ГЕНЕРУВАТИ
+                                                ТІЛЬКИ У ВИНЯТКОВИХ ВИПАДКАХ.
+                                                Поважайте витрати творця
+                                                сервісу!</b></span>
+                                    </div>
+                                </label>
+                            </div>
+
                             <!-- ОПЦИОНАЛЬНАЯ ЗАМЕНА ПРОМОКОДА -->
                             <div class="pt-2">
                                 <div
@@ -556,26 +581,23 @@
                                         class="flex items-center justify-between mb-1">
                                         <span
                                             class="text-[8px] text-zinc-600 uppercase font-black">Модель
-                                            ІІ 2026</span>
+                                            ІІ (Малювання)</span>
                                         <div
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">PRO - для
-                                                складної графіки та креативів.
-                                                Flash 2 - для простіших картинок
-                                                та швидкості.</span>
+                                            <span class="tooltip-text">Тільки
+                                                недорогі моделі. Flash 2
+                                                рекомендується для масових
+                                                завдань.</span>
                                         </div>
                                     </div>
                                     <select id="modelSelectorProd"
                                         class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
                                         <option
-                                            value="gemini-3-pro-image-preview"
-                                            selected>Nano Banana Pro
-                                            (Elite)</option>
-                                        <option
-                                            value="gemini-3.1-flash-image-preview">Nano
-                                            Banana 2 (Flash)</option>
+                                            value="gemini-3.1-flash-image-preview"
+                                            selected>Nano Banana 2
+                                            (Flash)</option>
                                         <option
                                             value="gemini-2.5-flash-image">Nano
                                             Banana (Standard)</option>
@@ -621,6 +643,28 @@
                                 </div>
                                 <input type="text" id="customLangs"
                                     placeholder="Напр: Arabic, Thai, Japan..."
+                                    class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                            </div>
+
+                            <!-- NEW: NAMING TEMPLATE -->
+                            <div class="pt-2">
+                                <div
+                                    class="flex items-center justify-between mb-1">
+                                    <label
+                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Шаблон
+                                        Неймінгу (Опціонально)</label>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Введіть
+                                            шаблон. Слово до першого '_' (або
+                                            'english') буде замінено на мову. В
+                                            кінці автоматично додасться номер.
+                                            Приклад: english_ggbet_gpt</span>
+                                    </div>
+                                </div>
+                                <input type="text" id="namingTemplateProd"
+                                    placeholder="Напр: english_ggbet_gpt"
                                     class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
                             </div>
 
@@ -708,6 +752,34 @@
                                             бонус.</span>
                                     </div>
                                 </label>
+
+                                <!-- NEW: SUPER HQ (LAB) -->
+                                <div class="pt-2 pb-2">
+                                    <label
+                                        class="flex items-center justify-between p-3 rounded-xl bg-indigo-950/20 border border-indigo-500/20 cursor-pointer hover:bg-indigo-900/40 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox"
+                                                id="optSuperHQLab"
+                                                class="custom-check">
+                                            <span
+                                                class="text-[9px] font-black text-indigo-400 uppercase">Супер
+                                                Якість (HQ 2K+)</span>
+                                        </div>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-4 h-4 text-indigo-400 hover:text-indigo-300"></i>
+                                            <span class="tooltip-text">Збільшує
+                                                кількість пікселів та
+                                                деталізацію (від 2048x2048).
+                                                Робить картинку максимально
+                                                чіткою. <b>ГЕНЕРУВАТИ ТІЛЬКИ У
+                                                    ВИНЯТКОВИХ ВИПАДКАХ.
+                                                    Поважайте витрати творця
+                                                    сервісу!</b></span>
+                                        </div>
+                                    </label>
+                                </div>
 
                                 <div class="space-y-1">
                                     <div
@@ -798,7 +870,7 @@
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                             <span class="tooltip-text">Налаштуй
-                                                кількість казино-атрибутики.
+                                                кількість атрибутики.
                                                 "Без казино" повністю забороняє
                                                 карти та слоти, зберігаючи
                                                 тільки персонажа.</span>
@@ -824,8 +896,8 @@
                                                     class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                                 <span
                                                     class="tooltip-text">Додасть
-                                                    слоти, фішки, карти, золото.
-                                                    Хардкорний гемблінг.</span>
+                                                    золото та ігрові атрибути.
+                                                    Хардкорний маркетинг.</span>
                                             </div>
                                         </label>
                                         <label
@@ -852,14 +924,15 @@
                                                     class="custom-radio">
                                                 <span
                                                     class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Safe
-                                                    (Без казино)</span>
+                                                    (Без атрибутики)</span>
                                             </div>
                                             <div
                                                 class="tooltip-container tooltip-left z-50">
                                                 <i data-lucide="help-circle"
                                                     class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                                 <span class="tooltip-text">ІІ
-                                                    видалить всі слоти та карти.
+                                                    видалить всі специфічні
+                                                    елементи.
                                                     Залишить точну копію
                                                     персонажа у нейтральному
                                                     безпечному
@@ -939,32 +1012,54 @@
                                     </div>
                                 </div>
 
+                                <!-- NEW: NAMING TEMPLATE (LAB) -->
+                                <div class="pt-2">
+                                    <div
+                                        class="flex items-center justify-between mb-1">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Шаблон
+                                            Неймінгу (Опціонально)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Введіть
+                                                шаблон. Слово до першого '_'
+                                                (або 'english') буде замінено на
+                                                мову/концепт. В кінці
+                                                автоматично додасться номер.
+                                                Приклад:
+                                                english_ggbet_gpt</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="namingTemplateLab"
+                                        placeholder="Напр: english_ggbet_gpt"
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                                </div>
+
                                 <div class="space-y-1">
                                     <div
                                         class="flex items-center justify-between">
                                         <label
                                             class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
-                                            ІІ (Тільки 2026)</label>
+                                            ІІ (Малювання)</label>
                                         <div
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                             <span
-                                                class="tooltip-text">Рекомендуємо
-                                                PRO версію для найкращого
-                                                перенесення облич персонажів з
-                                                референсу.</span>
+                                                class="tooltip-text">Тільки
+                                                недорогі моделі. Flash 2
+                                                рекомендується для масових
+                                                завдань.</span>
                                         </div>
                                     </div>
                                     <select id="modelSelectorLab"
                                         class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 cursor-pointer">
                                         <option
-                                            value="gemini-3-pro-image-preview"
-                                            selected>Nano Banana Pro (Elite
-                                            AI)</option>
-                                        <option
-                                            value="gemini-3.1-flash-image-preview">Nano
-                                            Banana 2 (Flash Speed)</option>
+                                            value="gemini-3.1-flash-image-preview"
+                                            selected>Nano Banana 2 (Flash
+                                            Speed)</option>
                                         <option
                                             value="gemini-2.5-flash-image">Nano
                                             Banana (Standard)</option>
@@ -1042,12 +1137,15 @@
         const getEl = id => document.getElementById(id);
         const setTxt = (id, txt) => { const el = getEl(id); if(el) el.innerText = txt; };
 
-        // MODELS FROM 2026 SCREENSHOT
-        const MODEL_OCR = "gemini-3.1-flash-image-preview";
-        // Default pro model
-        let currentProModel = "gemini-3-pro-image-preview";
+        // === ОПТИМІЗАЦІЯ РОУТИНГУ ===
+        // Використовуємо 100% стабільну модель для пінгу та тексту (є у всіх проектах)
+        const MODEL_LITE = "gemini-2.5-flash"; 
+        const MODEL_VISION = "gemini-2.5-flash"; 
+
+        // Графічні моделі беруться з UI селекторів автоматично
 
         const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, uiLang: 'uk' };
+        let taskCounter = 1; // Глобальний лічильник для неймінгу
 
         const geoLangs = [
             {n:"English",v:"English"}, {n:"German",v:"German"}, {n:"French",v:"French"}, {n:"Spanish",v:"Spanish"},
@@ -1131,9 +1229,10 @@
             const text = getEl('liveModelText');
             
             let readableName = "UNKNOWN MODEL";
-            if(modelId === "gemini-3-pro-image-preview") readableName = "Nano Banana Pro";
-            else if(modelId === "gemini-3.1-flash-image-preview") readableName = "Nano Banana 2 Flash";
+            if(modelId === "gemini-3.1-flash-image-preview") readableName = "Nano Banana 2 Flash";
             else if(modelId === "gemini-2.5-flash-image") readableName = "Nano Banana Standard";
+            else if(modelId === MODEL_VISION) readableName = "Gemini Vision (Text/OCR)";
+            else if(modelId === MODEL_LITE) readableName = "Gemini Lite";
             
             if(isActive) {
                 indicator.classList.add('active');
@@ -1144,6 +1243,40 @@
             }
         }
 
+        // --- ФУНКЦІЯ ГЕНЕРАЦІЇ ІМЕНІ ФАЙЛУ (NAMING CONVENTION) ---
+        function generateFileName(lang, type, index) {
+            let template = '';
+            if (type === 'prod') {
+                template = getEl('namingTemplateProd').value.trim();
+            } else {
+                template = getEl('namingTemplateLab').value.trim();
+            }
+
+            // Якщо шаблон порожній, використовуємо стару логіку
+            if (!template) {
+                return `${lang.substring(0,2).toUpperCase()}_Final_${Math.floor(10000+Math.random()*90000)}.png`;
+            }
+
+            // Очищаємо пробіли в назві мови/концепту
+            let cleanLang = lang.replace(/\s+/g, '_').toLowerCase(); 
+            
+            // Спробуємо замінити 'english' або перше слово до '_'
+            let newName = template.replace(/english/i, cleanLang);
+            
+            // Якщо слова 'english' не було в шаблоні
+            if(newName === template) {
+                let parts = template.split('_');
+                if (parts.length > 1) {
+                    parts[0] = cleanLang;
+                    newName = parts.join('_');
+                } else {
+                    newName = `${cleanLang}_${template}`;
+                }
+            }
+
+            return `${newName}_${index}.png`;
+        }
+
         // 3. GATE (API VERIFY)
         getEl('unlockBtn').onclick = async () => {
             const key = getEl('sessionKey').value.trim();
@@ -1151,13 +1284,16 @@
             getEl('unlockBtn').disabled = true; getEl('unlockLoader').classList.remove('hidden');
 
             try {
-                // Testing specific pay-as-you-go activation via 3.1-flash to be 100% sure we are on 2026 stack
-                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_OCR}:generateContent`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': key },
+                // Testing specific pay-as-you-go activation via lite to be 100% sure we are on 2026 stack cheaply
+                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_LITE}:generateContent?key=${key}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: "ping" }] }] })
                 });
                 
-                if(!resp.ok) throw new Error("Rejected");
+                if(!resp.ok) {
+                    const err = await resp.json();
+                    throw new Error(err.error?.message || "API Error");
+                }
                 
                 state.apiKey = key; getEl('accessGate').classList.add('hidden'); getEl('toolApp').classList.remove('hidden');
                 getEl('apiStatusBadge').className = "status-online px-3 py-1 rounded-full flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-500/10"; 
@@ -1166,7 +1302,7 @@
                 validate();
             } catch(e) {
                 getEl('unlockBtn').disabled = false; getEl('unlockLoader').classList.add('hidden');
-                setTxt('gateStatus', "API KEY ВІДХИЛЕНО. Перевір білінг."); getEl('gateStatus').classList.remove('hidden');
+                setTxt('gateStatus', `ПОМИЛКА: ${e.message}`); getEl('gateStatus').classList.remove('hidden');
             }
         };
 
@@ -1194,36 +1330,73 @@
         }
 
         async function runTaskProcess(lang, id, forceText = null) {
-            updateTaskUI(id, 15, "Neural OCR...");
-            setLiveModel(MODEL_OCR, true);
+            updateTaskUI(id, 15, "Аналіз та Переклад...");
+            setLiveModel(MODEL_VISION, true);
             const modelRender = getEl('modelSelectorProd').value;
 
             try {
-                // PHASE 1: Neural OCR (Flash 3.1)
-                const ocrText = await callGemini(MODEL_OCR, "Extract ALL text precisely. Return plain text only. Ignore image description.", state.masterB64);
+                // === ЕТАП 1: РОЗУМНИЙ ПЕРЕКЛАД ===
+                // Якщо ми викликаємо функцію з forceText (після аудиту), ми НЕ робимо запит до API перекладу. Економимо час і гроші!
+                let translatedText = forceText;
+                
+                if (!translatedText) {
+                    const fsRule = getEl('optFS').checked ? "5. Keep 'FS', 'Free Spins', and 'Spins' strictly English." : "";
+                    const codeRule = getEl('optCodes').checked ? "6. Do NOT translate promotional codes (e.g. VIP100, BONUS)." : "";
+                    
+                    // Відновлений прямий промпт (без iGaming-фантазій), але з чіткою вказівкою на ВСІ елементи
+                    const translatePrompt = `Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
+                    STRICT RULES: 
+                    1. Return ONLY the final translated string. No conversational filler or explanations.
+                    2. Make a natural, semantic translation (not a robotic word-for-word translation). Ensure there are absolutely no grammatical errors in ${lang}.
+                    3. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
+                    4. Keep formatting and the visual layout of text blocks exactly as close to the reference as possible.
+                    ${fsRule}
+                    ${codeRule}`;
+
+                    translatedText = await callGemini(MODEL_VISION, translatePrompt, state.masterB64);
+                }
                 
                 updateTaskUI(id, 60, "Рендеринг дизайну...");
                 setLiveModel(modelRender, true);
 
-                // PHASE 2: Production (Pro 3.0 / Flash)
+                // === ЕТАП 2: МАЛЮВАННЯ ===
                 const logo = getEl('optLogo').checked ? " RULE: Identify brand logos and keep them 100% original design. DO NOT modify branding." : "";
-                const fs = getEl('optFS').checked ? " RULE: Keep 'FS', 'Free Spins', and 'Spins' strictly English." : "";
-                const codes = getEl('optCodes').checked ? " RULE: Do NOT translate promotional codes (e.g. VIP100, BONUS)." : "";
                 const customPromo = getEl('customPromoProd').value.trim();
-                const replacePromoRule = customPromo ? ` RULE: Find existing promo code and REPLACE IT with EXACTLY this code: "${customPromo}".` : codes;
+                const replacePromoRule = customPromo ? ` RULE: Find existing promo code and REPLACE IT with EXACTLY this code: "${customPromo}".` : "";
                 const ratio = getEl('resSelector').value;
                 const outpaint = ratio !== 'original' ? ` Adjust canvas to exactly ${ratio} and fill outpainted margins seamlessly.` : "";
                 
-                const prompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.${forceText ? ' USE EXACT TEXT: ' + forceText : ''} 
-                DATA: "${ocrText}"
-                STRICT RULES: 1. NO HALLUCINATIONS: Preserve faces, characters, and lighting exactly. 2. GHOSTING PROTECTION: Clone background textures over old text before rendering new text. ${logo} ${fs} ${replacePromoRule}
+                // NEW: SUPER HQ Trigger (Улучшено для поддержки любых форматов без конфликта пропорций)
+                const hqProd = getEl('optSuperHQ').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
+                
+                // Змішаний промпт: старий стиль "MISSION + DATA", але з жорстким правилом не домальовувати
+                const renderPrompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.
+                TEXT TO INTEGRATE: "${translatedText}".
+                STRICT RULES: 
+                1. 100% CARBON COPY: Preserve faces, characters, backgrounds, and lighting EXACTLY as in the original. 
+                2. NO HALLUCINATIONS: DO NOT add, draw, or invent any new objects or elements. Just replace the text.
+                3. GHOSTING PROTECTION: Clone background textures seamlessly over old text before rendering new text. 
+                ${logo} ${replacePromoRule} ${hqProd}
                 FORMAT: ${ratio}.${outpaint}`;
 
-                const resB64 = await callGemini(modelRender, prompt, state.masterB64, true, getEl('fileTypeProd').value);
+                const resB64 = await callGemini(modelRender, renderPrompt, state.masterB64, true, getEl('fileTypeProd').value);
                 const finalUrl = `data:${getEl('fileTypeProd').value};base64,${resB64}`;
-                state.tasks.push({ id, lang, b64: resB64 });
+                
+                // ИЩЕМ СТАРУЮ ЗАДАЧУ (если это переработка после ошибки аудита)
+                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
+                if (existingTaskIndex !== -1) {
+                    // Перезаписываем картинку старой задачи на новую в массиве
+                    state.tasks[existingTaskIndex].b64 = resB64;
+                } else {
+                    // Новая задача
+                    const currentIndex = taskCounter++;
+                    state.tasks.push({ id, lang, b64: resB64, type: 'prod', index: currentIndex });
+                }
+                
                 finalizeTaskUI(id, finalUrl, lang, 'prod');
-            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'prod', lang, forceText); }
+            } catch(e) { 
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'prod', lang, forceText); 
+            }
         }
 
         // 5. CREATIVE LAB (CARBON COPY CONSISTENCY ENGINE)
@@ -1246,11 +1419,11 @@
 
         async function runLabPipeline(id, num) {
             updateTaskUI(id, 20, "Стилістичний аналіз...");
-            setLiveModel(MODEL_OCR, true);
+            setLiveModel(MODEL_VISION, true);
             const labModel = getEl('modelSelectorLab').value;
 
             try {
-                // STAGE 1: Analysis (Flash 3.1) - Focus on EXACT Character details
+                // STAGE 1: Analysis (Flash 3.1 Vision) - Focus on EXACT Character details
                 const analysisPrompt = `[MANDATORY OVERRIDE] You are an Elite Art Director. Analyze the reference images. 
                 Identify the MAIN CHARACTER(S), their exact clothing, facial features, and art style. 
                 Write a highly detailed technical prompt describing this character so another AI can draw this EXACT SAME PERSON/MASCOT as a carbon copy. Do not include text descriptions.`;
@@ -1258,8 +1431,8 @@
                 const analysisPayload = {
                     contents: [{ parts: [{ text: analysisPrompt }, ...state.labRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }))] }]
                 };
-                const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_OCR}:generateContent`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey },
+                const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(analysisPayload)
                 });
                 const analysisData = await analysisResp.json();
@@ -1269,35 +1442,39 @@
                 updateTaskUI(id, 55, "Генерація нового дизайну...");
                 setLiveModel(labModel, true);
 
-                // STAGE 2: Render (Selected 2026 Model) - STRICT Character preservation
+                // STAGE 2: Render (Selected Image Model) - STRICT Character preservation
                 const bonus = getEl('bonusText').value;
                 const ignore = getEl('optIgnoreRefText').checked;
                 const ratio = getEl('resSelectorLab').value;
                 const stylesArray = Array.from(document.querySelectorAll('.style-check:checked')).map(c => c.value);
                 const extraStyles = stylesArray.length > 0 ? ` APPLIED STYLES: ${stylesArray.join(', ')}.` : '';
                 
-                // GAMBLING INTENSITY LOGIC (HYPER-PROMPTING)
+                // STEALTH PROMPTING ДЛЯ ЛАБОРАТОРИИ
                 const gambleLevel = document.querySelector('input[name="gambling_level"]:checked').value;
                 let gamblePrompt = "";
                 switch(gambleLevel) {
-                    case 'heavy': gamblePrompt = "CRITICAL RULE: MAXIMIZE GAMBLING ELEMENTS. Add prominent casino chips, slot machines, playing cards, and gold. Make it a hardcore gambling ad."; break;
-                    case 'moderate': gamblePrompt = "RULE: MODERATE gambling elements. Keep it balanced, subtle casino hints."; break;
-                    case 'safe': gamblePrompt = "ABSOLUTELY STRICT NEGATIVE PROMPT: NO SLOTS, NO COINS, NO CHIPS, NO ROULETTE, NO CARDS. Keep the exact character but make the environment 100% neutral and safe for strict ad moderation."; break;
-                    case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or casino objects unless they are strictly present in the reference images."; break;
+                    case 'heavy': gamblePrompt = "CRITICAL RULE: MAXIMIZE GAME-WINNING ELEMENTS. Add prominent golden coins, slot machine reels, playing cards, and glowing treasures. Make it a high-energy jackpot aesthetic."; break;
+                    case 'moderate': gamblePrompt = "RULE: MODERATE game-winning elements. Keep it balanced, subtle hints of wealth and luck."; break;
+                    case 'safe': gamblePrompt = "ABSOLUTELY STRICT NEGATIVE PROMPT: NO SLOTS, NO COINS, NO CHIPS, NO ROULETTE, NO CARDS. Keep the exact character but make the environment 100% neutral and safe for general audiences."; break;
+                    case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or gaming objects unless they are strictly present in the reference images."; break;
                 }
+                
+                // NEW: SUPER HQ Trigger Lab (Улучшено для поддержки любых форматов без конфликта пропорций)
+                const hqLab = getEl('optSuperHQLab').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
 
                 const finalPrompt = `
                 [MANDATORY OVERRIDE: EXACT CHARACTER CLONING]
-                ACT AS AN ELITE AI IMAGE GENERATOR. GENERATE A PREMIUM GAMBLING CREATIVE VARIATION #${num} (Session ID: ${id}).
+                ACT AS AN ELITE AI IMAGE GENERATOR. GENERATE A PREMIUM MOBILE GAMING CREATIVE VARIATION #${num} (Session ID: ${id}).
                 CRITICAL INSTRUCTION: You MUST extract the EXACT main character from the provided reference images. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
                 DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
                 CHARACTER GUIDE: ${techPrompt}
                 ${extraStyles}
                 ${gamblePrompt}
+                ${hqLab}
                 RECOMPOSITION: Generate a brand new layout that perfectly fits the requested ${ratio} dimension.
                 TEXT TO INTEGRATE SEAMLESSLY: "${bonus}".
                 ${ignore ? 'CRITICAL: STRICTLY IGNORE ALL TEXT FROM REFERENCE IMAGES. DO NOT REPLICATE THEIR TEXT.' : ''}
-                QUALITY: UNREAL ENGINE 5, 8K RESOLUTION, AAA-tier casino quality.
+                QUALITY: UNREAL ENGINE 5, 8K RESOLUTION, AAA-tier marketing quality.
                 EXTRA PROMPT: ${getEl('promptLab').value}`;
 
                 const payload = { 
@@ -1305,8 +1482,8 @@
                     generationConfig: { responseModalities: ["IMAGE"] } 
                 };
 
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${labModel}:generateContent`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey },
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${labModel}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
                 const d = await res.json();
@@ -1314,46 +1491,73 @@
                 const b64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
                 const url = `data:image/png;base64,${b64}`;
                 
-                state.tasks.push({ id, lang: `Lab_${num}`, b64: b64 });
+                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
+                if (existingTaskIndex !== -1) {
+                    state.tasks[existingTaskIndex].b64 = b64;
+                } else {
+                    const currentIndex = taskCounter++;
+                    state.tasks.push({ id, lang: `Concept_${num}`, b64: b64, type: 'lab', index: currentIndex });
+                }
+
                 finalizeTaskUI(id, url, `Concept ${num}`, 'lab');
             } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num); }
         }
 
-        // 6. SYNTAX AUDIT
+        // 6. SYNTAX AUDIT (ОНОВЛЕНО: ТЕПЕР ПЕРЕВІРЯЄ І МОВУ, І ГРАМАТИКУ)
         async function runAudit(id, url, lang) {
-            updateTaskUI(id, 20, "Перевірка граматики...");
-            setLiveModel(MODEL_OCR, true);
+            updateTaskUI(id, 20, "Глибока перевірка...");
+            setLiveModel(MODEL_VISION, true);
+            
+            // Візуальний скидання кнопки, щоб було видно, що пішов НОВИЙ запит
+            const btn = getEl(id).querySelector('.audit-btn');
+            btn.className = "audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 transition-all animate-pulse";
+            
             try {
-                const prompt = `Act as native ${lang} proofreader. Check text in image. Is it correct grammatically? Return JSON: {"ok": boolean, "fix": string}. NO OTHER TEXT.`;
-                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_OCR}:generateContent`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey },
+                // Промпт перероблено: тепер він "поблажливий", не чіпляється до сленгу/брендів, шукає тільки РЕАЛЬНІ помилки
+                const prompt = `Act as a lenient native ${lang} proofreader for marketing ads. Check the text in the image. 
+                RULES: 
+                1. Ignore brand names, promo codes (like VIP, BONUS, 20FSP), and marketing slang. 
+                2. ONLY flag critical spelling/grammatical errors, or text that clearly failed to translate (left in English). 
+                3. Do not flag missing punctuation or weird layout. 
+                If the text is generally correct and makes sense in ${lang}, return JSON: {"ok": true, "fix": ""}. 
+                If there is a MAJOR error, return JSON: {"ok": false, "fix": "Write the exact fully corrected text to replace the bad text"}. 
+                RETURN ONLY VALID JSON.`;
+                
+                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: url.split(',')[1] } }] }] })
                 });
                 const d = await resp.json();
                 const raw = d.candidates[0].content.parts[0].text;
                 const jsonMatch = raw.match(/\{.*\}/s);
                 const res = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
-                const btn = getEl(id).querySelector('.audit-btn');
+                
+                btn.classList.remove('animate-pulse'); // Знімаємо пульсацію після відповіді
+                
                 if(res.ok) {
                     btn.className = "audit-btn p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl";
                     updateTaskUI(id, 100, "Текст чіткий");
+                    getEl(id).dataset.fix = ""; // Очищаємо старі помилки з пам'яті
                 } else {
                     btn.className = "audit-btn p-2.5 bg-rose-500/20 text-rose-400 rounded-xl";
-                    updateTaskUI(id, 100, "Граматичні помилки");
+                    updateTaskUI(id, 100, "Знайдені помилки");
                     getEl(id).dataset.fix = res.fix;
                 }
-            } catch(e) { updateTaskUI(id, 100, "Аудит Fail"); }
+            } catch(e) { 
+                btn.classList.remove('animate-pulse');
+                updateTaskUI(id, 100, "Аудит Fail"); 
+            }
             setLiveModel("", false);
         }
 
         // 7. SHARED CORE & UI CONTROLS
         async function callGemini(model, text, b64, isImg = false, mime = "image/png") {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${state.apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text }, { inlineData: { mimeType: "image/png", data: b64 } }] }],
                 generationConfig: isImg ? { responseModalities: ["IMAGE"] } : {}
             };
-            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-goog-api-key': state.apiKey }, body: JSON.stringify(payload) });
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             const data = await res.json();
             if(data.error) throw new Error(data.error.message);
             if(isImg) return data.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
@@ -1391,7 +1595,12 @@
 
         window.deleteTask = (id) => {
             getEl(id)?.remove();
+            // Жестко очищаем из памяти. После этого скачивание ZIP точно не захватит удаленную картинку
             state.tasks = state.tasks.filter(t => t.id !== id);
+            // Если после удаления корзина пуста, прячем кнопку ZIP
+            if(state.tasks.length === 0) {
+                getEl('downloadZipBtn').classList.add('hidden');
+            }
             validate();
         };
 
@@ -1413,12 +1622,18 @@
             redoBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4"></i>';
             redoBtn.title = "Переробити";
 
+            // ОБНОВЛЕНИЕ ПРЕВЬЮ: Заменяем картинку (innerHTML =), а не дописываем рядом (+=)
             const preview = el.querySelector('.task-preview');
-            preview.classList.remove('hidden'); preview.innerHTML += `<img src="${url}" class="w-full h-full object-cover">`;
+            preview.classList.remove('hidden'); 
+            preview.innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
             preview.onclick = () => { getEl('zoomContent').src = url; getEl('zoomModal').classList.remove('hidden'); };
             
+            // Завантаження ОДНОГО файлу з новим неймінгом
             el.querySelector('.dl-btn').onclick = () => { 
-                const a = document.createElement('a'); a.href = url; a.download = `${lang.substring(0,2).toUpperCase()}_Final_${Math.floor(10000+Math.random()*90000)}.png`; a.click(); 
+                const task = state.tasks.find(t => t.id === id);
+                if (!task) return;
+                const fileName = generateFileName(lang, type, task.index);
+                const a = document.createElement('a'); a.href = url; a.download = fileName; a.click(); 
             };
             
             if(type === 'prod') {
@@ -1472,12 +1687,12 @@
             }
         }
 
-        // 8. WIPE & EXPORT
+        // 8. WIPE & EXPORT (Оновлено для нового неймінгу)
         async function downloadAllZip() {
             const zip = new JSZip(); const folder = zip.folder("Studio_Export");
             state.tasks.forEach(t => {
-                const randomId = Math.floor(10000 + Math.random() * 90000);
-                folder.file(`${t.lang.substring(0,2).toUpperCase()}_Final_${randomId}.png`, t.b64, {base64: true});
+                const fileName = generateFileName(t.lang, t.type, t.index);
+                folder.file(fileName, t.b64, {base64: true});
             });
             const content = await zip.generateAsync({type:"blob"});
             const a = document.createElement('a'); a.href = URL.createObjectURL(content); a.download = `Batch_Export_${Date.now()}.zip`; a.click();
@@ -1492,6 +1707,7 @@
                 </div>`;
             state.tasks = []; 
             state.labRefs = [];
+            taskCounter = 1; // Скидаємо лічильник
             updateLabPreviews();
             lucide.createIcons(); 
             getEl('downloadZipBtn').classList.add('hidden');
