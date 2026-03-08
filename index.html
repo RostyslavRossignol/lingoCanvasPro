@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V2.2</title>
+        <title>UA Studio | LingoCanvas Pro Beta V2.3</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -106,8 +106,14 @@
             border-color: rgba(0,0,0,0.8) !important;
             color: #ffffff !important;
         }
+        html.light .btn-action.btn-amber {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+        }
         html.light .btn-action:hover:not(:disabled) {
             box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;
+        }
+        html.light .btn-action.btn-amber:hover:not(:disabled) {
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3) !important;
         }
 
         html.light .tooltip-text { background-color: #ffffff; color: #0f172a; border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
@@ -199,7 +205,7 @@
         .tab-btn { transition: all 0.3s ease; border-bottom: 2px solid transparent; opacity: 0.4; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.65rem; padding: 0.4rem 1rem; }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); opacity: 1; transform: translateY(-1px); }
         
-        .tab-btn-amber.active { color: var(--amber); border-bottom-color: var(--amber); }
+        .tab-btn-amber.active { color: var(--amber); border-bottom-color: var(--amber); opacity: 1; transform: translateY(-1px); }
 
         .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.05); transition: all 0.4s ease; min-height: 100px; position: relative; background: rgba(24, 24, 27, 0.4); border-radius: 1.2rem; }
         .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); }
@@ -310,7 +316,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.2
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.3
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -358,7 +364,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.2
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.3
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -1469,6 +1475,7 @@
                     </div>
 
                     <div class="space-y-4 mb-6">
+                        <!-- NEW BLOCK EXPLAINING PROMPTS ARE OPTIONAL -->
                         <div
                             class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl flex gap-4 items-start">
                             <div
@@ -2320,6 +2327,7 @@
                 const renderPrompt = `You are an elite surgical image retoucher. 
                 CRITICAL INSTRUCTION: Modify ONLY the specific text elements requested below. 
                 DO NOT change the background, characters, or layout. KEEP IT A 100% CARBON COPY.
+                ZERO NOISE POLICY: Ensure the newly painted areas blend flawlessly without adding grain, noise, or JPEG compression artifacts. Keep solid backgrounds perfectly clean.
                 
                 ${instructions}
                 
@@ -2440,7 +2448,8 @@
                 STRICT RULES: 
                 1. 100% CARBON COPY: Preserve faces, characters, backgrounds, chat interfaces, and lighting EXACTLY as in the original. 
                 2. NO HALLUCINATIONS: DO NOT add, draw, or invent any new objects, characters, or text elements. Just replace the text.
-                3. GHOSTING PROTECTION: Clone background textures seamlessly over old text before rendering new text. 
+                3. GHOSTING PROTECTION: Clone background textures seamlessly over old text before rendering new text.
+                4. QUALITY & NOISE REDUCTION: The background must remain perfectly clean. Generate with ZERO noise, NO grain, NO compression artifacts. Keep solid colors absolutely clean and smooth. Prevent banding.
                 ${logo} ${replacePromoRule} ${hqProd}
                 FORMAT: ${ratio}.${outpaint}`;
 
@@ -2563,6 +2572,7 @@
                 CRITICAL INSTRUCTION 1: You MUST extract the EXACT main character from the provided reference image. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
                 CRITICAL INSTRUCTION 2: DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
                 CRITICAL INSTRUCTION 3: OUTPUT EXACTLY ONE SINGLE IMAGE. DO NOT CREATE A GRID, MULTIPLE PANELS, OR COLLAGES.
+                CRITICAL INSTRUCTION 4: ZERO NOISE & ARTIFACTS. Generate with absolutely clean solid colors, NO grain, NO compression artifacts, and smooth gradients.
                 
                 CHARACTER GUIDE: ${techPrompt}
                 ${extraStyles}
