@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V1.7</title>
+        <title>UA Studio | LingoCanvas Pro Beta V1.8</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -32,7 +32,8 @@
             --cyan: #06b6d4;
         }
         
-        html, body { height: 100%; margin: 0; background-color: var(--bg-dark); color: #d1d1d6; font-size: 13px; }
+        /* ЗБІЛЬШЕНО БАЗОВИЙ ШРИФТ ДЛЯ МАСШТАБУВАННЯ ВСЬОГО UI (+11.5%) */
+        html, body { height: 100%; margin: 0; background-color: var(--bg-dark); color: #d1d1d6; font-size: 14.5px; }
         body { 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
@@ -275,48 +276,52 @@
 
         <!-- GATE (ACCESS CONTROL) -->
         <div id="accessGate"
-            class="flex fixed inset-0 z-[2000] items-center justify-center p-4 bg-black/80 overflow-y-auto transition-colors duration-500">
-            <div
-                class="login-panel w-full max-w-[350px] p-8 rounded-[2.5rem] animate__animated animate__zoomIn my-auto relative z-10">
-                <!-- THEME TOGGLE (LOGIN) -->
-                <button onclick="toggleTheme()"
-                    class="absolute top-6 right-6 p-2 bg-zinc-900/50 hover:bg-indigo-500/20 text-zinc-500 hover:text-indigo-500 rounded-xl border border-white/5 transition-all z-20"
-                    title="Змінити тему">
-                    <i data-lucide="sun" id="themeIconLogin"
-                        class="w-4 h-4"></i>
-                </button>
-
-                <div class="text-center mb-8 mt-4">
-                    <div
-                        class="w-14 h-14 bg-indigo-600 rounded-[1.2rem] flex items-center justify-center mx-auto mb-6 shadow-lg border-t border-white/20">
-                        <i data-lucide="lock" class="w-7 h-7 text-white"></i>
-                    </div>
-                    <h1
-                        class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
-                        <span class="text-indigo-500">PRO</span></h1>
-                    <p
-                        class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.7
-                        UA STUDIO BETA</p>
-                </div>
-                <div class="space-y-6">
-                    <div class="space-y-2">
-                        <label
-                            class="text-[9px] font-black text-zinc-500 uppercase ml-2 tracking-widest flex items-center gap-2"><i
-                                data-lucide="key"
-                                class="w-3 h-3 text-indigo-500"></i> API Token
-                            2026</label>
-                        <input type="password" id="sessionKey"
-                            class="w-full rounded-xl px-5 py-3.5 text-sm text-white focus:border-indigo-500 border border-white/5 bg-black/40"
-                            placeholder="AIzaSy...">
-                    </div>
-                    <button id="unlockBtn"
-                        class="btn-action w-full py-4 rounded-xl font-black text-[11px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-3">
-                        <span>УВІЙТИ ДО ЦЕХУ</span>
-                        <div id="unlockLoader"
-                            class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            class="fixed inset-0 z-[2000] bg-black/80 overflow-y-auto transition-colors duration-500">
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div
+                    class="login-panel w-full max-w-[380px] p-6 sm:p-8 rounded-[2.5rem] animate__animated animate__zoomIn relative z-10 my-8 text-left">
+                    <!-- THEME TOGGLE (LOGIN) -->
+                    <button onclick="toggleTheme()"
+                        class="absolute top-6 right-6 p-2 bg-zinc-900/50 hover:bg-indigo-500/20 text-zinc-500 hover:text-indigo-500 rounded-xl border border-white/5 transition-all z-20"
+                        title="Змінити тему">
+                        <i data-lucide="sun" id="themeIconLogin"
+                            class="w-4 h-4"></i>
                     </button>
-                    <div id="gateStatus"
-                        class="mt-4 text-center text-[9px] font-black uppercase text-rose-500 hidden"></div>
+
+                    <div class="text-center mb-8 mt-4">
+                        <div
+                            class="w-14 h-14 bg-indigo-600 rounded-[1.2rem] flex items-center justify-center mx-auto mb-6 shadow-lg border-t border-white/20">
+                            <i data-lucide="lock"
+                                class="w-7 h-7 text-white"></i>
+                        </div>
+                        <h1
+                            class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
+                            <span class="text-indigo-500">PRO</span></h1>
+                        <p
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.8
+                            UA STUDIO BETA</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label
+                                class="text-[9px] font-black text-zinc-500 uppercase ml-2 tracking-widest flex items-center gap-2"><i
+                                    data-lucide="key"
+                                    class="w-3 h-3 text-indigo-500"></i> API
+                                Token
+                                2026</label>
+                            <input type="password" id="sessionKey"
+                                class="w-full rounded-xl px-5 py-3.5 text-sm text-white focus:border-indigo-500 border border-white/5 bg-black/40"
+                                placeholder="AIzaSy...">
+                        </div>
+                        <button id="unlockBtn"
+                            class="btn-action w-full py-4 rounded-xl font-black text-[11px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-3">
+                            <span>УВІЙТИ ДО ЦЕХУ</span>
+                            <div id="unlockLoader"
+                                class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </button>
+                        <div id="gateStatus"
+                            class="mt-4 text-center text-[9px] font-black uppercase text-rose-500 hidden"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -341,7 +346,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.7
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.8
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -1053,6 +1058,62 @@
                                 <!-- NEW: NAMING TEMPLATE (LAB) -->
                                 <div class="pt-2">
                                     <div
+                                        class="flex items-center justify-between mb-1">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Шаблон
+                                            Неймінгу (Опціонально)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">
+                                                Слово до першого '_' буде
+                                                замінено на слово concept. Цифра
+                                                додасться автоматично.<br><br>
+                                                <b>Приклад із
+                                                    шаблоном:</b><br>concept_ggbet.png<br>
+                                                <b>Якщо поле пусте (за
+                                                    замовчуванням):</b><br>concept_1.png,
+                                                concept_2.png
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="namingTemplateLab"
+                                        placeholder="Напр: english_ggbet_gpt"
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                                </div>
+
+                                <div class="space-y-1">
+                                    <div
+                                        class="flex items-center justify-between">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
+                                            ІІ (Малювання)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span
+                                                class="tooltip-text">Тільки
+                                                недорогі моделі. Flash 2
+                                                рекомендується для масових
+                                                завдань.</span>
+                                        </div>
+                                    </div>
+                                    <select id="modelSelectorLab"
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 cursor-pointer">
+                                        <option
+                                            value="gemini-3.1-flash-image-preview"
+                                            selected>Nano Banana 2 (Flash
+                                            Speed)</option>
+                                        <option
+                                            value="gemini-2.5-flash-image">Nano
+                                            Banana (Standard)</option>
+                                    </select>
+                                </div>
+
+                                <div class="pt-2">
+                                    <div
                                         class="flex items-center justify-between mb-1 mt-2">
                                         <label
                                             class="text-[8px] font-black text-zinc-600 uppercase ml-1">Додаткові
@@ -1082,90 +1143,89 @@
                                         placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Опишіть ідею для нового креативу: фон, емоції персонажа (наприклад: додай неонове світло...) тільки якщо стандартної генерації недостатньо."
                                         class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
                                 </div>
-                            </section>
-                            <button id="processLabBtn" disabled
-                                class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
-                                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                                СТВОРИТИ НОВІ
-                            </button>
-                        </div>
+                            </div>
+                        </section>
+                        <button id="processLabBtn" disabled
+                            class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            СТВОРИТИ НОВІ
+                        </button>
                     </div>
+                </div>
 
-                    <!-- RIGHT COLUMN: PIPELINE & QUEUE -->
-                    <div
-                        class="lg:col-span-7 flex flex-col h-full space-y-6 min-h-0 animate__animated animate__fadeIn">
-                        <div
-                            class="flex items-center justify-between px-5 py-3 bg-white/5 rounded-2xl border border-white/5 shadow-xl queue-header-actions">
-                            <h2
-                                class="text-sm font-black text-white uppercase flex items-center gap-3 tracking-tighter italic">
-                                Черга <span id="queueCount"
-                                    class="badge-counter">0
-                                    ОБ’ЄКТІВ</span>
-                            </h2>
-
-                            <!-- LIVE MODEL INDICATOR -->
-                            <div id="liveModelStatus"
-                                class="live-model-indicator">
-                                <i data-lucide="activity" class="w-3 h-3"></i>
-                                <span id="liveModelText">IDLE</span>
-                            </div>
-
-                            <div class="flex gap-2 items-center">
-                                <!-- NEW: STOP ALL BUTTON -->
-                                <button id="stopProcessBtn"
-                                    class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
-                                    <i data-lucide="octagon"
-                                        class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ
-                                </button>
-
-                                <!-- NEW: AUDIT ALL BUTTON -->
-                                <button id="auditAllBtn"
-                                    class="hidden px-4 py-2 bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border border-emerald-500/30 flex items-center gap-2">
-                                    <i data-lucide="check-square-2"
-                                        class="w-4 h-4"></i> АУДИТ ВСІХ
-                                </button>
-
-                                <button id="downloadZipBtn"
-                                    class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
-                                    EXPORT</button>
-                                <button id="clearAllBtn"
-                                    class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
-                                        data-lucide="trash-2"
-                                        class="w-3 h-3"></i>
-                                    Wipe All</button>
-                            </div>
-                        </div>
-
-                        <div id="tasksContainer"
-                            class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-40 space-y-4">
-                            <div id="emptyQueue"
-                                class="flex flex-col items-center justify-center h-full text-zinc-800 border-2 border-dashed border-zinc-900 rounded-[2.5rem] py-20">
-                                <i data-lucide="cpu"
-                                    class="w-12 h-12 mb-4 opacity-5"></i>
-                                <p
-                                    class="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">Студія
-                                    в очікуванні</p>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-
-            <!-- ZOOM MODAL (FIXED) -->
-            <div id="zoomModal"
-                class="fixed inset-0 z-[3000] hidden bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 animate__animated animate__fadeIn">
-                <button onclick="closeZoom()"
-                    class="absolute top-6 right-6 text-zinc-400 hover:text-white transition-all bg-white/10 p-3 rounded-full border border-white/5 cursor-pointer z-50"><i
-                        data-lucide="x" class="w-6 h-6"></i></button>
-                <img id="zoomContent"
-                    class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10">
-            </div>
-
-            <!-- WELCOME MODAL & ONBOARDING -->
-            <div id="welcomeModal"
-                class="fixed inset-0 z-[3000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+                <!-- RIGHT COLUMN: PIPELINE & QUEUE -->
                 <div
-                    class="glass-panel w-full max-w-[600px] p-8 rounded-[2rem] relative border border-white/10 shadow-2xl bg-zinc-950">
+                    class="lg:col-span-7 flex flex-col h-full space-y-6 min-h-0 animate__animated animate__fadeIn">
+                    <div
+                        class="flex items-center justify-between px-5 py-3 bg-white/5 rounded-2xl border border-white/5 shadow-xl queue-header-actions">
+                        <h2
+                            class="text-sm font-black text-white uppercase flex items-center gap-3 tracking-tighter italic">
+                            Черга <span id="queueCount" class="badge-counter">0
+                                ОБ’ЄКТІВ</span>
+                        </h2>
+
+                        <!-- LIVE MODEL INDICATOR -->
+                        <div id="liveModelStatus" class="live-model-indicator">
+                            <i data-lucide="activity" class="w-3 h-3"></i>
+                            <span id="liveModelText">IDLE</span>
+                        </div>
+
+                        <div class="flex gap-2 items-center">
+                            <!-- NEW: STOP ALL BUTTON -->
+                            <button id="stopProcessBtn"
+                                class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
+                                <i data-lucide="octagon" class="w-4 h-4"></i>
+                                ЗУПИНИТИ ВСЕ
+                            </button>
+
+                            <!-- NEW: AUDIT ALL BUTTON -->
+                            <button id="auditAllBtn"
+                                class="hidden px-4 py-2 bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border border-emerald-500/30 flex items-center gap-2">
+                                <i data-lucide="check-square-2"
+                                    class="w-4 h-4"></i> АУДИТ ВСІХ
+                            </button>
+
+                            <button id="downloadZipBtn"
+                                class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
+                                EXPORT</button>
+                            <button id="clearAllBtn"
+                                class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
+                                    data-lucide="trash-2" class="w-3 h-3"></i>
+                                Wipe All</button>
+                        </div>
+                    </div>
+
+                    <div id="tasksContainer"
+                        class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-40 space-y-4">
+                        <div id="emptyQueue"
+                            class="flex flex-col items-center justify-center h-full text-zinc-800 border-2 border-dashed border-zinc-900 rounded-[2.5rem] py-20">
+                            <i data-lucide="cpu"
+                                class="w-12 h-12 mb-4 opacity-5"></i>
+                            <p
+                                class="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">Студія
+                                в очікуванні</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ZOOM MODAL (FIXED) -->
+        <div id="zoomModal"
+            class="fixed inset-0 z-[3000] hidden bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 animate__animated animate__fadeIn">
+            <button onclick="closeZoom()"
+                class="absolute top-6 right-6 text-zinc-400 hover:text-white transition-all bg-white/10 p-3 rounded-full border border-white/5 cursor-pointer z-50"><i
+                    data-lucide="x" class="w-6 h-6"></i></button>
+            <img id="zoomContent"
+                class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10">
+        </div>
+
+        <!-- WELCOME MODAL & ONBOARDING -->
+        <div id="welcomeModal"
+            class="fixed inset-0 z-[3000] hidden bg-black/80 backdrop-blur-sm overflow-y-auto animate__animated animate__fadeIn">
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div
+                    class="glass-panel w-full max-w-[660px] p-6 sm:p-8 rounded-[2rem] relative border border-white/10 shadow-2xl bg-zinc-950 my-8 text-left">
                     <button onclick="closeWelcome()"
                         class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-all bg-white/5 hover:bg-rose-500/20 p-2 rounded-full border border-white/5 cursor-pointer z-50">
                         <i data-lucide="x" class="w-5 h-5"></i>
@@ -1280,12 +1340,14 @@
                     </button>
                 </div>
             </div>
+        </div>
 
-            <!-- HQ CONFIRM MODAL -->
-            <div id="hqConfirmModal"
-                class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+        <!-- HQ CONFIRM MODAL -->
+        <div id="hqConfirmModal"
+            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm overflow-y-auto animate__animated animate__fadeIn">
+            <div class="flex min-h-full items-center justify-center p-4">
                 <div
-                    class="glass-panel w-full max-w-[350px] p-6 rounded-[2rem] relative border border-rose-500/30 shadow-2xl bg-zinc-950 text-center">
+                    class="glass-panel w-full max-w-[380px] p-6 rounded-[2rem] relative border border-rose-500/30 shadow-2xl bg-zinc-950 text-center my-8">
                     <div
                         class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center border border-rose-500/30 text-rose-400 mx-auto mb-4">
                         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
@@ -1310,12 +1372,14 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- START CONFIRM MODAL -->
-            <div id="startConfirmModal"
-                class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+        <!-- START CONFIRM MODAL -->
+        <div id="startConfirmModal"
+            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm overflow-y-auto animate__animated animate__fadeIn">
+            <div class="flex min-h-full items-center justify-center p-4">
                 <div
-                    class="glass-panel w-full max-w-[400px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950 text-center">
+                    class="glass-panel w-full max-w-[440px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950 text-center my-8">
                     <div
                         class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400 mx-auto mb-4">
                         <i data-lucide="check-square" class="w-6 h-6"></i>
@@ -1340,12 +1404,14 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- PROMPT EXAMPLES MODAL -->
-            <div id="promptsModal"
-                class="fixed inset-0 z-[5000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+        <!-- PROMPT EXAMPLES MODAL -->
+        <div id="promptsModal"
+            class="fixed inset-0 z-[5000] hidden bg-black/80 backdrop-blur-sm overflow-y-auto animate__animated animate__fadeIn">
+            <div class="flex min-h-full items-center justify-center p-4">
                 <div
-                    class="glass-panel w-full max-w-[600px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950">
+                    class="glass-panel w-full max-w-[660px] p-6 sm:p-8 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950 my-8 text-left">
                     <button onclick="closePrompts()"
                         class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-all bg-white/5 hover:bg-rose-500/20 p-2 rounded-full border border-white/5 cursor-pointer z-50">
                         <i data-lucide="x" class="w-5 h-5"></i>
@@ -1493,11 +1559,11 @@
                                 розлітаються в сторони.</p>
                         </div>
                     </div>
-
                 </div>
             </div>
+        </div>
 
-            <script type="module">
+        <script type="module">
         // 1. CONFIG & STATE
         const getEl = id => document.getElementById(id);
         const setTxt = (id, txt) => { const el = getEl(id); if(el) el.innerText = txt; };
@@ -2333,5 +2399,5 @@
             star.style.setProperty('--d', (Math.random() * 3 + 2) + 's'); space.appendChild(star);
         }
     </script>
-        </body>
-    </html>
+    </body>
+</html>
