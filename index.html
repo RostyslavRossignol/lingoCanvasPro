@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V1.1</title>
+        <title>UA Studio | LingoCanvas Pro Beta V1.7</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -295,7 +295,7 @@
                         class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                         <span class="text-indigo-500">PRO</span></h1>
                     <p
-                        class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.1
+                        class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.7
                         UA STUDIO BETA</p>
                 </div>
                 <div class="space-y-6">
@@ -341,7 +341,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.1
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.7
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -434,10 +434,10 @@
                                     <div class="tooltip-container tooltip-left">
                                         <i data-lucide="help-circle"
                                             class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Забороняє ІІ
-                                            перекладати "Free Spins" та "FS",
-                                            залишаючи їх в оригіналі для
-                                            впізнаваності.</span>
+                                        <span class="tooltip-text">Зберігає
+                                            англійську абревіатуру "FS". Але
+                                            повні фрази "Free Spins" будуть
+                                            ПЕРЕКЛАДЕНІ.</span>
                                     </div>
                                 </label>
 
@@ -658,11 +658,16 @@
                                     <div class="tooltip-container tooltip-left">
                                         <i data-lucide="help-circle"
                                             class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Введіть
-                                            шаблон. Слово до першого '_' (або
-                                            'english') буде замінено на мову. В
-                                            кінці автоматично додасться номер.
-                                            Приклад: english_ggbet_gpt</span>
+                                        <span class="tooltip-text">
+                                            Слово до першого '_' буде замінено
+                                            на мову. Цифра додасться автоматично
+                                            після мови.<br><br>
+                                            <b>Приклад із
+                                                шаблоном:</b><br>english_ggbet.png<br>
+                                            <b>Якщо поле пусте (за
+                                                замовчуванням):</b><br>english_1.png,
+                                            english_2.png
+                                        </span>
                                     </div>
                                 </div>
                                 <input type="text" id="namingTemplateProd"
@@ -677,9 +682,38 @@
                                 <div id="geoChips"
                                     class="flex flex-wrap gap-1.5"></div>
                             </div>
-                            <textarea id="promptProd" rows="2"
-                                placeholder="Специфічні інструкції (напр. зроби текст агресивним, додай сленг)..."
-                                class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-none"></textarea>
+
+                            <div class="pt-2">
+                                <div
+                                    class="flex items-center justify-between mb-1 mt-2">
+                                    <label
+                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Специфічні
+                                        інструкції (Або свій словник) - <span
+                                            class="text-emerald-400">ОПЦІОНАЛЬНО</span></label>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="openPrompts('prod')"
+                                            class="text-[9px] font-black text-indigo-400 hover:text-indigo-300 uppercase flex items-center gap-1 bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 transition-all"><i
+                                                data-lucide="zap"
+                                                class="w-3 h-3"></i>
+                                            Шаблони</button>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-4 h-4 text-indigo-400 animate-pulse cursor-help"></i>
+                                            <span class="tooltip-text">Натисніть
+                                                «Шаблони», щоб відкрити
+                                                бібліотеку готових перевірених
+                                                промптів. Скопіюйте потрібний,
+                                                вставте сюди, замініть текст на
+                                                свій і запускайте! Це заощадить
+                                                ваш час.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea id="promptProd" rows="4"
+                                    placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Впишіть сюди побажання, або вставте свій словник перекладів (напр. Polish: Jak mogę dostac... Portuguese: Como faço...) тільки якщо це необхідно."
+                                    class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
+                            </div>
                         </section>
 
                         <button id="processProdBtn" disabled
@@ -1019,226 +1053,451 @@
                                 <!-- NEW: NAMING TEMPLATE (LAB) -->
                                 <div class="pt-2">
                                     <div
-                                        class="flex items-center justify-between mb-1">
+                                        class="flex items-center justify-between mb-1 mt-2">
                                         <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Шаблон
-                                            Неймінгу (Опціонально)</label>
-                                        <div
-                                            class="tooltip-container tooltip-left">
-                                            <i data-lucide="help-circle"
-                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">Введіть
-                                                шаблон. Слово до першого '_'
-                                                (або 'english') буде замінено на
-                                                мову/концепт. В кінці
-                                                автоматично додасться номер.
-                                                Приклад:
-                                                english_ggbet_gpt</span>
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Додаткові
+                                            деталі стилю - <span
+                                                class="text-emerald-400">ОПЦІОНАЛЬНО</span></label>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="openPrompts('lab')"
+                                                class="text-[9px] font-black text-indigo-400 hover:text-indigo-300 uppercase flex items-center gap-1 bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 transition-all"><i
+                                                    data-lucide="zap"
+                                                    class="w-3 h-3"></i>
+                                                Шаблони</button>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-4 h-4 text-indigo-400 animate-pulse cursor-help"></i>
+                                                <span
+                                                    class="tooltip-text">Натисніть
+                                                    «Шаблони», щоб відкрити
+                                                    бібліотеку перевірених ідей
+                                                    для генерації. Скопіюйте
+                                                    потрібний, вставте сюди та
+                                                    запускайте!</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <input type="text" id="namingTemplateLab"
-                                        placeholder="Напр: english_ggbet_gpt"
-                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                                    <textarea id="promptLab" rows="4"
+                                        placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Опишіть ідею для нового креативу: фон, емоції персонажа (наприклад: додай неонове світло...) тільки якщо стандартної генерації недостатньо."
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
                                 </div>
-
-                                <div class="space-y-1">
-                                    <div
-                                        class="flex items-center justify-between">
-                                        <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
-                                            ІІ (Малювання)</label>
-                                        <div
-                                            class="tooltip-container tooltip-left">
-                                            <i data-lucide="help-circle"
-                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span
-                                                class="tooltip-text">Тільки
-                                                недорогі моделі. Flash 2
-                                                рекомендується для масових
-                                                завдань.</span>
-                                        </div>
-                                    </div>
-                                    <select id="modelSelectorLab"
-                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 cursor-pointer">
-                                        <option
-                                            value="gemini-3.1-flash-image-preview"
-                                            selected>Nano Banana 2 (Flash
-                                            Speed)</option>
-                                        <option
-                                            value="gemini-2.5-flash-image">Nano
-                                            Banana (Standard)</option>
-                                    </select>
-                                </div>
-
-                                <textarea id="promptLab" rows="3"
-                                    placeholder="Додаткові деталі стилю (напр. зроби фон темнішим, зміни позу персонажа)..."
-                                    class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-none"></textarea>
-                            </div>
-                        </section>
-                        <button id="processLabBtn" disabled
-                            class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            СТВОРИТИ НОВІ
-                        </button>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN: PIPELINE & QUEUE -->
-                <div
-                    class="lg:col-span-7 flex flex-col h-full space-y-6 min-h-0 animate__animated animate__fadeIn">
-                    <div
-                        class="flex items-center justify-between px-5 py-3 bg-white/5 rounded-2xl border border-white/5 shadow-xl queue-header-actions">
-                        <h2
-                            class="text-sm font-black text-white uppercase flex items-center gap-3 tracking-tighter italic">
-                            Черга <span id="queueCount" class="badge-counter">0
-                                ОБ’ЄКТІВ</span>
-                        </h2>
-
-                        <!-- LIVE MODEL INDICATOR -->
-                        <div id="liveModelStatus" class="live-model-indicator">
-                            <i data-lucide="activity" class="w-3 h-3"></i>
-                            <span id="liveModelText">IDLE</span>
-                        </div>
-
-                        <div class="flex gap-2 items-center">
-                            <!-- NEW: STOP ALL BUTTON -->
-                            <button id="stopProcessBtn"
-                                class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
-                                <i data-lucide="octagon" class="w-4 h-4"></i>
-                                ЗУПИНИТИ ВСЕ
+                            </section>
+                            <button id="processLabBtn" disabled
+                                class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                СТВОРИТИ НОВІ
                             </button>
-                            <button id="downloadZipBtn"
-                                class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
-                                EXPORT</button>
-                            <button id="clearAllBtn"
-                                class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
-                                    data-lucide="trash-2" class="w-3 h-3"></i>
-                                Wipe All</button>
                         </div>
                     </div>
 
-                    <div id="tasksContainer"
-                        class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-40 space-y-4">
-                        <div id="emptyQueue"
-                            class="flex flex-col items-center justify-center h-full text-zinc-800 border-2 border-dashed border-zinc-900 rounded-[2.5rem] py-20">
-                            <i data-lucide="cpu"
-                                class="w-12 h-12 mb-4 opacity-5"></i>
-                            <p
-                                class="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">Студія
-                                в очікуванні</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-
-        <!-- ZOOM MODAL (FIXED) -->
-        <div id="zoomModal"
-            class="fixed inset-0 z-[3000] hidden bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 animate__animated animate__fadeIn">
-            <button onclick="closeZoom()"
-                class="absolute top-6 right-6 text-zinc-400 hover:text-white transition-all bg-white/10 p-3 rounded-full border border-white/5 cursor-pointer z-50"><i
-                    data-lucide="x" class="w-6 h-6"></i></button>
-            <img id="zoomContent"
-                class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10">
-        </div>
-
-        <!-- WELCOME MODAL -->
-        <div id="welcomeModal"
-            class="fixed inset-0 z-[3000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
-            <div
-                class="glass-panel w-full max-w-[450px] p-8 rounded-[2rem] relative border border-white/10 shadow-2xl bg-zinc-950">
-                <button onclick="closeWelcome()"
-                    class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-all bg-white/5 hover:bg-rose-500/20 p-2 rounded-full border border-white/5 cursor-pointer z-50">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-                <div class="flex items-center gap-4 mb-4">
+                    <!-- RIGHT COLUMN: PIPELINE & QUEUE -->
                     <div
-                        class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400">
-                        <i data-lucide="info" class="w-6 h-6"></i>
+                        class="lg:col-span-7 flex flex-col h-full space-y-6 min-h-0 animate__animated animate__fadeIn">
+                        <div
+                            class="flex items-center justify-between px-5 py-3 bg-white/5 rounded-2xl border border-white/5 shadow-xl queue-header-actions">
+                            <h2
+                                class="text-sm font-black text-white uppercase flex items-center gap-3 tracking-tighter italic">
+                                Черга <span id="queueCount"
+                                    class="badge-counter">0
+                                    ОБ’ЄКТІВ</span>
+                            </h2>
+
+                            <!-- LIVE MODEL INDICATOR -->
+                            <div id="liveModelStatus"
+                                class="live-model-indicator">
+                                <i data-lucide="activity" class="w-3 h-3"></i>
+                                <span id="liveModelText">IDLE</span>
+                            </div>
+
+                            <div class="flex gap-2 items-center">
+                                <!-- NEW: STOP ALL BUTTON -->
+                                <button id="stopProcessBtn"
+                                    class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
+                                    <i data-lucide="octagon"
+                                        class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ
+                                </button>
+
+                                <!-- NEW: AUDIT ALL BUTTON -->
+                                <button id="auditAllBtn"
+                                    class="hidden px-4 py-2 bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border border-emerald-500/30 flex items-center gap-2">
+                                    <i data-lucide="check-square-2"
+                                        class="w-4 h-4"></i> АУДИТ ВСІХ
+                                </button>
+
+                                <button id="downloadZipBtn"
+                                    class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
+                                    EXPORT</button>
+                                <button id="clearAllBtn"
+                                    class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
+                                        data-lucide="trash-2"
+                                        class="w-3 h-3"></i>
+                                    Wipe All</button>
+                            </div>
+                        </div>
+
+                        <div id="tasksContainer"
+                            class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-40 space-y-4">
+                            <div id="emptyQueue"
+                                class="flex flex-col items-center justify-center h-full text-zinc-800 border-2 border-dashed border-zinc-900 rounded-[2.5rem] py-20">
+                                <i data-lucide="cpu"
+                                    class="w-12 h-12 mb-4 opacity-5"></i>
+                                <p
+                                    class="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">Студія
+                                    в очікуванні</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- ZOOM MODAL (FIXED) -->
+            <div id="zoomModal"
+                class="fixed inset-0 z-[3000] hidden bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 animate__animated animate__fadeIn">
+                <button onclick="closeZoom()"
+                    class="absolute top-6 right-6 text-zinc-400 hover:text-white transition-all bg-white/10 p-3 rounded-full border border-white/5 cursor-pointer z-50"><i
+                        data-lucide="x" class="w-6 h-6"></i></button>
+                <img id="zoomContent"
+                    class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/10">
+            </div>
+
+            <!-- WELCOME MODAL & ONBOARDING -->
+            <div id="welcomeModal"
+                class="fixed inset-0 z-[3000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+                <div
+                    class="glass-panel w-full max-w-[600px] p-8 rounded-[2rem] relative border border-white/10 shadow-2xl bg-zinc-950">
+                    <button onclick="closeWelcome()"
+                        class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-all bg-white/5 hover:bg-rose-500/20 p-2 rounded-full border border-white/5 cursor-pointer z-50">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+
+                    <div class="flex items-center gap-4 mb-6">
+                        <div
+                            class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400">
+                            <i data-lucide="rocket" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2
+                                class="text-xl font-black text-white uppercase tracking-wider">Вітаємо
+                                у LingoCanvas!</h2>
+                            <p class="text-zinc-400 text-xs">Короткий гайд для
+                                правильної роботи</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-6">
+                        <!-- NEW BLOCK EXPLAINING PROMPTS ARE OPTIONAL -->
+                        <div
+                            class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl flex gap-4 items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="wand-2" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-black text-white uppercase mb-1">Магія
+                                    в 1 клік (Без Промптів)</h3>
+                                <p
+                                    class="text-emerald-200/80 text-xs leading-relaxed">
+                                    Головна задумка сервісу — працювати
+                                    <b>автоматично</b>! Промпти вставляти не
+                                    обов'язково.<br>
+                                    • <b>У Цеху:</b> завантажте креатив,
+                                    виберіть мови і натисніть старт — ІІ сам усе
+                                    перекладе.<br>
+                                    • <b>У Лабі:</b> завантажте скріншот рума,
+                                    впишіть бонус у спеціальне поле і генеруйте.
+                                    ІІ сам створить круті варіанти.<br>
+                                    <span
+                                        class="text-[10px] text-emerald-400/80 italic mt-1 block">*Використовуйте
+                                        поле промптів лише якщо вам потрібен
+                                        унікальний стиль, або ІІ не впорався з
+                                        дефолтним завданням.</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-zinc-900/50 border border-white/5 p-4 rounded-xl flex gap-4 items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-black text-white uppercase mb-1">1.
+                                    Цех Локалізації</h3>
+                                <p
+                                    class="text-zinc-400 text-xs leading-relaxed">Призначений
+                                    <b>ТІЛЬКИ</b> для перекладу та адаптації
+                                    готових креативів під різні мови та ГЕО. ІІ
+                                    залишає дизайн без змін, професійно
+                                    замінюючи лише текст.</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-zinc-900/50 border border-white/5 p-4 rounded-xl flex gap-4 items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-black text-white uppercase mb-1">2.
+                                    Креативна Лаба</h3>
+                                <p
+                                    class="text-zinc-400 text-xs leading-relaxed">Призначена
+                                    для <b>СТВОРЕННЯ НОВИХ</b> креативів з
+                                    вашого референсу (персонажа/стилю) під ваші
+                                    конкретні бажання та потреби (інша поза,
+                                    фон, емоція тощо).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-rose-500/10 border border-rose-500/20 p-4 rounded-xl mb-6">
+                        <h3
+                            class="text-[10px] font-black text-rose-400 uppercase mb-2 flex items-center gap-2"><i
+                                data-lucide="alert-triangle"
+                                class="w-3 h-3"></i> Важливе прохання</h3>
+                        <p class="text-rose-200/70 text-xs leading-relaxed">
+                            Сервіс повністю безкоштовний для вас, але кожна дія
+                            використовує платні ресурси API творця сервісу.<br>
+                            🙏 <b>Будь ласка, поважайте ці витрати:</b> не
+                            генеруйте просто так заради розваги, ретельно
+                            перевіряйте налаштування перед запуском і
+                            використовуйте <i>Супер Якість (HQ)</i> лише у
+                            виняткових випадках.
+                        </p>
+                    </div>
+
+                    <button onclick="closeWelcome()"
+                        class="btn-action w-full py-4 rounded-xl font-black text-[11px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                        <span>Все зрозуміло, почати роботу</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- HQ CONFIRM MODAL -->
+            <div id="hqConfirmModal"
+                class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+                <div
+                    class="glass-panel w-full max-w-[350px] p-6 rounded-[2rem] relative border border-rose-500/30 shadow-2xl bg-zinc-950 text-center">
+                    <div
+                        class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center border border-rose-500/30 text-rose-400 mx-auto mb-4">
+                        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
                     </div>
                     <h2
-                        class="text-lg font-black text-white uppercase tracking-wider">Важливе
-                        повідомлення</h2>
+                        class="text-md font-black text-white uppercase tracking-wider mb-2">УВАГА:
+                        ВИТРАТИ API</h2>
+                    <p class="text-zinc-400 text-xs leading-relaxed mb-6">
+                        Функція <b>Супер Якості</b> споживає значно більше
+                        ресурсів та часу. Використовуйте тільки якщо ваш
+                        референс має високу якість і це дійсно
+                        необхідно.<br><br>
+                        Ви точно хочете увімкнути Супер Якість?
+                    </p>
+                    <div class="flex gap-3 justify-center">
+                        <button id="hqConfirmNo"
+                            class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
+                            скасувати</button>
+                        <button id="hqConfirmYes"
+                            class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-rose-600 text-white hover:bg-rose-500 transition-all shadow-lg shadow-rose-500/20">Так,
+                            увімкнути</button>
+                    </div>
                 </div>
-                <p class="text-zinc-300 text-sm leading-relaxed mb-4">
-                    Шановні колеги! Цей сервіс створений для зручності і є
-                    <b>повністю безкоштовним для вас</b>, але кожна генерація,
-                    переклад та аудит тексту використовує платні ресурси
-                    API.<br><br>
-                    🙏 Будь ласка, поважайте витрати творця сервісу:<br>
-                    <span class="text-rose-400 font-bold">•</span> Не "грайтеся"
-                    кнопками просто так.<br>
-                    <span class="text-rose-400 font-bold">•</span> Запускайте
-                    масову генерацію лише коли впевнені у налаштуваннях.<br>
-                    <span class="text-rose-400 font-bold">•</span>
-                    Використовуйте <i>Супер Якість (HQ)</i> лише у виняткових
-                    випадках.
-                </p>
-                <p class="text-zinc-500 text-xs italic">Підходьте до роботи з
-                    розумом. Дякуємо за розуміння!</p>
             </div>
-        </div>
 
-        <!-- HQ CONFIRM MODAL -->
-        <div id="hqConfirmModal"
-            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
-            <div
-                class="glass-panel w-full max-w-[350px] p-6 rounded-[2rem] relative border border-rose-500/30 shadow-2xl bg-zinc-950 text-center">
+            <!-- START CONFIRM MODAL -->
+            <div id="startConfirmModal"
+                class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
                 <div
-                    class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center border border-rose-500/30 text-rose-400 mx-auto mb-4">
-                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-                </div>
-                <h2
-                    class="text-md font-black text-white uppercase tracking-wider mb-2">УВАГА:
-                    ВИТРАТИ API</h2>
-                <p class="text-zinc-400 text-xs leading-relaxed mb-6">
-                    Функція <b>Супер Якості</b> споживає значно більше ресурсів
-                    та часу. Використовуйте тільки якщо ваш референс має високу
-                    якість і це дійсно необхідно.<br><br>
-                    Ви точно хочете увімкнути Супер Якість?
-                </p>
-                <div class="flex gap-3 justify-center">
-                    <button id="hqConfirmNo"
-                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
-                        скасувати</button>
-                    <button id="hqConfirmYes"
-                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-rose-600 text-white hover:bg-rose-500 transition-all shadow-lg shadow-rose-500/20">Так,
-                        увімкнути</button>
+                    class="glass-panel w-full max-w-[400px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950 text-center">
+                    <div
+                        class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400 mx-auto mb-4">
+                        <i data-lucide="check-square" class="w-6 h-6"></i>
+                    </div>
+                    <h2
+                        class="text-md font-black text-white uppercase tracking-wider mb-2">ПЕРЕВІРТЕ
+                        НАЛАШТУВАННЯ</h2>
+                    <p class="text-zinc-400 text-xs leading-relaxed mb-6">
+                        Ви впевнені, що все налаштували правильно? <br>
+                        (Шаблон неймінгу, чекпоінти, мови/концепти). <br><br>
+                        <span class="text-rose-400 font-bold">Генерація витрачає
+                            токени. Краще перевірити двічі, щоб потім не
+                            переробляти 10 разів!</span>
+                    </p>
+                    <div class="flex gap-3 justify-center">
+                        <button id="startConfirmNo"
+                            class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
+                            перевірю ще раз</button>
+                        <button id="startConfirmYes"
+                            class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-indigo-600 text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20">Так,
+                            все чітко</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- START CONFIRM MODAL -->
-        <div id="startConfirmModal"
-            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
-            <div
-                class="glass-panel w-full max-w-[400px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950 text-center">
+            <!-- PROMPT EXAMPLES MODAL -->
+            <div id="promptsModal"
+                class="fixed inset-0 z-[5000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
                 <div
-                    class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400 mx-auto mb-4">
-                    <i data-lucide="check-square" class="w-6 h-6"></i>
-                </div>
-                <h2
-                    class="text-md font-black text-white uppercase tracking-wider mb-2">ПЕРЕВІРТЕ
-                    НАЛАШТУВАННЯ</h2>
-                <p class="text-zinc-400 text-xs leading-relaxed mb-6">
-                    Ви впевнені, що все налаштували правильно? <br>
-                    (Шаблон неймінгу, чекпоінти, мови/концепти). <br><br>
-                    <span class="text-rose-400 font-bold">Генерація витрачає
-                        токени. Краще перевірити двічі, щоб потім не переробляти
-                        10 разів!</span>
-                </p>
-                <div class="flex gap-3 justify-center">
-                    <button id="startConfirmNo"
-                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
-                        перевірю ще раз</button>
-                    <button id="startConfirmYes"
-                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-indigo-600 text-white hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20">Так,
-                        все чітко</button>
+                    class="glass-panel w-full max-w-[600px] p-6 rounded-[2rem] relative border border-indigo-500/30 shadow-2xl bg-zinc-950">
+                    <button onclick="closePrompts()"
+                        class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-all bg-white/5 hover:bg-rose-500/20 p-2 rounded-full border border-white/5 cursor-pointer z-50">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div
+                            class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center border border-indigo-500/30 text-indigo-400">
+                            <i data-lucide="book-open" class="w-5 h-5"></i>
+                        </div>
+                        <h2
+                            class="text-md font-black text-white uppercase tracking-wider">Бібліотека
+                            Промптів</h2>
+                    </div>
+
+                    <!-- Вкладки Промптів для Цеху -->
+                    <div id="prodPromptsList"
+                        class="space-y-3 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2 hidden">
+                        <div
+                            class="p-4 rounded-xl bg-zinc-900 border border-white/5 hover:border-indigo-500/30 transition-all cursor-pointer group"
+                            onclick="applyPrompt('pt1')">
+                            <div class="flex justify-between items-start mb-2">
+                                <span
+                                    class="text-[10px] font-black text-indigo-400 uppercase">Складний
+                                    переклад (Азія/Схід)</span>
+                                <i data-lucide="copy"
+                                    class="w-4 h-4 text-zinc-500 group-hover:text-indigo-400"></i>
+                            </div>
+                            <p id="pt1"
+                                class="text-zinc-400 text-xs italic">Виконай
+                                складне завдання з адаптації тексту. Потрібно
+                                зробити так, щоб ти латинські промокоди, а також
+                                бонуси не перекладав, а решту тексту переклав
+                                правильно, граматично та за змістом. Це має бути
+                                не машинний переклад, а смисловий. Красивий і
+                                зрозумілий для людей, які розмовляють цією
+                                мовою. Без галюцинацій і без помилок.</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-xl bg-zinc-900 border border-white/5 hover:border-indigo-500/30 transition-all cursor-pointer group"
+                            onclick="applyPrompt('pt2')">
+                            <div class="flex justify-between items-start mb-2">
+                                <span
+                                    class="text-[10px] font-black text-indigo-400 uppercase">Точний
+                                    переклад (Без помилок)</span>
+                                <i data-lucide="copy"
+                                    class="w-4 h-4 text-zinc-500 group-hover:text-indigo-400"></i>
+                            </div>
+                            <p id="pt2" class="text-zinc-400 text-xs italic">Не
+                                допускай жодних граматичних помилок. Зроби
+                                точний переклад на потрібну мову. Все має бути
+                                написано граматично правильно і мати ідеальний
+                                зміст. Переклад повинен бути живим та природнім,
+                                не роботизованим.</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-xl bg-zinc-900 border border-white/5 hover:border-indigo-500/30 transition-all cursor-pointer group"
+                            onclick="applyPrompt('pt3')">
+                            <div class="flex justify-between items-start mb-2">
+                                <span
+                                    class="text-[10px] font-black text-emerald-400 uppercase">Свій
+                                    Словник (Точний контроль)</span>
+                                <i data-lucide="copy"
+                                    class="w-4 h-4 text-zinc-500 group-hover:text-emerald-400"></i>
+                            </div>
+                            <p id="pt3"
+                                class="text-zinc-400 text-xs italic whitespace-pre-line">Мені
+                                потрібно, щоб ти зробив переклад цього креативу.
+                                Перекласти потрібно весь текст, КРІМ тексту
+                                «250FS». Переклад має бути якісним та правильним
+                                (словник я надаю нижче). Також він має виглядати
+                                як текст на оригіналі — шрифти, розмір тексту та
+                                перенесення рядків повинні відповідати
+                                оригінальному референсу.
+
+                                Ось мій словник:
+                                Польська: Jak mogę dostać 250 FS? 1) Kliknij
+                                link 2) Dokonaj wpłaty...
+                                Португальська: Como faço para ganhar 250 FS? 1)
+                                Clique no link...
+
+                                Не допускай помилок, заміни тільки текст, усе
+                                інше має бути без змін.</p>
+                        </div>
+                    </div>
+
+                    <!-- Вкладки Промптів для Лаби -->
+                    <div id="labPromptsList"
+                        class="space-y-3 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2 hidden">
+                        <div
+                            class="p-4 rounded-xl bg-zinc-900 border border-white/5 hover:border-rose-500/30 transition-all cursor-pointer group"
+                            onclick="applyPrompt('lt1')">
+                            <div class="flex justify-between items-start mb-2">
+                                <span
+                                    class="text-[10px] font-black text-rose-400 uppercase">Акцент
+                                    на Бонус та CTA</span>
+                                <i data-lucide="copy"
+                                    class="w-4 h-4 text-zinc-500 group-hover:text-rose-400"></i>
+                            </div>
+                            <p id="lt1"
+                                class="text-zinc-400 text-xs italic">Створи
+                                ідеальну копію стилю цього референсу. Знизу
+                                посередині додай яскраву кнопку CTA з текстом
+                                "RECLAMA TU BONO". Текст-уточнення
+                                "*deposita para activar tu bono" розмісти
+                                безпосередньо під головним бонусом "250FS".
+                                Зроби максимальний візуальний акцент на
+                                "250FS".</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-xl bg-zinc-900 border border-white/5 hover:border-rose-500/30 transition-all cursor-pointer group"
+                            onclick="applyPrompt('lt2')">
+                            <div class="flex justify-between items-start mb-2">
+                                <span
+                                    class="text-[10px] font-black text-rose-400 uppercase">Геймплей
+                                    в Смартфоні</span>
+                                <i data-lucide="copy"
+                                    class="w-4 h-4 text-zinc-500 group-hover:text-rose-400"></i>
+                            </div>
+                            <p id="lt2"
+                                class="text-zinc-400 text-xs italic">Перетвори
+                                цей референс на креатив для сторіс. Помісти
+                                оригінальний слот або гру на екран сучасного
+                                смартфону, ніби гравець тримає його в руках. Фон
+                                зроби тематичним і трохи розмитим (ефект боке).
+                                Збережи оригінальний стиль, персонажа і шрифти
+                                на 100%.</p>
+                        </div>
+                        <div
+                            class="p-4 rounded-xl bg-zinc-900 border border-white/5 hover:border-rose-500/30 transition-all cursor-pointer group"
+                            onclick="applyPrompt('lt3')">
+                            <div class="flex justify-between items-start mb-2">
+                                <span
+                                    class="text-[10px] font-black text-emerald-400 uppercase">Динаміка
+                                    та Емоції</span>
+                                <i data-lucide="copy"
+                                    class="w-4 h-4 text-zinc-500 group-hover:text-emerald-400"></i>
+                            </div>
+                            <p id="lt3"
+                                class="text-zinc-400 text-xs italic">Створи дуже
+                                динамічний креатив. Збережи обличчя та одяг
+                                головного персонажа з референсу на 100% (повний
+                                Carbon Copy), але спробуй зробити так, щоб він
+                                виглядав ніби радіє великому виграшу. Додай
+                                навколо нього золоті монети, що яскраво
+                                розлітаються в сторони.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
 
-        <script type="module">
+            <script type="module">
         // 1. CONFIG & STATE
         const getEl = id => document.getElementById(id);
         const setTxt = (id, txt) => { const el = getEl(id); if(el) el.innerText = txt; };
@@ -1251,9 +1510,10 @@
         // Графічні моделі беруться з UI селекторів автоматично
 
         const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, isAborted: false, uiLang: 'uk' };
-        let taskCounter = 1; // Глобальний лічильник для неймінгу
+        let langCounters = {}; // Глобальний об'єкт для розумного неймінгу (зберігає кількість генерацій для кожної мови)
         let pendingHqCheckbox = null; // Змінна для підтвердження HQ
         let pendingTaskType = null; // Змінна для підтвердження запуску
+        let currentPromptTarget = 'prod';
 
         const geoLangs = [
             {n:"English",v:"English"}, {n:"German",v:"German"}, {n:"French",v:"French"}, {n:"Spanish",v:"Spanish"},
@@ -1330,6 +1590,9 @@
                 getEl('stopProcessBtn').classList.add('bg-zinc-600', 'opacity-50');
                 lucide.createIcons();
             };
+
+            // Audit All logic
+            getEl('auditAllBtn').onclick = runAuditAll;
         }
 
         // --- THEME TOGGLE LOGIC ---
@@ -1396,38 +1659,34 @@
             }
         }
 
-        // --- ФУНКЦІЯ ГЕНЕРАЦІЇ ІМЕНІ ФАЙЛУ (NAMING CONVENTION) ---
-        function generateFileName(lang, type, index) {
-            let template = '';
-            if (type === 'prod') {
-                template = getEl('namingTemplateProd').value.trim();
-            } else {
-                template = getEl('namingTemplateLab').value.trim();
-            }
+        // --- ФУНКЦІЯ ГЕНЕРАЦІЇ ІМЕНІ ФАЙЛУ (РОЗУМНИЙ НЕЙМІНГ) ---
+        function generateFileName(task) {
+            let template = task.type === 'prod' ? getEl('namingTemplateProd').value.trim() : getEl('namingTemplateLab').value.trim();
+            let baseLang = task.originalLang.replace(/\s+/g, '_').toLowerCase();
+            let index = task.langIndex;
+            let ext = getEl('fileTypeProd') && getEl('fileTypeProd').value === 'image/jpeg' ? '.jpg' : '.png';
+            if (task.type === 'lab') ext = '.png'; // Lab always PNG
 
-            // Очищаємо пробіли в назві мови/концепту та робимо з маленької літери
-            let cleanLang = lang.replace(/\s+/g, '_').toLowerCase(); 
+            // Якщо 1 картинка - цифру не ставимо. Якщо 2 і більше - ставимо _2, _3
+            let numStr = index > 1 ? `_${index}` : `_1`; 
+            let numInsert = index > 1 ? `_${index}` : ``; 
 
-            // Якщо шаблон порожній, використовуємо нову логіку (повна назва мови з маленької літери)
+            // Якщо шаблон порожній
             if (!template) {
-                return `${cleanLang}_final_${Math.floor(10000+Math.random()*90000)}.png`;
+                return `${baseLang}${numStr}${ext}`;
             }
 
-            // Спробуємо замінити 'english' або перше слово до '_'
-            let newName = template.replace(/english/i, cleanLang);
-            
-            // Якщо слова 'english' не було в шаблоні
-            if(newName === template) {
+            // Якщо є шаблон (english_ggbet_gpt -> english_ggbet_gpt.png або english_2_ggbet_gpt.png)
+            if (/english/i.test(template)) {
+                return template.replace(/english/i, baseLang + numInsert) + ext;
+            } else {
                 let parts = template.split('_');
                 if (parts.length > 1) {
-                    parts[0] = cleanLang;
-                    newName = parts.join('_');
-                } else {
-                    newName = `${cleanLang}_${template}`;
+                    parts[0] = baseLang + numInsert;
+                    return parts.join('_') + ext;
                 }
+                return `${baseLang}${numInsert}_${template}${ext}`;
             }
-
-            return `${newName}_${index}.png`;
         }
 
         // 3. GATE (API VERIFY)
@@ -1466,6 +1725,30 @@
         };
 
         window.closeWelcome = () => getEl('welcomeModal').classList.add('hidden');
+        
+        // PROMPTS MODAL
+        window.openPrompts = (target) => { 
+            currentPromptTarget = target; 
+            
+            // Скриваємо/показуємо списки в залежності від вкладки
+            if(target === 'prod') {
+                getEl('prodPromptsList').classList.remove('hidden');
+                getEl('labPromptsList').classList.add('hidden');
+            } else {
+                getEl('prodPromptsList').classList.add('hidden');
+                getEl('labPromptsList').classList.remove('hidden');
+            }
+            
+            getEl('promptsModal').classList.remove('hidden'); 
+        };
+        window.closePrompts = () => getEl('promptsModal').classList.add('hidden');
+        window.applyPrompt = (promptId) => {
+            const text = getEl(promptId).innerText;
+            const targetEl = currentPromptTarget === 'prod' ? getEl('promptProd') : getEl('promptLab');
+            if(targetEl.value.trim() !== '') targetEl.value += '\n\n' + text;
+            else targetEl.value = text;
+            closePrompts();
+        };
 
         // 4. PRODUCTION PIPELINE
         async function startBatchProduction() {
@@ -1503,6 +1786,9 @@
             stopBtn.classList.add('hidden');
             validate();
             setLiveModel("", false);
+            
+            // Show Audit All button if tasks exist
+            if(state.tasks.length > 0) getEl('auditAllBtn').classList.remove('hidden');
         }
 
         async function runTaskProcess(lang, id, forceText = null) {
@@ -1512,20 +1798,28 @@
 
             try {
                 // === ЕТАП 1: РОЗУМНИЙ ПЕРЕКЛАД ===
-                // Якщо ми викликаємо функцію з forceText (після аудиту), ми НЕ робимо запит до API перекладу. Економимо час і гроші!
                 let translatedText = forceText;
                 
                 if (!translatedText) {
-                    const fsRule = getEl('optFS').checked ? "5. Keep 'FS', 'Free Spins', and 'Spins' strictly English." : "";
-                    const codeRule = getEl('optCodes').checked ? "6. Do NOT translate promotional codes (e.g. VIP100, BONUS)." : "";
+                    const fsRule = getEl('optFS').checked ? "5. ALLOWED IN ENGLISH: The exact abbreviation 'FS'. CRITICAL: The full phrases 'Free Spins', 'Spins', or 'Free' MUST BE TRANSLATED into " + lang + "." : "";
+                    const codeRule = getEl('optCodes').checked ? "6. ALLOWED IN ENGLISH: Promotional codes (e.g. VIP100, BONUS)." : "";
+                    const userPrompt = getEl('promptProd').value.trim();
                     
-                    // ПОВЕРНЕННЯ ДО СТАРОГО НАДІЙНОГО ПРОМПТУ ПЕРЕКЛАДУ (Без iGaming-фантазій)
-                    const translatePrompt = `Role: Professional Native Translator. Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
-                    STRICT RULES: 
-                    1. Return ONLY the final translated string. No conversational filler or explanations.
-                    2. Provide a correct, natural, semantic translation into ${lang}. Ensure there are absolutely no grammatical or spelling errors.
-                    3. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
-                    4. Keep the exact same formatting, line breaks, and visual layout of text blocks as the original reference.
+                    // Відновлений прямий промпт (без iGaming-фантазій), але з розумним читанням словника користувача
+                    const translatePrompt = `Role: Professional Native Translator. Target Language: ${lang}.
+                    
+                    USER INSTRUCTIONS & CUSTOM DICTIONARY:
+                    """
+                    ${userPrompt}
+                    """
+                    
+                    CRITICAL TASK: 
+                    1. Read the USER INSTRUCTIONS above. If the user provided an exact translation specifically for the language "${lang}", you MUST use their provided translation exactly as written and return ONLY that text.
+                    2. If no specific translation is provided for "${lang}", extract ALL text from the original image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
+                    3. Return ONLY the final translated string. No conversational filler or explanations.
+                    4. Provide a correct, natural, semantic translation. Ensure there are absolutely no grammatical or spelling errors.
+                    5. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
+                    6. Keep the exact same formatting, line breaks, and visual layout of text blocks as the original reference.
                     ${fsRule}
                     ${codeRule}`;
 
@@ -1542,10 +1836,10 @@
                 const ratio = getEl('resSelector').value;
                 const outpaint = ratio !== 'original' ? ` Adjust canvas to exactly ${ratio} and fill outpainted margins seamlessly.` : "";
                 
-                // NEW: SUPER HQ Trigger (Улучшено для поддержки любых форматов без конфликта пропорций)
+                // SUPER HQ Trigger
                 const hqProd = getEl('optSuperHQ').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
                 
-                // Змішаний промпт: старий стиль "MISSION + DATA", але з жорстким правилом не домальовувати
+                // Рендер: Ігноруємо переклади для інших мов, що залишились у великому промпті користувача
                 const renderPrompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.
                 TEXT TO INTEGRATE: "${translatedText}".
                 STRICT RULES: 
@@ -1553,7 +1847,12 @@
                 2. NO HALLUCINATIONS: DO NOT add, draw, or invent any new objects, characters, or text elements. Just replace the text.
                 3. GHOSTING PROTECTION: Clone background textures seamlessly over old text before rendering new text. 
                 ${logo} ${replacePromoRule} ${hqProd}
-                FORMAT: ${ratio}.${outpaint}`;
+                FORMAT: ${ratio}.${outpaint}
+                
+                EXTRA STYLE INSTRUCTIONS (IGNORE ANY TRANSLATION LISTS FOR OTHER LANGUAGES HERE, FOCUS ONLY ON VISUAL STYLE):
+                """
+                ${getEl('promptProd').value.trim()}
+                """`;
 
                 const resB64 = await callGemini(modelRender, renderPrompt, state.masterB64, true, getEl('fileTypeProd').value);
                 const finalUrl = `data:${getEl('fileTypeProd').value};base64,${resB64}`;
@@ -1564,9 +1863,12 @@
                     // Перезаписываем картинку старой задачи на новую в массиве
                     state.tasks[existingTaskIndex].b64 = resB64;
                 } else {
-                    // Новая задача
-                    const currentIndex = taskCounter++;
-                    state.tasks.push({ id, lang, b64: resB64, type: 'prod', index: currentIndex });
+                    // Новая задача + Логіка розумного неймінгу
+                    let cleanLang = lang.replace(/\s+/g, '_').toLowerCase(); 
+                    langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
+                    let langIndex = langCounters[cleanLang];
+
+                    state.tasks.push({ id, lang, b64: resB64, type: 'prod', originalLang: lang, langIndex: langIndex });
                 }
                 
                 finalizeTaskUI(id, finalUrl, lang, 'prod');
@@ -1592,11 +1894,16 @@
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
 
+            // ROUND ROBIN LOGIC: Cycle through references correctly
             for(let i=1; i<=count; i++){
                 if (state.isAborted) break;
                 const id = `lab-${Math.random().toString(36).substr(2, 7)}`;
                 createTaskUI(`Concept ${i}`, id);
-                await runLabPipeline(id, i);
+                
+                const refIndex = (i - 1) % state.labRefs.length;
+                const selectedRef = state.labRefs[refIndex];
+
+                await runLabPipeline(id, i, selectedRef);
                 if (state.isAborted) break;
                 await new Promise(r => setTimeout(r, 4000));
             }
@@ -1608,19 +1915,19 @@
             setLiveModel("", false);
         }
 
-        async function runLabPipeline(id, num) {
+        async function runLabPipeline(id, num, refB64) {
             updateTaskUI(id, 20, "Стилістичний аналіз...");
             setLiveModel(MODEL_VISION, true);
             const labModel = getEl('modelSelectorLab').value;
 
             try {
-                // STAGE 1: Analysis (Flash 3.1 Vision) - Focus on EXACT Character details
-                const analysisPrompt = `[MANDATORY OVERRIDE] You are an Elite Art Director. Analyze the reference images. 
+                // STAGE 1: Analysis (Flash 3.1 Vision) - Focus on EXACT Character details for a SINGLE reference
+                const analysisPrompt = `[MANDATORY OVERRIDE] You are an Elite Art Director. Analyze this single reference image. 
                 Identify the MAIN CHARACTER(S), their exact clothing, facial features, and art style. 
                 Write a highly detailed technical prompt describing this character so another AI can draw this EXACT SAME PERSON/MASCOT as a carbon copy. Do not include text descriptions.`;
                 
                 const analysisPayload = {
-                    contents: [{ parts: [{ text: analysisPrompt }, ...state.labRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }))] }]
+                    contents: [{ parts: [{ text: analysisPrompt }, { inlineData: { mimeType: "image/png", data: refB64 } }] }]
                 };
                 const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -1650,14 +1957,16 @@
                     case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or gaming objects unless they are strictly present in the reference images."; break;
                 }
                 
-                // NEW: SUPER HQ Trigger Lab (Улучшено для поддержки любых форматов без конфликта пропорций)
+                // SUPER HQ Trigger Lab
                 const hqLab = getEl('optSuperHQLab').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
 
                 const finalPrompt = `
                 [MANDATORY OVERRIDE: EXACT CHARACTER CLONING]
                 ACT AS AN ELITE AI IMAGE GENERATOR. GENERATE A PREMIUM MOBILE GAMING CREATIVE VARIATION #${num} (Session ID: ${id}).
-                CRITICAL INSTRUCTION: You MUST extract the EXACT main character from the provided reference images. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
-                DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
+                CRITICAL INSTRUCTION 1: You MUST extract the EXACT main character from the provided reference image. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
+                CRITICAL INSTRUCTION 2: DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
+                CRITICAL INSTRUCTION 3: OUTPUT EXACTLY ONE SINGLE IMAGE. DO NOT CREATE A GRID, MULTIPLE PANELS, OR COLLAGES.
+                
                 CHARACTER GUIDE: ${techPrompt}
                 ${extraStyles}
                 ${gamblePrompt}
@@ -1669,7 +1978,7 @@
                 EXTRA PROMPT: ${getEl('promptLab').value}`;
 
                 const payload = { 
-                    contents: [{ parts: [{ text: finalPrompt }, ...state.labRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }))] }], 
+                    contents: [{ parts: [{ text: finalPrompt }, { inlineData: { mimeType: "image/png", data: refB64 } }] }], 
                     generationConfig: { responseModalities: ["IMAGE"] } 
                 };
 
@@ -1686,16 +1995,22 @@
                 if (existingTaskIndex !== -1) {
                     state.tasks[existingTaskIndex].b64 = b64;
                 } else {
-                    const currentIndex = taskCounter++;
-                    state.tasks.push({ id, lang: `Concept_${num}`, b64: b64, type: 'lab', index: currentIndex });
+                    let cleanLang = `concept`;
+                    langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
+                    let langIndex = langCounters[cleanLang];
+
+                    // Сохраняем refB64 чтобы при Redo использовать его снова
+                    state.tasks.push({ id, lang: `Concept_${num}`, b64: b64, type: 'lab', originalLang: 'concept', langIndex: langIndex, refB64: refB64 });
                 }
 
                 finalizeTaskUI(id, url, `Concept ${num}`, 'lab');
-            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num); }
+            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); }
         }
 
         // 6. SYNTAX AUDIT (ОНОВЛЕНО: ТЕПЕР ПЕРЕВІРЯЄ І МОВУ, І ГРАМАТИКУ)
-        async function runAudit(id, url, lang) {
+        async function runAudit(id, url, lang, type = 'prod') {
+            if(type === 'lab') return; // Лаба не потребує аудиту граматики
+            
             updateTaskUI(id, 20, "Глибока перевірка...");
             setLiveModel(MODEL_VISION, true);
             
@@ -1704,15 +2019,23 @@
             btn.className = "audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 transition-all animate-pulse";
             
             try {
-                // ЖОРСТКИЙ ПРОМПТ АУДИТУ: Тепер він карає за залишки англійської мови на картинці
+                // Перевірка налаштувань користувача для розумного аудиту
+                const isFSChecked = getEl('optFS') && getEl('optFS').checked;
+                const fsAuditRule = isFSChecked ? `The exact abbreviation 'FS' is ALLOWED to be in English. However, full words like 'Free Spins', 'Spins' or 'Free' MUST be translated to ${lang}. If 'Free Spins' is left in English, it is a FATAL ERROR.` : `ALL words including 'Free Spins' and 'FS' MUST be translated to ${lang}.`;
+                const userPrompt = getEl('promptProd').value.trim();
+
+                // ЖОРСТКИЙ ПРОМПТ АУДИТУ: Тепер він карає за залишки англійської мови на картинці і знає ваші налаштування
                 const prompt = `Act as a strict native ${lang} proofreader. Check ALL the text in the image.
                 CRITICAL RULES:
-                1. EVERY sentence, question, answer, and button MUST be translated to ${lang}. 
-                2. If ANY part of the main conversational text (e.g., questions like "Why should I install", answers, calls to action) is left in English or a different language, THIS IS A FATAL ERROR.
-                3. Ignore ONLY brand names and specific promo codes (like VIP, BONUS, 20FSP).
-                4. Check for grammatical and spelling errors in the ${lang} text.
-                If the entire text is fully and correctly translated to ${lang} with NO leftover English text, return JSON: {"ok": true, "fix": ""}.
-                If there is ANY untranslated text or grammar error, return JSON: {"ok": false, "fix": "Write the FULL, completely translated and corrected text here in ${lang}"}.
+                1. EVERY sentence, question, answer, call-to-action, and button MUST be translated to ${lang}. 
+                2. If ANY part of the conversational text (e.g., questions like "Why should I install", answers, buttons) is left in English or a different language, THIS IS A FATAL ERROR.
+                3. ${fsAuditRule}
+                4. Ignore brand names and promotional codes (like VIP, BONUS, 20FSP) - they are allowed to remain untouched.
+                5. Check for grammatical and spelling errors in the ${lang} text. Do not punish for missing punctuation like dots at the end of short phrases.
+                6. Keep in mind the user provided these custom instructions: "${userPrompt}". Ensure they were followed.
+                
+                If the ENTIRE text is fully and correctly translated to ${lang} with NO leftover English text (except allowed promos/brands/FS), return JSON: {"ok": true, "fix": ""}.
+                If there is ANY untranslated text or grammar error, return JSON: {"ok": false, "fix": "Write the FULL, completely translated and grammatically perfect text here in ${lang}. Ensure everything is translated according to the rules."}.
                 RETURN ONLY VALID JSON.`;
                 
                 const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
@@ -1741,6 +2064,28 @@
             }
             setLiveModel("", false);
         }
+
+        // BATCH AUDIT ALL
+        window.runAuditAll = async () => {
+            if(state.isProcessing || state.tasks.length === 0) return;
+            state.isProcessing = true;
+            getEl('auditAllBtn').innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> ПЕРЕВІРКА...';
+            getEl('auditAllBtn').classList.add('opacity-50', 'pointer-events-none');
+            
+            for(const task of state.tasks) {
+                if(task.type === 'prod') {
+                    const url = `data:image/png;base64,${task.b64}`;
+                    await runAudit(task.id, url, task.lang, task.type);
+                    await new Promise(r => setTimeout(r, 2000)); // Затримка для API
+                }
+            }
+            
+            state.isProcessing = false;
+            getEl('auditAllBtn').innerHTML = '<i data-lucide="check-square-2" class="w-4 h-4"></i> АУДИТ ВСІХ';
+            getEl('auditAllBtn').classList.remove('opacity-50', 'pointer-events-none');
+            lucide.createIcons();
+            validate();
+        };
 
         // 7. SHARED CORE & UI CONTROLS
         async function callGemini(model, text, b64, isImg = false, mime = "image/png") {
@@ -1789,9 +2134,10 @@
             getEl(id)?.remove();
             // Жестко очищаем из памяти. После этого скачивание ZIP точно не захватит удаленную картинку
             state.tasks = state.tasks.filter(t => t.id !== id);
-            // Если после удаления корзина пуста, прячем кнопку ZIP
+            // Если после удаления корзина пуста, прячем кнопки
             if(state.tasks.length === 0) {
                 getEl('downloadZipBtn').classList.add('hidden');
+                getEl('auditAllBtn').classList.add('hidden');
             }
             validate();
         };
@@ -1824,19 +2170,22 @@
             el.querySelector('.dl-btn').onclick = () => { 
                 const task = state.tasks.find(t => t.id === id);
                 if (!task) return;
-                const fileName = generateFileName(lang, type, task.index);
+                const fileName = generateFileName(task);
                 const a = document.createElement('a'); a.href = url; a.download = fileName; a.click(); 
             };
             
             if(type === 'prod') {
-                el.querySelector('.audit-btn').onclick = () => runAudit(id, url, lang);
+                el.querySelector('.audit-btn').onclick = () => runAudit(id, url, lang, type);
                 redoBtn.onclick = () => {
                     const fix = el.dataset.fix || null;
                     runTaskProcess(lang, id, fix);
                 };
             } else {
                 el.querySelector('.audit-btn').classList.add('hidden'); // No audit for lab
-                redoBtn.onclick = () => runLabPipeline(id, lang.split(' ')[1]); // Pass the number
+                redoBtn.onclick = () => {
+                    const task = state.tasks.find(t => t.id === id);
+                    runLabPipeline(id, lang.split(' ')[1], task.refB64);
+                };
             }
             
             getEl('downloadZipBtn').classList.remove('hidden');
@@ -1873,7 +2222,7 @@
                     el.querySelector('.progress-bar').style.width = `0%`;
                     
                     if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
-                    else if(type === 'lab') runLabPipeline(id, langOrNum);
+                    else if(type === 'lab') runLabPipeline(id, langOrNum, extraData);
                 };
                 lucide.createIcons();
             }
@@ -1883,7 +2232,7 @@
         async function downloadAllZip() {
             const zip = new JSZip(); const folder = zip.folder("Studio_Export");
             state.tasks.forEach(t => {
-                const fileName = generateFileName(t.lang, t.type, t.index);
+                const fileName = generateFileName(t);
                 folder.file(fileName, t.b64, {base64: true});
             });
             const content = await zip.generateAsync({type:"blob"});
@@ -1899,10 +2248,12 @@
                 </div>`;
             state.tasks = []; 
             state.labRefs = [];
+            langCounters = {}; // Очищаємо лічильники для неймінгу
             taskCounter = 1; // Скидаємо лічильник
             updateLabPreviews();
             lucide.createIcons(); 
             getEl('downloadZipBtn').classList.add('hidden');
+            getEl('auditAllBtn').classList.add('hidden');
             validate();
         };
 
@@ -1982,5 +2333,5 @@
             star.style.setProperty('--d', (Math.random() * 3 + 2) + 's'); space.appendChild(star);
         }
     </script>
-    </body>
-</html>
+        </body>
+    </html>
