@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V2.0</title>
+        <title>UA Studio | LingoCanvas Pro Beta V2.2</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -30,6 +30,7 @@
             --emerald: #10b981;
             --rose: #f43f5e;
             --cyan: #06b6d4;
+            --amber: #f59e0b;
         }
 
         /* ЗБІЛЬШЕНО БАЗОВИЙ ШРИФТ ДЛЯ МАСШТАБУВАННЯ ВСЬОГО UI (+11.5%) */
@@ -64,6 +65,7 @@
         html.light .text-emerald-400 { color: #059669 !important; }
         html.light .text-rose-400 { color: #e11d48 !important; }
         html.light .text-indigo-400 { color: #4f46e5 !important; }
+        html.light .text-amber-400 { color: #d97706 !important; }
 
         html.light .bg-zinc-950, html.light .bg-zinc-900, html.light .bg-black\/40, html.light .bg-black\/30, html.light .bg-black\/20 { 
             background-color: rgba(241, 245, 249, 0.9) !important; 
@@ -187,11 +189,17 @@
             background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); font-weight: 800; color: white; 
         }
+        .btn-action.btn-amber {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
         .btn-action:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(99,102,241, 0.3); }
+        .btn-action.btn-amber:hover:not(:disabled) { box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3); }
         .btn-action:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
 
         .tab-btn { transition: all 0.3s ease; border-bottom: 2px solid transparent; opacity: 0.4; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.65rem; padding: 0.4rem 1rem; }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); opacity: 1; transform: translateY(-1px); }
+        
+        .tab-btn-amber.active { color: var(--amber); border-bottom-color: var(--amber); }
 
         .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.05); transition: all 0.4s ease; min-height: 100px; position: relative; background: rgba(24, 24, 27, 0.4); border-radius: 1.2rem; }
         .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); }
@@ -302,7 +310,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.0
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.2
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -350,7 +358,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.0
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.2
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -365,6 +373,10 @@
                         <button onclick="switchTab('lab')" id="tabLab"
                             class="tab-btn rounded-lg opacity-40">Креативна
                             Лаба</button>
+                        <button onclick="switchTab('retouch')" id="tabRetouch"
+                            class="tab-btn tab-btn-amber rounded-lg opacity-40 flex items-center gap-1"><i
+                                data-lucide="scissors" class="w-3 h-3"></i>
+                            Хірургічна Ретуш</button>
                     </nav>
                     <button onclick="toggleTheme()"
                         class="p-2 bg-zinc-900/50 hover:bg-indigo-500/20 text-zinc-500 hover:text-indigo-500 rounded-xl border border-white/5 transition-all"
@@ -383,428 +395,145 @@
                 class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0 grid-studio z-10">
                 <!-- LEFT COLUMN: CONTROLS -->
                 <div id="settingsPanel"
-                    class="lg:col-span-5 space-y-6 overflow-y-auto custom-scrollbar pr-2 pb-20">
+                    class="lg:col-span-5 flex flex-col overflow-y-auto custom-scrollbar pr-2 pb-6">
 
-                    <!-- ====== PRODUCTION TAB ====== -->
-                    <div id="productionControls"
-                        class="space-y-6 animate__animated animate__fadeIn">
-                        <section
-                            class="glass-panel rounded-[2rem] p-6 space-y-4">
-                            <div class="flex items-center justify-between">
+                    <div class="space-y-6 flex-1">
+                        <!-- ====== PRODUCTION TAB ====== -->
+                        <div id="productionControls"
+                            class="space-y-6 animate__animated animate__fadeIn">
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="image"
+                                            class="w-3.5 h-3.5 text-indigo-500"></i>
+                                        1. МАСТЕР-ДЖЕРЕЛО</h2>
+                                    <div
+                                        class="tooltip-container tooltip-left tooltip-down z-50">
+                                        <i data-lucide="help-circle"
+                                            class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Завантажте
+                                            оригінальний креатив для адаптації.
+                                            Система використає найновішу модель
+                                            2026
+                                            року для аналізу та рендеру.</span>
+                                    </div>
+                                </div>
+                                <div id="dropZoneProd"
+                                    class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-white/10 hover:border-indigo-500/40">
+                                    <input type="file" id="fileInputProd"
+                                        class="hidden" accept="image/*">
+                                    <div id="previewProd"
+                                        class="hidden h-full w-full flex items-center justify-center"></div>
+                                    <div id="placeholderProd"
+                                        class="text-center">
+                                        <i data-lucide="upload"
+                                            class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
+                                        <p
+                                            class="text-zinc-500 font-bold uppercase text-[9px]">Закинь
+                                            вихідний файл</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4">
                                 <h2
                                     class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
-                                        data-lucide="image"
+                                        data-lucide="shield-check"
                                         class="w-3.5 h-3.5 text-indigo-500"></i>
-                                    1. МАСТЕР-ДЖЕРЕЛО</h2>
-                                <div
-                                    class="tooltip-container tooltip-left tooltip-down z-50">
-                                    <i data-lucide="help-circle"
-                                        class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
-                                    <span class="tooltip-text">Завантажте
-                                        оригінальний креатив для адаптації.
-                                        Система використає найновішу модель 2026
-                                        року для аналізу та рендеру.</span>
-                                </div>
-                            </div>
-                            <div id="dropZoneProd"
-                                class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-white/10 hover:border-indigo-500/40">
-                                <input type="file" id="fileInputProd"
-                                    class="hidden" accept="image/*">
-                                <div id="previewProd"
-                                    class="hidden h-full w-full flex items-center justify-center"></div>
-                                <div id="placeholderProd" class="text-center">
-                                    <i data-lucide="upload"
-                                        class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
-                                    <p
-                                        class="text-zinc-500 font-bold uppercase text-[9px]">Закинь
-                                        вихідний файл</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section
-                            class="glass-panel rounded-[2rem] p-6 space-y-4">
-                            <h2
-                                class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
-                                    data-lucide="shield-check"
-                                    class="w-3.5 h-3.5 text-indigo-500"></i> 2.
-                                SMART CHECKPOINTS</h2>
-                            <div class="grid grid-cols-2 gap-2.5">
-                                <label
-                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
-                                    <div
-                                        class="flex items-center gap-3 cursor-pointer">
-                                        <input type="checkbox" id="optFS"
-                                            class="custom-check" checked>
-                                        <span
-                                            class="text-[8px] font-black text-zinc-500 uppercase">Лишати
-                                            'FS'</span>
-                                    </div>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Зберігає
-                                            англійську абревіатуру "FS". Але
-                                            повні фрази "Free Spins" будуть
-                                            ПЕРЕКЛАДЕНІ.</span>
-                                    </div>
-                                </label>
-
-                                <label
-                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
-                                    <div
-                                        class="flex items-center gap-3 cursor-pointer">
-                                        <input type="checkbox" id="optCodes"
-                                            class="custom-check" checked>
-                                        <span
-                                            class="text-[8px] font-black text-zinc-500 uppercase">Сховати
-                                            Промо</span>
-                                    </div>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Захищає
-                                            промокоди (наприклад: WIN2026,
-                                            BONUS500) від перекладу іншими
-                                            мовами. Вони залишаться
-                                            латиницею.</span>
-                                    </div>
-                                </label>
-
-                                <label
-                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
-                                    <div
-                                        class="flex items-center gap-3 cursor-pointer">
-                                        <input type="checkbox" id="optLogo"
-                                            class="custom-check" checked>
-                                        <span
-                                            class="text-[8px] font-black text-zinc-500 uppercase">Захист
-                                            Лого</span>
-                                    </div>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">ІІ шукає
-                                            брендові елементи та логотипи на
-                                            картинці і блокує будь-які зміни у
-                                            цих зонах під час рендеру.</span>
-                                    </div>
-                                </label>
-
-                                <div
-                                    class="p-3 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-center">
-                                    <span
-                                        class="text-[8px] text-zinc-600 block mb-1 uppercase font-black">Формат
-                                        виводу</span>
-                                    <select id="fileTypeProd"
-                                        class="bg-transparent border-none p-0 text-[9px] font-black text-indigo-400 cursor-pointer">
-                                        <option value="image/png">PNG Studio
-                                            HQ</option>
-                                        <option value="image/jpeg">JPEG Web
-                                            Optimized</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- NEW: SUPER HQ (PROD) -->
-                            <div class="pt-2">
-                                <label
-                                    class="flex items-center justify-between p-3 rounded-xl bg-indigo-950/20 border border-indigo-500/20 cursor-pointer hover:bg-indigo-900/40 transition-all">
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox" id="optSuperHQ"
-                                            class="custom-check hq-checkbox">
-                                        <span
-                                            class="text-[9px] font-black text-indigo-400 uppercase">Супер
-                                            Якість (HQ 2K+)</span>
-                                    </div>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-4 h-4 text-indigo-400 hover:text-indigo-300"></i>
-                                        <span class="tooltip-text">Збільшує
-                                            кількість пікселів та деталізацію
-                                            (від 2048x2048). Робить картинку
-                                            максимально чіткою. <b>Оригінал
-                                                (референс) також має бути
-                                                високої якості. ГЕНЕРУВАТИ
-                                                ТІЛЬКИ У ВИНЯТКОВИХ ВИПАДКАХ.
-                                                Поважайте витрати творця
-                                                сервісу!</b></span>
-                                    </div>
-                                </label>
-                            </div>
-
-                            <!-- ОПЦИОНАЛЬНАЯ ЗАМЕНА ПРОМОКОДА -->
-                            <div class="pt-2">
-                                <div
-                                    class="flex items-center justify-between mb-1">
+                                    2.
+                                    SMART CHECKPOINTS</h2>
+                                <div class="grid grid-cols-2 gap-2.5">
                                     <label
-                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Новий
-                                        Промокод (Опціонально)</label>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Якщо хочете
-                                            замінити старий промокод на новий
-                                            (напр. VIP2026), впишіть його тут.
-                                            ІІ автоматично знайде старий код и
-                                            замінить його.</span>
-                                    </div>
-                                </div>
-                                <input type="text" id="customPromoProd"
-                                    placeholder="Залишити порожнім для збереження старого..."
-                                    class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3 pt-2">
-                                <div
-                                    class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
-                                    <div
-                                        class="flex items-center justify-between mb-1">
-                                        <span
-                                            class="text-[8px] text-zinc-600 uppercase font-black">Розмір
-                                            (Ratio)</span>
+                                        class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                        <div
+                                            class="flex items-center gap-3 cursor-pointer">
+                                            <input type="checkbox" id="optFS"
+                                                class="custom-check" checked>
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 uppercase">Лишати
+                                                'FS'</span>
+                                        </div>
                                         <div
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">Якщо
-                                                вибрано розмір, відмінний від
-                                                оригіналу, ІІ домалює (outpaint)
-                                                фон, зберігаючи композицію в
-                                                центрі.</span>
+                                            <span class="tooltip-text">Зберігає
+                                                англійську абревіатуру "FS". Але
+                                                повні фрази "Free Spins" будуть
+                                                ПЕРЕКЛАДЕНІ.</span>
                                         </div>
-                                    </div>
-                                    <select id="resSelector"
-                                        class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
-                                        <option value="original">Original
-                                            (Оригінал)</option>
-                                        <option value="1080x1080">1:1 Square
-                                            (Пост)</option>
-                                        <option value="1080x1350">4:5
-                                            Portrait</option>
-                                        <option value="1080x1920">9:16
-                                            Story</option>
-                                    </select>
-                                </div>
-                                <div
-                                    class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
-                                    <div
-                                        class="flex items-center justify-between mb-1">
-                                        <span
-                                            class="text-[8px] text-zinc-600 uppercase font-black">Модель
-                                            ІІ (Малювання)</span>
+                                    </label>
+
+                                    <label
+                                        class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                        <div
+                                            class="flex items-center gap-3 cursor-pointer">
+                                            <input type="checkbox" id="optCodes"
+                                                class="custom-check" checked>
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 uppercase">Сховати
+                                                Промо</span>
+                                        </div>
                                         <div
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">Тільки
-                                                недорогі моделі. Flash 2
-                                                рекомендується для масових
-                                                завдань.</span>
+                                            <span class="tooltip-text">Захищає
+                                                промокоди (наприклад: WIN2026,
+                                                BONUS500) від перекладу іншими
+                                                мовами. Вони залишаться
+                                                латиницею.</span>
                                         </div>
-                                    </div>
-                                    <select id="modelSelectorProd"
-                                        class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
-                                        <option
-                                            value="gemini-3.1-flash-image-preview"
-                                            selected>Nano Banana 2
-                                            (Flash)</option>
-                                        <option
-                                            value="gemini-2.5-flash-image">Nano
-                                            Banana (Standard)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </section>
+                                    </label>
 
-                        <section
-                            class="glass-panel rounded-[2rem] p-6 space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h2
-                                    class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
-                                        data-lucide="globe"
-                                        class="w-3.5 h-3.5 text-indigo-500"></i>
-                                    3. ТАРГЕТ ГЕО (ЄВРОПА)</h2>
-                                <div class="tooltip-container tooltip-left">
-                                    <i data-lucide="help-circle"
-                                        class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
-                                    <span class="tooltip-text">Оберіть потрібні
-                                        країни. Кожна країна буде згенерована
-                                        окремим ізольованим запитом до
-                                        API.</span>
-                                </div>
-                            </div>
-                            <div id="langGrid"
-                                class="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[160px] overflow-y-auto pr-1 custom-scrollbar"></div>
-
-                            <div class="pt-2">
-                                <div
-                                    class="flex items-center justify-between mb-1">
                                     <label
-                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Свої
-                                        Мови (через кому)</label>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Якщо мови
-                                            немає в списку, введіть її
-                                            англійською через кому. Приклад:
-                                            Arabic, Hindi, Japanese</span>
-                                    </div>
-                                </div>
-                                <input type="text" id="customLangs"
-                                    placeholder="Напр: Arabic, Thai, Japan..."
-                                    class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
-                            </div>
-
-                            <!-- NEW: NAMING TEMPLATE -->
-                            <div class="pt-2">
-                                <div
-                                    class="flex items-center justify-between mb-1">
-                                    <label
-                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Шаблон
-                                        Неймінгу (Опціонально)</label>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">
-                                            Слово до першого '_' буде замінено
-                                            на мову. Цифра додасться автоматично
-                                            після мови.<br><br>
-                                            <b>Приклад із
-                                                шаблоном:</b><br>english_ggbet.png<br>
-                                            <b>Якщо поле пусте (за
-                                                замовчуванням):</b><br>english_1.png,
-                                            english_2.png
-                                        </span>
-                                    </div>
-                                </div>
-                                <input type="text" id="namingTemplateProd"
-                                    placeholder="Напр: english_ggbet_gpt"
-                                    class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
-                            </div>
-
-                            <div id="selectedSummary"
-                                class="p-3 rounded-xl bg-black/40 border border-white/5 min-h-[40px] flex flex-wrap gap-1.5 items-center">
-                                <span
-                                    class="text-[8px] text-zinc-600 font-black uppercase mr-1">Вибрано:</span>
-                                <div id="geoChips"
-                                    class="flex flex-wrap gap-1.5"></div>
-                            </div>
-
-                            <div class="pt-2">
-                                <div
-                                    class="flex items-center justify-between mb-1 mt-2">
-                                    <label
-                                        class="text-[8px] font-black text-zinc-600 uppercase ml-1">Специфічні
-                                        інструкції (Або свій словник) - <span
-                                            class="text-emerald-400">ОПЦІОНАЛЬНО</span></label>
-                                    <div class="flex items-center gap-2">
-                                        <button onclick="openPrompts('prod')"
-                                            class="text-[9px] font-black text-indigo-400 hover:text-indigo-300 uppercase flex items-center gap-1 bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 transition-all"><i
-                                                data-lucide="zap"
-                                                class="w-3 h-3"></i>
-                                            Шаблони</button>
+                                        class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                        <div
+                                            class="flex items-center gap-3 cursor-pointer">
+                                            <input type="checkbox" id="optLogo"
+                                                class="custom-check" checked>
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 uppercase">Захист
+                                                Лого</span>
+                                        </div>
                                         <div
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
-                                                class="w-4 h-4 text-indigo-400 animate-pulse cursor-help"></i>
-                                            <span class="tooltip-text">Натисніть
-                                                «Шаблони», щоб відкрити
-                                                бібліотеку готових перевірених
-                                                промптів. Скопіюйте потрібний,
-                                                вставте сюди, замініть текст на
-                                                свій і запускайте! Це заощадить
-                                                ваш час.</span>
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">ІІ шукає
+                                                брендові елементи та логотипи на
+                                                картинці і блокує будь-які зміни
+                                                у
+                                                цих зонах під час
+                                                рендеру.</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <textarea id="promptProd" rows="4"
-                                    placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Впишіть сюди побажання, або вставте свій словник перекладів (напр. Polish: Jak mogę dostac... Portuguese: Como faço...) тільки якщо це необхідно."
-                                    class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
-                            </div>
-                        </section>
+                                    </label>
 
-                        <button id="processProdBtn" disabled
-                            class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
-                            <i data-lucide="zap" class="w-4 h-4"></i> ЗАПУСТИТИ
-                            ЦЕХ
-                        </button>
-                    </div>
-
-                    <!-- ====== LAB TAB (TRUE GENERATION & STRICT CHARACTER COPY) ====== -->
-                    <div id="labControls"
-                        class="hidden space-y-6 animate__animated animate__fadeIn">
-                        <section
-                            class="glass-panel rounded-[2rem] p-6 space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h2
-                                    class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
-                                        data-lucide="layers"
-                                        class="w-3.5 h-3.5 text-indigo-500"></i>
-                                    1. РЕФЕРЕНСИ СТИЛЮ (MAX 3)</h2>
-                                <div
-                                    class="tooltip-container tooltip-left tooltip-down z-50">
-                                    <i data-lucide="help-circle"
-                                        class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
-                                    <span class="tooltip-text">ІІ максимально
-                                        точно скопіює ПЕРСОНАЖА зі скріншотів і
-                                        перенесе його в нову композицію (Carbon
-                                        Copy) без зміни обличчя та одягу.</span>
-                                </div>
-                            </div>
-                            <div id="dropZoneLab"
-                                class="drop-zone p-6 text-center cursor-pointer group border-white/10 hover:border-indigo-500/40">
-                                <input type="file" id="fileInputLab"
-                                    class="hidden" accept="image/*" multiple>
-                                <div id="previewLab"
-                                    class="flex gap-4 h-full w-full items-center justify-center flex-wrap"></div>
-                                <div id="placeholderLab" class="text-center">
-                                    <i data-lucide="copy"
-                                        class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
-                                    <p
-                                        class="text-zinc-500 font-bold uppercase text-[9px]">Завантаж
-                                        скріни рума / персонажів</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section
-                            class="glass-panel rounded-[2rem] p-6 space-y-4">
-                            <h2
-                                class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
-                                    data-lucide="zap"
-                                    class="w-3.5 h-3.5 text-indigo-500"></i> 2.
-                                КОНЦЕПТ ТА БОНУСИ</h2>
-                            <div class="space-y-4">
-                                <label
-                                    class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 cursor-pointer">
-                                    <div class="flex items-center gap-3">
-                                        <input type="checkbox"
-                                            id="optIgnoreRefText"
-                                            class="custom-check" checked>
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-center">
                                         <span
-                                            class="text-[9px] font-black text-zinc-500 uppercase">Ігнорувати
-                                            текст рефів</span>
+                                            class="text-[8px] text-zinc-600 block mb-1 uppercase font-black">Формат
+                                            виводу</span>
+                                        <select id="fileTypeProd"
+                                            class="bg-transparent border-none p-0 text-[9px] font-black text-indigo-400 cursor-pointer">
+                                            <option value="image/png">PNG Studio
+                                                HQ</option>
+                                            <option value="image/jpeg">JPEG Web
+                                                Optimized</option>
+                                        </select>
                                     </div>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">Якщо
-                                            увімкнено, ІІ категорично ігнорує
-                                            старий текст зі скріншотів,
-                                            використовуючи ТІЛЬКИ ваш новий
-                                            бонус.</span>
-                                    </div>
-                                </label>
+                                </div>
 
-                                <!-- NEW: SUPER HQ (LAB) -->
-                                <div class="pt-2 pb-2">
+                                <!-- NEW: SUPER HQ (PROD) -->
+                                <div class="pt-2">
                                     <label
                                         class="flex items-center justify-between p-3 rounded-xl bg-indigo-950/20 border border-indigo-500/20 cursor-pointer hover:bg-indigo-900/40 transition-all">
                                         <div class="flex items-center gap-3">
                                             <input type="checkbox"
-                                                id="optSuperHQLab"
+                                                id="optSuperHQ"
                                                 class="custom-check hq-checkbox">
                                             <span
                                                 class="text-[9px] font-black text-indigo-400 uppercase">Супер
@@ -828,238 +557,142 @@
                                     </label>
                                 </div>
 
-                                <div class="space-y-1">
+                                <!-- ОПЦИОНАЛЬНАЯ ЗАМЕНА ПРОМОКОДА -->
+                                <div class="pt-2">
                                     <div
                                         class="flex items-center justify-between mb-1">
                                         <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Текст
-                                            Бонусу для нових картинок</label>
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Новий
+                                            Промокод (Опціонально)</label>
                                         <div
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">Введіть
-                                                текст, який ІІ має красиво
-                                                вписати у новий дизайн. Бажано
-                                                до 4-5 слів для кращого
-                                                результату.</span>
+                                            <span class="tooltip-text">Якщо
+                                                хочете
+                                                замінити старий промокод на
+                                                новий
+                                                (напр. VIP2026), впишіть його
+                                                тут.
+                                                ІІ автоматично знайде старий код
+                                                и
+                                                замінить його.</span>
                                         </div>
                                     </div>
-                                    <input type="text" id="bonusText"
-                                        placeholder="Напр: 200 FS + 500$ Deposit Bonus"
-                                        class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner">
+                                    <input type="text" id="customPromoProd"
+                                        placeholder="Залишити порожнім для збереження старого..."
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
                                 </div>
 
-                                <!-- Style Checkpoints -->
-                                <div class="space-y-2 mt-2">
-                                    <div
-                                        class="flex items-center justify-between">
-                                        <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Популярні
-                                            Стилі</label>
-                                        <div
-                                            class="tooltip-container tooltip-left">
-                                            <i data-lucide="help-circle"
-                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">Оберіть
-                                                загальний напрямок. Ці чекпоінти
-                                                додадуть необхідні тригери до
-                                                промпту генерації.</span>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <label
-                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <input type="checkbox"
-                                                value="Cyberpunk, Neon, Futuristic, Dark Alley"
-                                                class="style-check custom-check">
-                                            <span
-                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Cyberpunk</span>
-                                        </label>
-                                        <label
-                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <input type="checkbox"
-                                                value="Luxury Gold, Diamonds, Wealth, Expensive"
-                                                class="style-check custom-check">
-                                            <span
-                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Luxury
-                                                Gold</span>
-                                        </label>
-                                        <label
-                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <input type="checkbox"
-                                                value="Highly detailed 3D render, Unreal Engine 5, Octane Render, 8K, Ray Tracing"
-                                                class="style-check custom-check">
-                                            <span
-                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">3D
-                                                Realistic</span>
-                                        </label>
-                                        <label
-                                            class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <input type="checkbox"
-                                                value="Vibrant Cartoonish Mascot style, 2D art, Vector Illustration"
-                                                class="style-check custom-check">
-                                            <span
-                                                class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Cartoonish</span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- NEW: Gambling Intensity (Radio) -->
-                                <div class="space-y-2 mt-4">
-                                    <div
-                                        class="flex items-center justify-between">
-                                        <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Агресивність
-                                            (Рівень Гембли)</label>
-                                        <div
-                                            class="tooltip-container tooltip-left">
-                                            <i data-lucide="help-circle"
-                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">Налаштуй
-                                                кількість атрибутики.
-                                                "Без казино" повністю забороняє
-                                                карти та слоти, зберігаючи
-                                                тільки персонажа.</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                        <label
-                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <div
-                                                class="flex items-center gap-2">
-                                                <input type="radio"
-                                                    name="gambling_level"
-                                                    value="heavy"
-                                                    class="custom-radio">
-                                                <span
-                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Hard
-                                                    (Агресивно)</span>
-                                            </div>
-                                            <div
-                                                class="tooltip-container tooltip-left z-50">
-                                                <i data-lucide="help-circle"
-                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                                <span
-                                                    class="tooltip-text">Додасть
-                                                    золото та ігрові атрибути.
-                                                    Хардкорний маркетинг.</span>
-                                            </div>
-                                        </label>
-                                        <label
-                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <div
-                                                class="flex items-center gap-2">
-                                                <input type="radio"
-                                                    name="gambling_level"
-                                                    value="moderate"
-                                                    class="custom-radio"
-                                                    checked>
-                                                <span
-                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Medium
-                                                    (Помірно)</span>
-                                            </div>
-                                        </label>
-                                        <label
-                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <div
-                                                class="flex items-center gap-2">
-                                                <input type="radio"
-                                                    name="gambling_level"
-                                                    value="safe"
-                                                    class="custom-radio">
-                                                <span
-                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Safe
-                                                    (Без атрибутики)</span>
-                                            </div>
-                                            <div
-                                                class="tooltip-container tooltip-left z-50">
-                                                <i data-lucide="help-circle"
-                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                                <span class="tooltip-text">ІІ
-                                                    видалить всі специфічні
-                                                    елементи.
-                                                    Залишить точну копію
-                                                    персонажа у нейтральному
-                                                    безпечному
-                                                    середовищі.</span>
-                                            </div>
-                                        </label>
-                                        <label
-                                            class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
-                                            <div
-                                                class="flex items-center gap-2">
-                                                <input type="radio"
-                                                    name="gambling_level"
-                                                    value="exact"
-                                                    class="custom-radio">
-                                                <span
-                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Як
-                                                    на Референсі</span>
-                                            </div>
-                                            <div
-                                                class="tooltip-container tooltip-left z-50">
-                                                <i data-lucide="help-circle"
-                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                                <span class="tooltip-text">ІІ
-                                                    максимально копіює ВСЕ: і
-                                                    персонажа, і фон, і об'єкти
-                                                    (без додавання нових від
-                                                    себе).</span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-3">
+                                <div class="grid grid-cols-2 gap-3 pt-2">
                                     <div
                                         class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
                                         <div
                                             class="flex items-center justify-between mb-1">
                                             <span
-                                                class="text-[8px] text-zinc-600 block uppercase font-black">Варіанти</span>
+                                                class="text-[8px] text-zinc-600 uppercase font-black">Розмір
+                                                (Ratio)</span>
                                             <div
                                                 class="tooltip-container tooltip-left">
                                                 <i data-lucide="help-circle"
                                                     class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                                <span class="tooltip-text">Кожен
-                                                    варіант генерується окремим
-                                                    ізольованим запитом для
-                                                    уникнення
-                                                    галюцинацій.</span>
+                                                <span class="tooltip-text">Якщо
+                                                    вибрано розмір, відмінний
+                                                    від
+                                                    оригіналу, ІІ домалює
+                                                    (outpaint)
+                                                    фон, зберігаючи композицію в
+                                                    центрі.</span>
                                             </div>
                                         </div>
-                                        <select id="variationCount"
+                                        <select id="resSelector"
                                             class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
-                                            <option value="1">1 Концепт</option>
-                                            <option value="3">3
-                                                Варіанти</option>
-                                            <option value="5" selected>5
-                                                Унікальних</option>
-                                        </select>
-                                    </div>
-                                    <div
-                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
-                                        <div
-                                            class="flex items-center justify-between mb-1">
-                                            <span
-                                                class="text-[8px] text-zinc-600 block uppercase font-black">Розмір
-                                                (Ratio)</span>
-                                        </div>
-                                        <select id="resSelectorLab"
-                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
-                                            <option value="1080x1080">1:1
-                                                Square</option>
+                                            <option value="original">Original
+                                                (Оригінал)</option>
+                                            <option value="1080x1080">1:1 Square
+                                                (Пост)</option>
                                             <option value="1080x1350">4:5
                                                 Portrait</option>
                                             <option value="1080x1920">9:16
                                                 Story</option>
                                         </select>
                                     </div>
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <span
+                                                class="text-[8px] text-zinc-600 uppercase font-black">Модель
+                                                ІІ (Малювання)</span>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span
+                                                    class="tooltip-text">Тільки
+                                                    недорогі моделі. Flash 2
+                                                    рекомендується для масових
+                                                    завдань.</span>
+                                            </div>
+                                        </div>
+                                        <select id="modelSelectorProd"
+                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                            <option
+                                                value="gemini-3.1-flash-image-preview"
+                                                selected>Nano Banana 2
+                                                (Flash)</option>
+                                            <option
+                                                value="gemini-2.5-flash-image">Nano
+                                                Banana (Standard)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="globe"
+                                            class="w-3.5 h-3.5 text-indigo-500"></i>
+                                        3. ТАРГЕТ ГЕО (ЄВРОПА)</h2>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">Оберіть
+                                            потрібні
+                                            країни. Кожна країна буде
+                                            згенерована
+                                            окремим ізольованим запитом до
+                                            API.</span>
+                                    </div>
+                                </div>
+                                <div id="langGrid"
+                                    class="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[160px] overflow-y-auto pr-1 custom-scrollbar"></div>
+
+                                <div class="pt-2">
+                                    <div
+                                        class="flex items-center justify-between mb-1">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Свої
+                                            Мови (через кому)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Якщо мови
+                                                немає в списку, введіть її
+                                                англійською через кому. Приклад:
+                                                Arabic, Hindi, Japanese</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="customLangs"
+                                        placeholder="Напр: Arabic, Thai, Japan..."
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
                                 </div>
 
-                                <!-- NEW: NAMING TEMPLATE (LAB) -->
+                                <!-- NEW: NAMING TEMPLATE -->
                                 <div class="pt-2">
                                     <div
                                         class="flex items-center justify-between mb-1">
@@ -1072,59 +705,41 @@
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                             <span class="tooltip-text">
                                                 Слово до першого '_' буде
-                                                замінено на слово concept. Цифра
-                                                додасться автоматично.<br><br>
+                                                замінено на мову. Цифра
+                                                додасться автоматично після
+                                                мови.<br><br>
                                                 <b>Приклад із
-                                                    шаблоном:</b><br>concept_ggbet.png<br>
+                                                    шаблоном:</b><br>english_ggbet.png<br>
                                                 <b>Якщо поле пусте (за
-                                                    замовчуванням):</b><br>concept_1.png,
-                                                concept_2.png
+                                                    замовчуванням):</b><br>english_1.png,
+                                                english_2.png
                                             </span>
                                         </div>
                                     </div>
-                                    <input type="text" id="namingTemplateLab"
+                                    <input type="text" id="namingTemplateProd"
                                         placeholder="Напр: english_ggbet_gpt"
                                         class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
                                 </div>
 
-                                <div class="space-y-1">
-                                    <div
-                                        class="flex items-center justify-between">
-                                        <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
-                                            ІІ (Малювання)</label>
-                                        <div
-                                            class="tooltip-container tooltip-left">
-                                            <i data-lucide="help-circle"
-                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span
-                                                class="tooltip-text">Тільки
-                                                недорогі моделі. Flash 2
-                                                рекомендується для масових
-                                                завдань.</span>
-                                        </div>
-                                    </div>
-                                    <select id="modelSelectorLab"
-                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 cursor-pointer">
-                                        <option
-                                            value="gemini-3.1-flash-image-preview"
-                                            selected>Nano Banana 2 (Flash
-                                            Speed)</option>
-                                        <option
-                                            value="gemini-2.5-flash-image">Nano
-                                            Banana (Standard)</option>
-                                    </select>
+                                <div id="selectedSummary"
+                                    class="p-3 rounded-xl bg-black/40 border border-white/5 min-h-[40px] flex flex-wrap gap-1.5 items-center">
+                                    <span
+                                        class="text-[8px] text-zinc-600 font-black uppercase mr-1">Вибрано:</span>
+                                    <div id="geoChips"
+                                        class="flex flex-wrap gap-1.5"></div>
                                 </div>
 
                                 <div class="pt-2">
                                     <div
                                         class="flex items-center justify-between mb-1 mt-2">
                                         <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Додаткові
-                                            деталі стилю - <span
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Специфічні
+                                            інструкції (Або свій словник) -
+                                            <span
                                                 class="text-emerald-400">ОПЦІОНАЛЬНО</span></label>
                                         <div class="flex items-center gap-2">
-                                            <button onclick="openPrompts('lab')"
+                                            <button
+                                                onclick="openPrompts('prod')"
                                                 class="text-[9px] font-black text-indigo-400 hover:text-indigo-300 uppercase flex items-center gap-1 bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 transition-all"><i
                                                     data-lucide="zap"
                                                     class="w-3 h-3"></i>
@@ -1136,24 +751,607 @@
                                                 <span
                                                     class="tooltip-text">Натисніть
                                                     «Шаблони», щоб відкрити
-                                                    бібліотеку перевірених ідей
-                                                    для генерації. Скопіюйте
-                                                    потрібний, вставте сюди та
-                                                    запускайте!</span>
+                                                    бібліотеку готових
+                                                    перевірених промптів.
+                                                    Скопіюйте потрібний, вставте
+                                                    сюди, замініть текст на свій
+                                                    і запускайте! Це заощадить
+                                                    ваш час.</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea id="promptLab" rows="4"
-                                        placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Опишіть ідею для нового креативу: фон, емоції персонажа (наприклад: додай неонове світло...) тільки якщо стандартної генерації недостатньо."
+                                    <textarea id="promptProd" rows="4"
+                                        placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Впишіть сюди побажання, або вставте свій словник перекладів (напр. Polish: Jak mogę dostac... Portuguese: Como faço...) тільки якщо це необхідно."
                                         class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
                                 </div>
-                            </div>
-                        </section>
-                        <button id="processLabBtn" disabled
-                            class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            СТВОРИТИ НОВІ
-                        </button>
+                            </section>
+
+                            <button id="processProdBtn" disabled
+                                class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                ЗАПУСТИТИ
+                                ЦЕХ
+                            </button>
+                        </div>
+
+                        <!-- ====== LAB TAB (TRUE GENERATION & STRICT CHARACTER COPY) ====== -->
+                        <div id="labControls"
+                            class="hidden space-y-6 animate__animated animate__fadeIn">
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="layers"
+                                            class="w-3.5 h-3.5 text-indigo-500"></i>
+                                        1. РЕФЕРЕНСИ СТИЛЮ (MAX 3)</h2>
+                                    <div
+                                        class="tooltip-container tooltip-left tooltip-down z-50">
+                                        <i data-lucide="help-circle"
+                                            class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
+                                        <span class="tooltip-text">ІІ
+                                            максимально
+                                            точно скопіює ПЕРСОНАЖА зі
+                                            скріншотів і
+                                            перенесе його в нову композицію
+                                            (Carbon
+                                            Copy) без зміни обличчя та
+                                            одягу.</span>
+                                    </div>
+                                </div>
+                                <div id="dropZoneLab"
+                                    class="drop-zone p-6 text-center cursor-pointer group border-white/10 hover:border-indigo-500/40">
+                                    <input type="file" id="fileInputLab"
+                                        class="hidden" accept="image/*"
+                                        multiple>
+                                    <div id="previewLab"
+                                        class="flex gap-4 h-full w-full items-center justify-center flex-wrap"></div>
+                                    <div id="placeholderLab"
+                                        class="text-center">
+                                        <i data-lucide="copy"
+                                            class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
+                                        <p
+                                            class="text-zinc-500 font-bold uppercase text-[9px]">Завантаж
+                                            скріни рума / персонажів</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4">
+                                <h2
+                                    class="text-[9px] font-black uppercase text-zinc-500 tracking-widest flex items-center gap-2"><i
+                                        data-lucide="zap"
+                                        class="w-3.5 h-3.5 text-indigo-500"></i>
+                                    2.
+                                    КОНЦЕПТ ТА БОНУСИ</h2>
+                                <div class="space-y-4">
+                                    <label
+                                        class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 cursor-pointer">
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox"
+                                                id="optIgnoreRefText"
+                                                class="custom-check" checked>
+                                            <span
+                                                class="text-[9px] font-black text-zinc-500 uppercase">Ігнорувати
+                                                текст рефів</span>
+                                        </div>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Якщо
+                                                увімкнено, ІІ категорично
+                                                ігнорує
+                                                старий текст зі скріншотів,
+                                                використовуючи ТІЛЬКИ ваш новий
+                                                бонус.</span>
+                                        </div>
+                                    </label>
+
+                                    <!-- NEW: SUPER HQ (LAB) -->
+                                    <div class="pt-2 pb-2">
+                                        <label
+                                            class="flex items-center justify-between p-3 rounded-xl bg-indigo-950/20 border border-indigo-500/20 cursor-pointer hover:bg-indigo-900/40 transition-all">
+                                            <div
+                                                class="flex items-center gap-3">
+                                                <input type="checkbox"
+                                                    id="optSuperHQLab"
+                                                    class="custom-check hq-checkbox">
+                                                <span
+                                                    class="text-[9px] font-black text-indigo-400 uppercase">Супер
+                                                    Якість (HQ 2K+)</span>
+                                            </div>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-4 h-4 text-indigo-400 hover:text-indigo-300"></i>
+                                                <span
+                                                    class="tooltip-text">Збільшує
+                                                    кількість пікселів та
+                                                    деталізацію (від 2048x2048).
+                                                    Робить картинку максимально
+                                                    чіткою. <b>Оригінал
+                                                        (референс) також має
+                                                        бути високої якості.
+                                                        ГЕНЕРУВАТИ ТІЛЬКИ У
+                                                        ВИНЯТКОВИХ ВИПАДКАХ.
+                                                        Поважайте витрати творця
+                                                        сервісу!</b></span>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="space-y-1">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <label
+                                                class="text-[8px] font-black text-zinc-600 uppercase ml-2">Текст
+                                                Бонусу для нових
+                                                картинок</label>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span
+                                                    class="tooltip-text">Введіть
+                                                    текст, який ІІ має красиво
+                                                    вписати у новий дизайн.
+                                                    Бажано
+                                                    до 4-5 слів для кращого
+                                                    результату.</span>
+                                            </div>
+                                        </div>
+                                        <input type="text" id="bonusText"
+                                            placeholder="Напр: 200 FS + 500$ Deposit Bonus"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner">
+                                    </div>
+
+                                    <!-- Style Checkpoints -->
+                                    <div class="space-y-2 mt-2">
+                                        <div
+                                            class="flex items-center justify-between">
+                                            <label
+                                                class="text-[8px] font-black text-zinc-600 uppercase ml-2">Популярні
+                                                Стилі</label>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span
+                                                    class="tooltip-text">Оберіть
+                                                    загальний напрямок. Ці
+                                                    чекпоінти
+                                                    додадуть необхідні тригери
+                                                    до
+                                                    промпту генерації.</span>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <label
+                                                class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <input type="checkbox"
+                                                    value="Cyberpunk, Neon, Futuristic, Dark Alley"
+                                                    class="style-check custom-check">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Cyberpunk</span>
+                                            </label>
+                                            <label
+                                                class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <input type="checkbox"
+                                                    value="Luxury Gold, Diamonds, Wealth, Expensive"
+                                                    class="style-check custom-check">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Luxury
+                                                    Gold</span>
+                                            </label>
+                                            <label
+                                                class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <input type="checkbox"
+                                                    value="Highly detailed 3D render, Unreal Engine 5, Octane Render, 8K, Ray Tracing"
+                                                    class="style-check custom-check">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">3D
+                                                    Realistic</span>
+                                            </label>
+                                            <label
+                                                class="flex items-center gap-2 p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <input type="checkbox"
+                                                    value="Vibrant Cartoonish Mascot style, 2D art, Vector Illustration"
+                                                    class="style-check custom-check">
+                                                <span
+                                                    class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase truncate">Cartoonish</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- NEW: Gambling Intensity (Radio) -->
+                                    <div class="space-y-2 mt-4">
+                                        <div
+                                            class="flex items-center justify-between">
+                                            <label
+                                                class="text-[8px] font-black text-zinc-600 uppercase ml-2">Агресивність
+                                                (Рівень Гембли)</label>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span
+                                                    class="tooltip-text">Налаштуй
+                                                    кількість атрибутики.
+                                                    "Без казино" повністю
+                                                    забороняє
+                                                    карти та слоти, зберігаючи
+                                                    тільки персонажа.</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            <label
+                                                class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <div
+                                                    class="flex items-center gap-2">
+                                                    <input type="radio"
+                                                        name="gambling_level"
+                                                        value="heavy"
+                                                        class="custom-radio">
+                                                    <span
+                                                        class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Hard
+                                                        (Агресивно)</span>
+                                                </div>
+                                                <div
+                                                    class="tooltip-container tooltip-left z-50">
+                                                    <i data-lucide="help-circle"
+                                                        class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                    <span
+                                                        class="tooltip-text">Додасть
+                                                        золото та ігрові
+                                                        атрибути.
+                                                        Хардкорний
+                                                        маркетинг.</span>
+                                                </div>
+                                            </label>
+                                            <label
+                                                class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <div
+                                                    class="flex items-center gap-2">
+                                                    <input type="radio"
+                                                        name="gambling_level"
+                                                        value="moderate"
+                                                        class="custom-radio"
+                                                        checked>
+                                                    <span
+                                                        class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Medium
+                                                        (Помірно)</span>
+                                                </div>
+                                            </label>
+                                            <label
+                                                class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <div
+                                                    class="flex items-center gap-2">
+                                                    <input type="radio"
+                                                        name="gambling_level"
+                                                        value="safe"
+                                                        class="custom-radio">
+                                                    <span
+                                                        class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Safe
+                                                        (Без атрибутики)</span>
+                                                </div>
+                                                <div
+                                                    class="tooltip-container tooltip-left z-50">
+                                                    <i data-lucide="help-circle"
+                                                        class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                    <span
+                                                        class="tooltip-text">ІІ
+                                                        видалить всі специфічні
+                                                        елементи.
+                                                        Залишить точну копію
+                                                        персонажа у нейтральному
+                                                        безпечному
+                                                        середовищі.</span>
+                                                </div>
+                                            </label>
+                                            <label
+                                                class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-white/5 cursor-pointer hover:border-indigo-500/30 group">
+                                                <div
+                                                    class="flex items-center gap-2">
+                                                    <input type="radio"
+                                                        name="gambling_level"
+                                                        value="exact"
+                                                        class="custom-radio">
+                                                    <span
+                                                        class="text-[8px] font-black text-zinc-500 group-hover:text-zinc-300 uppercase">Як
+                                                        на Референсі</span>
+                                                </div>
+                                                <div
+                                                    class="tooltip-container tooltip-left z-50">
+                                                    <i data-lucide="help-circle"
+                                                        class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                    <span
+                                                        class="tooltip-text">ІІ
+                                                        максимально копіює ВСЕ:
+                                                        і
+                                                        персонажа, і фон, і
+                                                        об'єкти
+                                                        (без додавання нових від
+                                                        себе).</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div
+                                            class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                            <div
+                                                class="flex items-center justify-between mb-1">
+                                                <span
+                                                    class="text-[8px] text-zinc-600 block uppercase font-black">Варіанти</span>
+                                                <div
+                                                    class="tooltip-container tooltip-left">
+                                                    <i data-lucide="help-circle"
+                                                        class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                    <span
+                                                        class="tooltip-text">Кожен
+                                                        варіант генерується
+                                                        окремим
+                                                        ізольованим запитом для
+                                                        уникнення
+                                                        галюцинацій.</span>
+                                                </div>
+                                            </div>
+                                            <select id="variationCount"
+                                                class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                                <option value="1">1
+                                                    Концепт</option>
+                                                <option value="3">3
+                                                    Варіанти</option>
+                                                <option value="5" selected>5
+                                                    Унікальних</option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                            <div
+                                                class="flex items-center justify-between mb-1">
+                                                <span
+                                                    class="text-[8px] text-zinc-600 block uppercase font-black">Розмір
+                                                    (Ratio)</span>
+                                            </div>
+                                            <select id="resSelectorLab"
+                                                class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer">
+                                                <option value="1080x1080">1:1
+                                                    Square</option>
+                                                <option value="1080x1350">4:5
+                                                    Portrait</option>
+                                                <option value="1080x1920">9:16
+                                                    Story</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- NEW: NAMING TEMPLATE (LAB) -->
+                                    <div class="pt-2">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <label
+                                                class="text-[8px] font-black text-zinc-600 uppercase ml-1">Шаблон
+                                                Неймінгу (Опціонально)</label>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span class="tooltip-text">
+                                                    Слово до першого '_' буде
+                                                    замінено на слово concept.
+                                                    Цифра додасться
+                                                    автоматично.<br><br>
+                                                    <b>Приклад із
+                                                        шаблоном:</b><br>concept_ggbet.png<br>
+                                                    <b>Якщо поле пусте (за
+                                                        замовчуванням):</b><br>concept_1.png,
+                                                    concept_2.png
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <input type="text"
+                                            id="namingTemplateLab"
+                                            placeholder="Напр: english_ggbet_gpt"
+                                            class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:bg-black/60 transition-all">
+                                    </div>
+
+                                    <div class="space-y-1">
+                                        <div
+                                            class="flex items-center justify-between">
+                                            <label
+                                                class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
+                                                ІІ (Малювання)</label>
+                                            <div
+                                                class="tooltip-container tooltip-left">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                                <span
+                                                    class="tooltip-text">Тільки
+                                                    недорогі моделі. Flash 2
+                                                    рекомендується для масових
+                                                    завдань.</span>
+                                            </div>
+                                        </div>
+                                        <select id="modelSelectorLab"
+                                            class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 cursor-pointer">
+                                            <option
+                                                value="gemini-3.1-flash-image-preview"
+                                                selected>Nano Banana 2 (Flash
+                                                Speed)</option>
+                                            <option
+                                                value="gemini-2.5-flash-image">Nano
+                                                Banana (Standard)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <div
+                                            class="flex items-center justify-between mb-1 mt-2">
+                                            <label
+                                                class="text-[8px] font-black text-zinc-600 uppercase ml-1">Додаткові
+                                                деталі стилю - <span
+                                                    class="text-emerald-400">ОПЦІОНАЛЬНО</span></label>
+                                            <div
+                                                class="flex items-center gap-2">
+                                                <button
+                                                    onclick="openPrompts('lab')"
+                                                    class="text-[9px] font-black text-indigo-400 hover:text-indigo-300 uppercase flex items-center gap-1 bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 transition-all"><i
+                                                        data-lucide="zap"
+                                                        class="w-3 h-3"></i>
+                                                    Шаблони</button>
+                                                <div
+                                                    class="tooltip-container tooltip-left">
+                                                    <i data-lucide="help-circle"
+                                                        class="w-4 h-4 text-indigo-400 animate-pulse cursor-help"></i>
+                                                    <span
+                                                        class="tooltip-text">Натисніть
+                                                        «Шаблони», щоб відкрити
+                                                        бібліотеку перевірених
+                                                        ідей для генерації.
+                                                        Скопіюйте потрібний,
+                                                        вставте сюди та
+                                                        запускайте!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea id="promptLab" rows="4"
+                                            placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Опишіть ідею для нового креативу: фон, емоції персонажа (наприклад: додай неонове світло...) тільки якщо стандартної генерації недостатньо."
+                                            class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <button id="processLabBtn" disabled
+                                class="btn-action w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                СТВОРИТИ НОВІ
+                            </button>
+                        </div>
+
+                        <!-- ====== RETOUCH TAB (SURGICAL TEXT REPLACEMENT) ====== -->
+                        <div id="retouchControls"
+                            class="hidden space-y-6 animate__animated animate__fadeIn">
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4 border border-amber-500/20 bg-amber-500/5">
+                                <div class="flex items-center justify-between">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-amber-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="scissors"
+                                            class="w-3.5 h-3.5"></i> 1. ІЗОЛЯТОР
+                                        ЗОБРАЖЕННЯ</h2>
+                                    <div
+                                        class="tooltip-container tooltip-left tooltip-down z-50">
+                                        <i data-lucide="help-circle"
+                                            class="w-3.5 h-3.5 text-amber-500 hover:text-amber-400"></i>
+                                        <span class="tooltip-text">Завантажте
+                                            ОДИН креатив. ІІ просканує його і
+                                            знайде весь текст для точкової
+                                            заміни.</span>
+                                    </div>
+                                </div>
+                                <div id="dropZoneRetouch"
+                                    class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-amber-500/20 hover:border-amber-500/50 bg-amber-500/10">
+                                    <input type="file" id="fileInputRetouch"
+                                        class="hidden" accept="image/*">
+                                    <div id="previewRetouch"
+                                        class="hidden h-full w-full flex items-center justify-center"></div>
+                                    <div id="placeholderRetouch"
+                                        class="text-center">
+                                        <i data-lucide="upload-cloud"
+                                            class="w-8 h-8 text-amber-500/50 mx-auto mb-2 group-hover:text-amber-400"></i>
+                                        <p
+                                            class="text-amber-500 font-bold uppercase text-[9px]">Завантажити
+                                            файл для ретуші</p>
+                                    </div>
+                                </div>
+                                <button id="analyzeRetouchBtn" disabled
+                                    class="btn-action btn-amber w-full py-4 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                                    <i data-lucide="scan-text"
+                                        class="w-4 h-4"></i> РОЗПІЗНАТИ ТЕКСТ
+                                </button>
+                            </section>
+
+                            <section id="retouchEditorSection"
+                                class="glass-panel rounded-[2rem] p-6 space-y-4 hidden border border-amber-500/20">
+                                <div
+                                    class="flex items-center justify-between mb-2">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-amber-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="edit"
+                                            class="w-3.5 h-3.5"></i> 2.
+                                        ЗНАЙДЕНИЙ ТЕКСТ</h2>
+                                    <div class="tooltip-container tooltip-left">
+                                        <i data-lucide="help-circle"
+                                            class="w-3.5 h-3.5 text-amber-500 hover:text-amber-400"></i>
+                                        <span class="tooltip-text">Відредагуйте
+                                            текст. Якщо потрібно видалити напис
+                                            з картинки - просто зітріть його тут
+                                            або натисніть кошик.</span>
+                                    </div>
+                                </div>
+
+                                <div id="detectedTextList"
+                                    class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+                                    <!-- OCR inputs will be injected here -->
+                                </div>
+
+                                <div class="pt-4 border-t border-white/5">
+                                    <div
+                                        class="flex items-center justify-between mb-1 mt-2">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Мови
+                                            для генерації (Опціонально)</label>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-amber-500 hover:text-amber-400"></i>
+                                            <span class="tooltip-text">Введіть
+                                                мови через кому (напр. Polish,
+                                                Turkish). ІІ автоматично
+                                                перекладе ваш текст і створить
+                                                окремий креатив для кожної мови!
+                                                Залиште порожнім для однієї
+                                                генерації.</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="retouchLangs"
+                                        placeholder="Напр: Polish, Portuguese, Spanish..."
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:border-amber-500/50 transition-all mb-3">
+
+                                    <p
+                                        class="text-[9px] text-amber-500/70 italic mb-3 text-center px-2">Якщо
+                                        ІІ схибив зі шрифтом — просто натисніть
+                                        "Переробити" (🔄) на готовій картинці в
+                                        черзі справа.</p>
+
+                                    <select id="modelSelectorRetouch"
+                                        class="w-full mb-3 bg-zinc-950 border border-white/10 rounded-xl p-3 text-[10px] text-white font-bold cursor-pointer">
+                                        <option
+                                            value="gemini-3.1-flash-image-preview"
+                                            selected>Nano Banana 2
+                                            (Flash)</option>
+                                        <option
+                                            value="gemini-2.5-flash-image">Nano
+                                            Banana (Standard)</option>
+                                    </select>
+                                    <button id="processRetouchBtn"
+                                        class="btn-action btn-amber w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2">
+                                        <i data-lucide="paintbrush"
+                                            class="w-4 h-4"></i> РЕНДЕР ЗМІН
+                                    </button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- WATERMARK AUTHOR -->
+                    <div
+                        class="mt-8 mb-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+                        Made by ROSSIGNOL
                     </div>
                 </div>
 
@@ -1271,7 +1469,6 @@
                     </div>
 
                     <div class="space-y-4 mb-6">
-                        <!-- NEW BLOCK EXPLAINING PROMPTS ARE OPTIONAL -->
                         <div
                             class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl flex gap-4 items-start">
                             <div
@@ -1291,8 +1488,8 @@
                                     виберіть мови і натисніть старт — ІІ сам усе
                                     перекладе.<br>
                                     • <b>У Лабі:</b> завантажте скріншот рума,
-                                    впишіть бонус у спеціальне поле і генеруйте.
-                                    ІІ сам створить круті варіанти.<br>
+                                    впишіть бонус у спеціальне поле і
+                                    генеруйте.<br>
                                     <span
                                         class="text-[10px] text-emerald-400/80 italic mt-1 block">*Використовуйте
                                         поле промптів лише якщо вам потрібен
@@ -1334,9 +1531,28 @@
                                 <p
                                     class="text-zinc-400 text-xs leading-relaxed">Призначена
                                     для <b>СТВОРЕННЯ НОВИХ</b> креативів з
-                                    вашого референсу (персонажа/стилю) під ваші
-                                    конкретні бажання та потреби (інша поза,
-                                    фон, емоція тощо).</p>
+                                    вашого референсу під ваші конкретні бажання
+                                    (інша поза, фон, емоція тощо).</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-amber-900/30 border border-amber-500/20 p-4 rounded-xl flex gap-4 items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="scissors" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-black text-white uppercase mb-1">3.
+                                    Хірургічна Ретуш</h3>
+                                <p
+                                    class="text-zinc-400 text-xs leading-relaxed">Крайній
+                                    варіант, якщо дефолтна генерація дає збої.
+                                    ІІ сканує весь текст на зображенні, виводить
+                                    його вам у вигляді полів. Ви точково
+                                    вписуєте переклад, а ІІ просто накладає його
+                                    замість старого.</p>
                             </div>
                         </div>
                     </div>
@@ -1630,7 +1846,17 @@
 
         // Графічні моделі беруться з UI селекторів автоматично
 
-        const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, isAborted: false, uiLang: 'uk' };
+        const state = { 
+            apiKey: null, 
+            masterB64: null, 
+            labRefs: [], 
+            tasks: [], 
+            isProcessing: false, 
+            isAborted: false, 
+            uiLang: 'uk',
+            retouchB64: null, 
+            detectedTexts: [] 
+        };
         let langCounters = {}; // Глобальний об'єкт для розумного неймінгу (зберігає кількість генерацій для кожної мови)
         let taskCounter = 1; // Глобальний лічильник для неймінгу
         let pendingHqCheckbox = null; // Змінна для підтвердження HQ
@@ -1726,6 +1952,12 @@
 
             // Audit All logic
             getEl('auditAllBtn').onclick = runAuditAll;
+
+            // RETOUCH TAB LOGIC
+            getEl('dropZoneRetouch').onclick = () => getEl('fileInputRetouch').click();
+            getEl('fileInputRetouch').onchange = e => handleFiles(e.target.files, 'retouch');
+            getEl('analyzeRetouchBtn').onclick = analyzeRetouchImage;
+            getEl('processRetouchBtn').onclick = renderRetouchImage;
         }
 
         // --- THEME TOGGLE LOGIC ---
@@ -1794,21 +2026,22 @@
 
         // --- ФУНКЦІЯ ГЕНЕРАЦІЇ ІМЕНІ ФАЙЛУ (РОЗУМНИЙ НЕЙМІНГ) ---
         function generateFileName(task) {
-            let template = task.type === 'prod' ? getEl('namingTemplateProd').value.trim() : getEl('namingTemplateLab').value.trim();
+            let template = '';
+            if(task.type === 'prod') template = getEl('namingTemplateProd').value.trim();
+            else if(task.type === 'lab') template = getEl('namingTemplateLab').value.trim();
+            // Retouch gets basic naming
+
             let baseLang = task.originalLang.replace(/\s+/g, '_').toLowerCase();
             let index = task.langIndex;
             let ext = getEl('fileTypeProd') && getEl('fileTypeProd').value === 'image/jpeg' ? '.jpg' : '.png';
-            if (task.type === 'lab') ext = '.png'; // Lab always PNG
+            if (task.type === 'lab' || task.type === 'retouch') ext = '.png'; 
 
-            // Якщо 1 картинка - цифру не ставимо. Якщо 2 і більше - ставимо _2, _3
             let numInsert = index > 1 ? `_${index}` : ``; 
 
-            // Якщо шаблон порожній
             if (!template) {
                 return `${baseLang}${numInsert}${ext}`;
             }
 
-            // Якщо є шаблон (english_ggbet_gpt -> english_ggbet_gpt.png або english_2_ggbet_gpt.png)
             if (/english/i.test(template)) {
                 return template.replace(/english/i, baseLang + numInsert) + ext;
             } else {
@@ -1882,7 +2115,242 @@
             closePrompts();
         };
 
+        // ==========================================
+        // NEW MODULE: SURGICAL RETOUCH (MODULE 3)
+        // ==========================================
+        
+        async function analyzeRetouchImage() {
+            if (!state.retouchB64) return;
+            
+            const btn = getEl('analyzeRetouchBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> СКАНУЮ...';
+            lucide.createIcons();
+            setLiveModel(MODEL_VISION, true);
+
+            try {
+                const prompt = `Analyze this image and detect all distinct, readable text elements (buttons, titles, descriptions).
+                Group them logically. Preserve exact line breaks using '\\n' if the text spans multiple lines on the image.
+                Return ONLY a valid JSON array of objects. Do NOT use markdown formatting (\`\`\`json).
+                Format: [{"id": "1", "original_text": "FIRST LINE\\nSECOND LINE", "location_hint": "Yellow button at the bottom"}, ...]
+                If no text is found, return [].`;
+
+                const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: state.retouchB64 } }] }] })
+                });
+                
+                const d = await resp.json();
+                if(d.error) throw new Error(d.error.message);
+                
+                let rawText = d.candidates[0].content.parts[0].text;
+                // Basic cleanup just in case the model ignores the "no markdown" rule
+                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+                
+                state.detectedTexts = JSON.parse(rawText);
+                renderRetouchUI();
+                
+                getEl('retouchEditorSection').classList.remove('hidden');
+                
+            } catch(e) {
+                alert("Помилка аналізу тексту: " + e.message);
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="scan-text" class="w-4 h-4"></i> РОЗПІЗНАТИ ЗНОВУ';
+            lucide.createIcons();
+            setLiveModel("", false);
+        }
+
+        function renderRetouchUI() {
+            const container = getEl('detectedTextList');
+            container.innerHTML = '';
+            
+            if(state.detectedTexts.length === 0) {
+                container.innerHTML = '<p class="text-zinc-500 text-xs italic text-center p-4">Текст не знайдено.</p>';
+                return;
+            }
+
+            state.detectedTexts.forEach((item, index) => {
+                // Обчислюємо кількість рядків для правильної висоти textarea
+                const lineCount = (item.original_text.match(/\n/g) || []).length + 1;
+                const rows = Math.min(Math.max(lineCount, 2), 6); // Мінімум 2 рядки, максимум 6 за замовчуванням
+
+                const html = `
+                <div class="bg-black/50 border border-amber-500/20 p-3 rounded-xl relative" id="retouch-item-${index}">
+                    <p class="text-[9px] text-amber-500 uppercase font-black mb-1">${item.location_hint}</p>
+                    <p class="text-zinc-400 text-xs mb-2 line-through decoration-rose-500/50 whitespace-pre-wrap">${item.original_text}</p>
+                    <div class="flex gap-2 items-start">
+                        <textarea class="retouch-input w-full rounded-lg px-3 py-2 text-[11px] text-white border border-white/10 bg-zinc-900 focus:border-amber-500 resize-y" placeholder="Введіть новий текст..." rows="${rows}">${item.original_text}</textarea>
+                        <button onclick="deleteRetouchItem(${index})" class="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white rounded-lg transition-all shrink-0" title="Видалити текст з картинки">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+            lucide.createIcons();
+        }
+
+        window.deleteRetouchItem = (index) => {
+            // Instead of fully removing, we mark it as "TO BE DELETED" so the AI knows to paint over it
+            const el = getEl(`retouch-item-${index}`);
+            const input = el.querySelector('.retouch-input');
+            input.value = "[DELETE_THIS_TEXT]";
+            el.classList.add('opacity-50', 'grayscale');
+            input.disabled = true;
+        };
+
+        async function renderRetouchImage() {
+            if(!state.retouchB64 || state.isProcessing) return;
+            
+            const rawLangs = getEl('retouchLangs').value.trim();
+            let langs = rawLangs ? rawLangs.split(',').map(l => l.trim()).filter(l => l.length > 1) : ['Retouch Result'];
+            
+            state.isProcessing = true;
+            state.isAborted = false;
+
+            const btn = getEl('processRetouchBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> ОБРОБКА...';
+            
+            // Collect base actions
+            let baseActions = [];
+            state.detectedTexts.forEach((item, index) => {
+                const el = getEl(`retouch-item-${index}`);
+                if(!el) return;
+                const newVal = el.querySelector('.retouch-input').value.trim();
+                baseActions.push({
+                    original: item.original_text,
+                    location: item.location_hint,
+                    newVal: newVal,
+                    index: index
+                });
+            });
+
+            // Show stop button
+            const stopBtn = getEl('stopProcessBtn');
+            stopBtn.classList.remove('hidden', 'bg-zinc-600', 'opacity-50');
+            stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+            stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
+            lucide.createIcons();
+
+            for(let lang of langs) {
+                if(state.isAborted) break;
+                
+                const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
+                createTaskUI(lang, id);
+                await runRetouchPipeline(id, lang, baseActions);
+                
+                if(state.isAborted) break;
+                if(langs.length > 1) await new Promise(r => setTimeout(r, 3000));
+            }
+
+            state.isProcessing = false;
+            state.isAborted = false;
+            stopBtn.classList.add('hidden');
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="paintbrush" class="w-4 h-4"></i> РЕНДЕР ЗМІН';
+            lucide.createIcons();
+            setLiveModel("", false);
+            validate();
+        }
+
+        async function runRetouchPipeline(id, lang, baseActions) {
+            const modelRender = getEl('modelSelectorRetouch').value;
+            updateTaskUI(id, 20, "Підготовка рендеру...");
+            setLiveModel(MODEL_LITE, true);
+
+            try {
+                let currentActions = JSON.parse(JSON.stringify(baseActions)); // Deep copy
+
+                // TRANSLATION STEP (if lang is a real language and not just "Retouch Result")
+                if (lang !== 'Retouch Result') {
+                    updateTaskUI(id, 40, "Переклад тексту...");
+                    let textsToTranslate = {};
+                    currentActions.forEach(action => {
+                        if (action.newVal !== "[DELETE_THIS_TEXT]" && action.newVal !== "") {
+                            textsToTranslate[action.index] = action.newVal;
+                        }
+                    });
+
+                    if (Object.keys(textsToTranslate).length > 0) {
+                        const translatePrompt = `Translate the following texts into ${lang}.
+                        STRICT RULES:
+                        1. Return ONLY a valid JSON object mapping the IDs to the translated strings. Do not use markdown blocks (\`\`\`json).
+                        2. Do not translate numbers, brand names, or promo codes like 'FS'.
+                        
+                        Texts to translate:
+                        ${JSON.stringify(textsToTranslate)}`;
+
+                        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_LITE}:generateContent?key=${state.apiKey}`, {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ contents: [{ parts: [{ text: translatePrompt }] }] })
+                        });
+                        
+                        const d = await resp.json();
+                        if(d.error) throw new Error(d.error.message);
+                        
+                        let rawRes = d.candidates[0].content.parts[0].text;
+                        // Parse safely
+                        rawRes = rawRes.substring(rawRes.indexOf('{'), rawRes.lastIndexOf('}') + 1);
+                        const translations = JSON.parse(rawRes);
+                        
+                        currentActions.forEach(action => {
+                            if(translations[action.index]) {
+                                action.newVal = translations[action.index];
+                            }
+                        });
+                    }
+                }
+
+                // BUILD RENDER PROMPT
+                updateTaskUI(id, 60, "Малювання...");
+                setLiveModel(modelRender, true);
+
+                let instructions = "EXACT MODIFICATIONS REQUIRED:\n";
+                currentActions.forEach(action => {
+                    if (action.newVal === "[DELETE_THIS_TEXT]") {
+                        instructions += `- Locate text "${action.original}" (${action.location}) and COMPLETELY DELETE IT by painting over it seamlessly with the surrounding background.\n`;
+                    } else if (action.newVal !== action.original) {
+                        instructions += `- Replace text "${action.original}" (${action.location}) with EXACTLY: "${action.newVal}". Mimic the original font style perfectly.\n`;
+                    }
+                });
+
+                const renderPrompt = `You are an elite surgical image retoucher. 
+                CRITICAL INSTRUCTION: Modify ONLY the specific text elements requested below. 
+                DO NOT change the background, characters, or layout. KEEP IT A 100% CARBON COPY.
+                
+                ${instructions}
+                
+                OUTPUT EXACTLY ONE IMAGE. Maintain ultra-high quality.`;
+
+                const resB64 = await callGemini(modelRender, renderPrompt, state.retouchB64, true, "image/png");
+                const finalUrl = `data:image/png;base64,${resB64}`;
+                
+                let cleanLang = lang.replace(/\s+/g, '_').toLowerCase();
+                if(cleanLang === 'retouch_result') cleanLang = 'retouch';
+                
+                langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
+                let langIndex = langCounters[cleanLang];
+
+                // If updating an existing task (Retry)
+                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
+                if (existingTaskIndex !== -1) {
+                    state.tasks[existingTaskIndex].b64 = resB64;
+                } else {
+                    state.tasks.push({ id, lang: lang, b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
+                }
+                
+                finalizeTaskUI(id, finalUrl, lang, 'retouch');
+            } catch(e) {
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', lang, baseActions);
+            }
+        }
+
+        // ==========================================
         // 4. PRODUCTION PIPELINE
+        // ==========================================
         async function startBatchProduction() {
             if (state.isProcessing) return;
             const selected = Array.from(document.querySelectorAll('.lang-check:checked')).map(c => c.value);
@@ -2004,7 +2472,9 @@
             }
         }
 
+        // ==========================================
         // 5. CREATIVE LAB (CARBON COPY CONSISTENCY ENGINE)
+        // ==========================================
         async function startLabBatch() {
             if (state.isProcessing) return;
             state.isProcessing = true; 
@@ -2134,9 +2604,11 @@
             } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); }
         }
 
+        // ==========================================
         // 6. SYNTAX AUDIT 
+        // ==========================================
         async function runAudit(id, url, lang, type = 'prod') {
-            if(type === 'lab') return; // Лаба не потребує аудиту граматики
+            if(type === 'lab' || type === 'retouch') return; // Лаба і ретуш не потребують аудиту граматики
             
             updateTaskUI(id, 20, "Глибока перевірка...");
             setLiveModel(MODEL_VISION, true);
@@ -2219,7 +2691,9 @@
             validate();
         };
 
+        // ==========================================
         // 7. SHARED CORE & UI CONTROLS
+        // ==========================================
         async function callGemini(model, text, b64, isImg = false, mime = "image/png") {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${state.apiKey}`;
             const payload = {
@@ -2240,7 +2714,7 @@
                 <div class="flex items-center justify-between gap-6 w-full">
                     <div class="flex items-center gap-4 flex-1 min-w-0">
                         <div class="w-12 h-12 rounded-xl bg-zinc-950 flex items-center justify-center text-indigo-400 font-black text-xl uppercase shrink-0 border border-white/5 shadow-2xl">
-                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : lang.substring(0, 2)}
+                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : (lang.includes('Retouch') ? '<i data-lucide="scissors" class="w-6 h-6"></i>' : lang.substring(0, 2))}
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between mb-1.5">
@@ -2290,9 +2764,7 @@
 
         window.deleteTask = (id) => {
             getEl(id)?.remove();
-            // Жестко очищаем из памяти. После этого скачивание ZIP точно не захватит удаленную картинку
             state.tasks = state.tasks.filter(t => t.id !== id);
-            // Если после удаления корзина пуста, прячем кнопки
             if(state.tasks.length === 0) {
                 getEl('downloadZipBtn').classList.add('hidden');
                 getEl('auditAllBtn').classList.add('hidden');
@@ -2329,15 +2801,15 @@
             }
 
             // Ховаємо панель аудиту після успішного рендеру
-            el.querySelector('.audit-panel').classList.add('hidden');
+            if(el.querySelector('.audit-panel')) el.querySelector('.audit-panel').classList.add('hidden');
 
-            // ОБНОВЛЕНИЕ ПРЕВЬЮ: Заменяем картинку (innerHTML =), а не дописываем рядом (+=)
+            // ОБНОВЛЕНИЕ ПРЕВЬЮ
             const preview = el.querySelector('.task-preview');
             preview.classList.remove('hidden'); 
             preview.innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
             preview.onclick = () => { getEl('zoomContent').src = url; getEl('zoomModal').classList.remove('hidden'); };
             
-            // Завантаження ОДНОГО файлу з новим неймінгом
+            // Завантаження ОДНОГО файлу
             dlBtn.onclick = () => { 
                 const task = state.tasks.find(t => t.id === id);
                 if (!task) return;
@@ -2359,11 +2831,17 @@
                     
                     runTaskProcess(lang, id, fix);
                 };
-            } else {
+            } else if(type === 'lab') {
                 auditBtn.classList.add('hidden'); // No audit for lab
                 redoBtn.onclick = () => {
                     const task = state.tasks.find(t => t.id === id);
                     runLabPipeline(id, lang.split(' ')[1], task.refB64);
+                };
+            } else if(type === 'retouch') {
+                auditBtn.classList.add('hidden'); // No audit for retouch
+                redoBtn.onclick = () => {
+                    const task = state.tasks.find(t => t.id === id);
+                    runRetouchPipeline(id, task.lang, task.baseActions);
                 };
             }
             
@@ -2402,12 +2880,15 @@
                     
                     if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
                     else if(type === 'lab') runLabPipeline(id, langOrNum, extraData);
+                    else if(type === 'retouch') runRetouchPipeline(id, langOrNum, extraData);
                 };
                 lucide.createIcons();
             }
         }
 
-        // 8. WIPE & EXPORT 
+        // ==========================================
+        // 8. WIPE & EXPORT & UTILS
+        // ==========================================
         async function downloadAllZip() {
             const zip = new JSZip(); const folder = zip.folder("Studio_Export");
             state.tasks.forEach(t => {
@@ -2427,16 +2908,23 @@
                 </div>`;
             state.tasks = []; 
             state.labRefs = [];
-            langCounters = {}; // Очищаємо лічильники для неймінгу
-            taskCounter = 1; // Скидаємо лічильник
+            state.retouchB64 = null;
+            state.detectedTexts = [];
+            langCounters = {}; 
+            taskCounter = 1; 
+            
             updateLabPreviews();
+            getEl('previewRetouch').innerHTML = '';
+            getEl('previewRetouch').classList.add('hidden');
+            getEl('placeholderRetouch').classList.remove('hidden');
+            getEl('retouchEditorSection').classList.add('hidden');
+            
             lucide.createIcons(); 
             getEl('downloadZipBtn').classList.add('hidden');
             getEl('auditAllBtn').classList.add('hidden');
             validate();
         };
 
-        // --- ОНОВЛЕНЕ ПРЕВ'Ю ДЛЯ ЛАБИ З КНОПКОЮ УДАЛЕНИЯ ---
         function updateLabPreviews() {
             const container = getEl('previewLab');
             container.innerHTML = '';
@@ -2469,10 +2957,17 @@
                         state.masterB64 = b64; getEl('previewProd').innerHTML = `<img src="${e.target.result}" class="w-full h-full object-contain rounded-xl">`;
                         getEl('previewProd').classList.remove('hidden'); getEl('placeholderProd').classList.add('hidden');
                         validate();
-                    } else {
+                    } else if(type === 'lab') {
                         if(state.labRefs.length >= 3) state.labRefs.shift(); // Max 3
                         state.labRefs.push(b64);
                         updateLabPreviews();
+                    } else if(type === 'retouch') {
+                        state.retouchB64 = b64;
+                        getEl('previewRetouch').innerHTML = `<img src="${e.target.result}" class="w-full h-full object-contain rounded-xl">`;
+                        getEl('previewRetouch').classList.remove('hidden'); 
+                        getEl('placeholderRetouch').classList.add('hidden');
+                        getEl('analyzeRetouchBtn').disabled = false;
+                        getEl('retouchEditorSection').classList.add('hidden');
                     }
                 };
                 reader.readAsDataURL(f);
@@ -2492,13 +2987,21 @@
         window.switchTab = (t) => {
             getEl('productionControls').classList.toggle('hidden', t !== 'production');
             getEl('labControls').classList.toggle('hidden', t !== 'lab');
+            getEl('retouchControls').classList.toggle('hidden', t !== 'retouch');
+            
             getEl('tabProd').classList.toggle('active', t === 'production');
             getEl('tabProd').classList.toggle('opacity-40', t !== 'production');
+            
             getEl('tabLab').classList.toggle('active', t === 'lab');
             getEl('tabLab').classList.toggle('opacity-40', t !== 'lab');
+            
+            getEl('tabRetouch').classList.toggle('active', t === 'retouch');
+            getEl('tabRetouch').classList.toggle('opacity-40', t !== 'retouch');
         };
 
         window.closeZoom = () => getEl('zoomModal').classList.add('hidden');
+        
+        // ВІДНОВЛЕНІ ОБРОБНИКИ КЛІКІВ ДЛЯ ЗАВАНТАЖЕННЯ ФАЙЛІВ (ЦЕХ ТА ЛАБА)
         getEl('dropZoneProd').onclick = () => getEl('fileInputProd').click();
         getEl('fileInputProd').onchange = e => handleFiles(e.target.files, 'prod');
         getEl('dropZoneLab').onclick = () => { if(state.labRefs.length < 3) getEl('fileInputLab').click(); };
