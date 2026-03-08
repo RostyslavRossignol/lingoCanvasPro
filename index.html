@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V1.8</title>
+        <title>UA Studio | LingoCanvas Pro Beta V2.0</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -21,7 +21,7 @@
 
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        
+
         :root { 
             --bg-dark: #020205; 
             --panel-dark: #08080a; 
@@ -31,7 +31,7 @@
             --rose: #f43f5e;
             --cyan: #06b6d4;
         }
-        
+
         /* ЗБІЛЬШЕНО БАЗОВИЙ ШРИФТ ДЛЯ МАСШТАБУВАННЯ ВСЬОГО UI (+11.5%) */
         html, body { height: 100%; margin: 0; background-color: var(--bg-dark); color: #d1d1d6; font-size: 14.5px; }
         body { 
@@ -49,7 +49,7 @@
         html.light .space-engine { background-color: #f8fafc; }
         html.light .nebula { opacity: 0.5; filter: blur(120px); }
         html.light .star { background: #6366f1; opacity: 0.15; }
-        
+
         html.light .glass-panel, html.light .login-panel { 
             background: rgba(255, 255, 255, 0.9); 
             border-color: rgba(0,0,0,0.08) !important; 
@@ -64,7 +64,7 @@
         html.light .text-emerald-400 { color: #059669 !important; }
         html.light .text-rose-400 { color: #e11d48 !important; }
         html.light .text-indigo-400 { color: #4f46e5 !important; }
-        
+
         html.light .bg-zinc-950, html.light .bg-zinc-900, html.light .bg-black\/40, html.light .bg-black\/30, html.light .bg-black\/20 { 
             background-color: rgba(241, 245, 249, 0.9) !important; 
         }
@@ -72,11 +72,11 @@
         html.light .bg-white\/5 { background-color: rgba(0,0,0,0.03) !important; }
         html.light .bg-white\/10 { background-color: rgba(0,0,0,0.06) !important; }
         html.light .bg-black\/80 { background-color: rgba(255,255,255,0.7) !important; }
-        
+
         html.light .border-white\/5, html.light .border-white\/10, html.light .border-white\/20 { 
             border-color: rgba(0,0,0,0.08) !important; 
         }
-        
+
         /* Фікс інпутів та селектів для світлої теми */
         html.light input:not([type="checkbox"]):not([type="radio"]), 
         html.light select, 
@@ -97,7 +97,7 @@
             background-color: var(--accent) !important;
             border-color: var(--accent) !important;
         }
-        
+
         /* Чорні стильні кнопки для світлої теми */
         html.light .btn-action {
             background: linear-gradient(135deg, #1e293b 0%, #020617 100%) !important;
@@ -107,16 +107,16 @@
         html.light .btn-action:hover:not(:disabled) {
             box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;
         }
-        
+
         html.light .tooltip-text { background-color: #ffffff; color: #0f172a; border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         html.light .tooltip-text::after { border-color: #ffffff transparent transparent transparent; }
-        html.light .tooltip-down .tooltip-text::after { border-color: transparent transparent #ffffff transparent; }
-        
+        html.light .tooltip-down .tooltip-text::after, html.light .tooltip-bottom-right .tooltip-text::after { border-color: transparent transparent #ffffff transparent; }
+
         html.light .hover\:border-indigo-500\/30:hover, html.light .hover\:border-indigo-500\/40:hover { border-color: rgba(99, 102, 241, 0.5) !important; }
         html.light .hover\:text-white:hover { color: #000000 !important; }
         html.light .shadow-inner { box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05) !important; }
         html.light .drop-zone { background-color: rgba(248, 250, 252, 0.6); border-color: rgba(0,0,0,0.1); }
-        
+
         html.light .live-model-indicator { background: rgba(6, 182, 212, 0.15); color: #0891b2; border-color: rgba(6, 182, 212, 0.3); }
 
         /* --- SPACE BACKGROUND (FIXED CHROME BUG) --- */
@@ -126,7 +126,7 @@
             transition: background-color 0.5s ease;
         }
         .star { position: absolute; background: white; border-radius: 50%; opacity: 0.2; animation: twinkle var(--d) infinite ease-in-out; }
-        
+
         .moon-asset { 
             position: absolute; width: 450px; height: 450px; top: 2%; right: -5%; 
             filter: drop-shadow(0 0 60px rgba(129, 140, 248, 0.15)); 
@@ -145,7 +145,7 @@
 
         /* --- TOOLTIPS --- */
         .tooltip-container { position: relative; display: inline-flex; align-items: center; justify-content: center; cursor: help; z-index: 50; }
-        
+
         .tooltip-text {
             visibility: hidden; opacity: 0; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%);
             background-color: #1f2937; color: #f3f4f6; text-align: center; padding: 12px 16px; border-radius: 12px;
@@ -158,20 +158,24 @@
             content: ""; position: absolute; top: 100%; left: 50%; margin-left: -6px;
             border-width: 6px; border-style: solid; border-color: #1f2937 transparent transparent transparent;
         }
-        
+
         .tooltip-left .tooltip-text { left: auto; right: -10px; transform: none; }
         .tooltip-left .tooltip-text::after { left: auto; right: 15px; margin-left: 0; }
-        
+
         .tooltip-down .tooltip-text { bottom: auto; top: 140%; }
         .tooltip-down .tooltip-text::after { top: auto; bottom: 100%; border-color: transparent transparent #1f2937 transparent; }
         .tooltip-down:hover .tooltip-text { top: 160%; bottom: auto; }
 
+        .tooltip-bottom-right .tooltip-text { left: auto; right: 0; transform: none; bottom: auto; top: 140%; }
+        .tooltip-bottom-right .tooltip-text::after { left: auto; right: 15px; margin-left: 0; top: auto; bottom: 100%; border-color: transparent transparent #1f2937 transparent; }
+        .tooltip-bottom-right:hover .tooltip-text { top: 160%; bottom: auto; }
+
         .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
-        .tooltip-container:not(.tooltip-down):hover .tooltip-text { bottom: 160%; }
+        .tooltip-container:not(.tooltip-down):not(.tooltip-bottom-right):hover .tooltip-text { bottom: 160%; }
 
         /* --- STUDIO UI --- */
         #accessGate, #toolApp { position: relative; z-index: 10; }
-        
+
         .login-panel {
             background: rgba(15, 15, 20, 0.98); 
             border: 1px solid rgba(255, 255, 255, 0.08); 
@@ -191,7 +195,7 @@
 
         .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.05); transition: all 0.4s ease; min-height: 100px; position: relative; background: rgba(24, 24, 27, 0.4); border-radius: 1.2rem; }
         .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); }
-        
+
         .badge-counter { font-size: 8px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 99px; font-weight: 900; }
 
         /* INPUTS & SELECTS BASE (Dark Theme) */
@@ -213,7 +217,7 @@
             content: ''; position: absolute; left: 3px; top: 0px; width: 5px; height: 8px;
             border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
         }
-        
+
         .custom-radio {
             width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15);
             cursor: pointer; appearance: none; position: relative; background-color: #0c0c0f; transition: all 0.2s;
@@ -228,7 +232,7 @@
         .task-card:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.02); }
 
         .main-app-container { flex: 1; display: flex; flex-direction: column; padding: 1rem; max-width: 95rem; margin: 0 auto; width: 100%; overflow: hidden; z-index: 10; }
-        
+
         .preview-box { 
             width: 90px; height: 90px; background: #000; border-radius: 0.8rem; 
             border: 1px solid rgba(255,255,255,0.08); overflow: hidden; cursor: pointer; transition: all 0.3s;
@@ -298,7 +302,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V1.8
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.0
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -346,7 +350,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V1.8
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.0
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -1171,27 +1175,48 @@
                         </div>
 
                         <div class="flex gap-2 items-center">
-                            <!-- NEW: STOP ALL BUTTON -->
-                            <button id="stopProcessBtn"
-                                class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
-                                <i data-lucide="octagon" class="w-4 h-4"></i>
-                                ЗУПИНИТИ ВСЕ
-                            </button>
+                            <!-- STOP ALL BUTTON -->
+                            <div class="tooltip-container tooltip-bottom-right">
+                                <button id="stopProcessBtn"
+                                    class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-rose-500/20 animate-pulse flex items-center gap-2">
+                                    <i data-lucide="octagon"
+                                        class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ
+                                </button>
+                                <span class="tooltip-text">Негайно зупинити
+                                    подальшу генерацію (поточний файл
+                                    догенерується)</span>
+                            </div>
 
-                            <!-- NEW: AUDIT ALL BUTTON -->
-                            <button id="auditAllBtn"
-                                class="hidden px-4 py-2 bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border border-emerald-500/30 flex items-center gap-2">
-                                <i data-lucide="check-square-2"
-                                    class="w-4 h-4"></i> АУДИТ ВСІХ
-                            </button>
+                            <!-- AUDIT ALL BUTTON -->
+                            <div class="tooltip-container tooltip-bottom-right">
+                                <button id="auditAllBtn"
+                                    class="hidden px-4 py-2 bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border border-emerald-500/30 flex items-center gap-2">
+                                    <i data-lucide="check-square-2"
+                                        class="w-4 h-4"></i> АУДИТ ВСІХ
+                                </button>
+                                <span class="tooltip-text">Запустити перевірку
+                                    граматики для всіх згенерованих файлів по
+                                    черзі</span>
+                            </div>
 
-                            <button id="downloadZipBtn"
-                                class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
-                                EXPORT</button>
-                            <button id="clearAllBtn"
-                                class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
-                                    data-lucide="trash-2" class="w-3 h-3"></i>
-                                Wipe All</button>
+                            <!-- DOWNLOAD ZIP BUTTON -->
+                            <div class="tooltip-container tooltip-bottom-right">
+                                <button id="downloadZipBtn"
+                                    class="hidden text-[8px] bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-black uppercase tracking-widest transition-all">ZIP
+                                    EXPORT</button>
+                                <span class="tooltip-text">Завантажити всі
+                                    готові файли архівом</span>
+                            </div>
+
+                            <!-- CLEAR ALL BUTTON -->
+                            <div class="tooltip-container tooltip-bottom-right">
+                                <button id="clearAllBtn"
+                                    class="text-[8px] text-zinc-500 hover:text-rose-500 font-black uppercase tracking-widest transition-all flex items-center gap-1.5 px-2 py-2 rounded hover:bg-white/5"><i
+                                        data-lucide="trash-2"
+                                        class="w-3 h-3"></i> Wipe All</button>
+                                <span class="tooltip-text">Видалити всі файли з
+                                    черги</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1338,6 +1363,36 @@
                         <span>Все зрозуміло, почати роботу</span>
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIPE CONFIRM MODAL -->
+        <div id="wipeConfirmModal"
+            class="fixed inset-0 z-[4000] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate__animated animate__fadeIn">
+            <div
+                class="glass-panel w-full max-w-[400px] p-6 rounded-[2rem] relative border border-rose-500/30 shadow-2xl bg-zinc-950 text-center my-8">
+                <div
+                    class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center border border-rose-500/30 text-rose-400 mx-auto mb-4">
+                    <i data-lucide="trash-2" class="w-6 h-6"></i>
+                </div>
+                <h2
+                    class="text-md font-black text-white uppercase tracking-wider mb-2">Очистити
+                    все?</h2>
+                <p class="text-zinc-400 text-xs leading-relaxed mb-6">
+                    Ви точно хочете безповоротно видалити всі згенеровані
+                    креативи з черги?<br>
+                    <span class="text-rose-400 font-bold mt-2 block">Якщо ви ще
+                        не завантажили ZIP-архів, усі файли буде втрачено. Їх
+                        доведеться генерувати (і оплачувати) заново!</span>
+                </p>
+                <div class="flex gap-3 justify-center">
+                    <button id="wipeConfirmNo"
+                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-zinc-800 text-white hover:bg-zinc-700 transition-all border border-white/10">Ні,
+                        залишити</button>
+                    <button id="wipeConfirmYes"
+                        class="px-5 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest bg-rose-600 text-white hover:bg-rose-500 transition-all shadow-lg shadow-rose-500/20">Так,
+                        видалити все</button>
                 </div>
             </div>
         </div>
@@ -1577,6 +1632,7 @@
 
         const state = { apiKey: null, masterB64: null, labRefs: [], tasks: [], isProcessing: false, isAborted: false, uiLang: 'uk' };
         let langCounters = {}; // Глобальний об'єкт для розумного неймінгу (зберігає кількість генерацій для кожної мови)
+        let taskCounter = 1; // Глобальний лічильник для неймінгу
         let pendingHqCheckbox = null; // Змінна для підтвердження HQ
         let pendingTaskType = null; // Змінна для підтвердження запуску
         let currentPromptTarget = 'prod';
@@ -1607,8 +1663,19 @@
             document.querySelectorAll('.lang-check').forEach(c => c.onchange = updateChips);
             getEl('customLangs').oninput = updateChips;
             
-            getEl('clearAllBtn').onclick = wipeEverything;
             getEl('downloadZipBtn').onclick = downloadAllZip;
+
+            // Wipe All Confirmation Logic
+            getEl('clearAllBtn').onclick = () => {
+                if(state.tasks.length > 0) getEl('wipeConfirmModal').classList.remove('hidden');
+            };
+            getEl('wipeConfirmYes').onclick = () => {
+                getEl('wipeConfirmModal').classList.add('hidden');
+                wipeEverything();
+            };
+            getEl('wipeConfirmNo').onclick = () => {
+                getEl('wipeConfirmModal').classList.add('hidden');
+            };
 
             // Start Confirmation Logic
             getEl('processProdBtn').onclick = () => { pendingTaskType = 'prod'; getEl('startConfirmModal').classList.remove('hidden'); };
@@ -1734,12 +1801,11 @@
             if (task.type === 'lab') ext = '.png'; // Lab always PNG
 
             // Якщо 1 картинка - цифру не ставимо. Якщо 2 і більше - ставимо _2, _3
-            let numStr = index > 1 ? `_${index}` : `_1`; 
             let numInsert = index > 1 ? `_${index}` : ``; 
 
             // Якщо шаблон порожній
             if (!template) {
-                return `${baseLang}${numStr}${ext}`;
+                return `${baseLang}${numInsert}${ext}`;
             }
 
             // Якщо є шаблон (english_ggbet_gpt -> english_ggbet_gpt.png або english_2_ggbet_gpt.png)
@@ -1863,31 +1929,27 @@
             const modelRender = getEl('modelSelectorProd').value;
 
             try {
-                // === ЕТАП 1: РОЗУМНИЙ ПЕРЕКЛАД ===
+                // === ЕТАП 1: РОЗУМНИЙ ПЕРЕКЛАД (ОРИГІНАЛЬНИЙ СТАБІЛЬНИЙ ПРОМПТ З V1.1) ===
                 let translatedText = forceText;
                 
                 if (!translatedText) {
                     const fsRule = getEl('optFS').checked ? "5. ALLOWED IN ENGLISH: The exact abbreviation 'FS'. CRITICAL: The full phrases 'Free Spins', 'Spins', or 'Free' MUST BE TRANSLATED into " + lang + "." : "";
                     const codeRule = getEl('optCodes').checked ? "6. ALLOWED IN ENGLISH: Promotional codes (e.g. VIP100, BONUS)." : "";
-                    const userPrompt = getEl('promptProd').value.trim();
                     
-                    // Відновлений прямий промпт (без iGaming-фантазій), але з розумним читанням словника користувача
-                    const translatePrompt = `Role: Professional Native Translator. Target Language: ${lang}.
-                    
-                    USER INSTRUCTIONS & CUSTOM DICTIONARY:
-                    """
-                    ${userPrompt}
-                    """
-                    
-                    CRITICAL TASK: 
-                    1. Read the USER INSTRUCTIONS above. If the user provided an exact translation specifically for the language "${lang}", you MUST use their provided translation exactly as written and return ONLY that text.
-                    2. If no specific translation is provided for "${lang}", extract ALL text from the original image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
-                    3. Return ONLY the final translated string. No conversational filler or explanations.
-                    4. Provide a correct, natural, semantic translation. Ensure there are absolutely no grammatical or spelling errors.
-                    5. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
-                    6. Keep the exact same formatting, line breaks, and visual layout of text blocks as the original reference.
+                    let translatePrompt = `Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
+                    STRICT RULES: 
+                    1. Return ONLY the final translated string. No conversational filler or explanations.
+                    2. Make a natural, semantic translation (not a robotic word-for-word translation). Ensure there are absolutely no grammatical errors in ${lang}.
+                    3. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
+                    4. Keep formatting and the visual layout of text blocks exactly as close to the reference as possible.
                     ${fsRule}
                     ${codeRule}`;
+
+                    // Додаємо інструкції користувача ТІЛЬКИ якщо вони є (щоб не ламати стабільний промпт порожніми блоками)
+                    const userPrompt = getEl('promptProd').value.trim();
+                    if (userPrompt) {
+                        translatePrompt += `\n\nUSER INSTRUCTIONS & CUSTOM DICTIONARY (PRIORITY):\n"""\n${userPrompt}\n"""\nIf the user provided an exact translation specifically for "${lang}" in the instructions above, you MUST use their provided translation exactly as written and return ONLY that text.`;
+                    }
 
                     translatedText = await callGemini(MODEL_VISION, translatePrompt, state.masterB64);
                 }
@@ -1902,23 +1964,22 @@
                 const ratio = getEl('resSelector').value;
                 const outpaint = ratio !== 'original' ? ` Adjust canvas to exactly ${ratio} and fill outpainted margins seamlessly.` : "";
                 
-                // SUPER HQ Trigger
+                // SUPER HQ Trigger 
                 const hqProd = getEl('optSuperHQ').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
                 
-                // Рендер: Ігноруємо переклади для інших мов, що залишились у великому промпті користувача
-                const renderPrompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.
+                let renderPrompt = `ROLE: Elite Art Director. MISSION: Localize marketing creative to ${lang}.
                 TEXT TO INTEGRATE: "${translatedText}".
                 STRICT RULES: 
                 1. 100% CARBON COPY: Preserve faces, characters, backgrounds, chat interfaces, and lighting EXACTLY as in the original. 
                 2. NO HALLUCINATIONS: DO NOT add, draw, or invent any new objects, characters, or text elements. Just replace the text.
                 3. GHOSTING PROTECTION: Clone background textures seamlessly over old text before rendering new text. 
                 ${logo} ${replacePromoRule} ${hqProd}
-                FORMAT: ${ratio}.${outpaint}
-                
-                EXTRA STYLE INSTRUCTIONS (IGNORE ANY TRANSLATION LISTS FOR OTHER LANGUAGES HERE, FOCUS ONLY ON VISUAL STYLE):
-                """
-                ${getEl('promptProd').value.trim()}
-                """`;
+                FORMAT: ${ratio}.${outpaint}`;
+
+                const userPromptRender = getEl('promptProd').value.trim();
+                if (userPromptRender) {
+                    renderPrompt += `\n\nEXTRA STYLE INSTRUCTIONS (IGNORE ANY TRANSLATION LISTS FOR OTHER LANGUAGES HERE, FOCUS ONLY ON VISUAL STYLE):\n"""\n${userPromptRender}\n"""`;
+                }
 
                 const resB64 = await callGemini(modelRender, renderPrompt, state.masterB64, true, getEl('fileTypeProd').value);
                 const finalUrl = `data:${getEl('fileTypeProd').value};base64,${resB64}`;
@@ -1937,7 +1998,7 @@
                     state.tasks.push({ id, lang, b64: resB64, type: 'prod', originalLang: lang, langIndex: langIndex });
                 }
                 
-                finalizeTaskUI(id, finalUrl, lang, 'prod');
+                finalizeTaskUI(id, finalUrl, lang, 'prod', !!forceText); // !!forceText === isRedo
             } catch(e) { 
                 updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'prod', lang, forceText); 
             }
@@ -2023,7 +2084,7 @@
                     case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or gaming objects unless they are strictly present in the reference images."; break;
                 }
                 
-                // SUPER HQ Trigger Lab
+                // SUPER HQ Trigger Lab 
                 const hqLab = getEl('optSuperHQLab').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
 
                 const finalPrompt = `
@@ -2073,7 +2134,7 @@
             } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); }
         }
 
-        // 6. SYNTAX AUDIT (ОНОВЛЕНО: ТЕПЕР ПЕРЕВІРЯЄ І МОВУ, І ГРАМАТИКУ)
+        // 6. SYNTAX AUDIT 
         async function runAudit(id, url, lang, type = 'prod') {
             if(type === 'lab') return; // Лаба не потребує аудиту граматики
             
@@ -2090,7 +2151,7 @@
                 const fsAuditRule = isFSChecked ? `The exact abbreviation 'FS' is ALLOWED to be in English. However, full words like 'Free Spins', 'Spins' or 'Free' MUST be translated to ${lang}. If 'Free Spins' is left in English, it is a FATAL ERROR.` : `ALL words including 'Free Spins' and 'FS' MUST be translated to ${lang}.`;
                 const userPrompt = getEl('promptProd').value.trim();
 
-                // ЖОРСТКИЙ ПРОМПТ АУДИТУ: Тепер він карає за залишки англійської мови на картинці і знає ваші налаштування
+                // ЖОРСТКИЙ ПРОМПТ АУДИТУ З ПОВЕРНЕННЯМ ПРИЧИНИ ПОМИЛКИ
                 const prompt = `Act as a strict native ${lang} proofreader. Check ALL the text in the image.
                 CRITICAL RULES:
                 1. EVERY sentence, question, answer, call-to-action, and button MUST be translated to ${lang}. 
@@ -2100,9 +2161,9 @@
                 5. Check for grammatical and spelling errors in the ${lang} text. Do not punish for missing punctuation like dots at the end of short phrases.
                 6. Keep in mind the user provided these custom instructions: "${userPrompt}". Ensure they were followed.
                 
-                If the ENTIRE text is fully and correctly translated to ${lang} with NO leftover English text (except allowed promos/brands/FS), return JSON: {"ok": true, "fix": ""}.
-                If there is ANY untranslated text or grammar error, return JSON: {"ok": false, "fix": "Write the FULL, completely translated and grammatically perfect text here in ${lang}. Ensure everything is translated according to the rules."}.
-                RETURN ONLY VALID JSON.`;
+                RETURN ONLY VALID JSON EXACTLY IN THIS FORMAT:
+                If everything is perfect: {"ok": true, "reason": "Perfect", "fix": ""}
+                If there is ANY error: {"ok": false, "reason": "Short explanation of the error (e.g., 'Forgot to translate button', 'Grammar error in Title')", "fix": "Write the FULL, completely translated and grammatically perfect text here in ${lang}. Ensure everything is translated according to the rules."}`;
                 
                 const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -2118,11 +2179,16 @@
                 if(res.ok) {
                     btn.className = "audit-btn p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl";
                     updateTaskUI(id, 100, "Текст чіткий");
-                    getEl(id).dataset.fix = ""; // Очищаємо старі помилки з пам'яті
+                    getEl(id).querySelector('.audit-panel').classList.add('hidden'); // Ховаємо панель помилок, якщо вона була
                 } else {
                     btn.className = "audit-btn p-2.5 bg-rose-500/20 text-rose-400 rounded-xl";
                     updateTaskUI(id, 100, "Знайдені помилки");
-                    getEl(id).dataset.fix = res.fix;
+                    
+                    // Показуємо панель помилок і даємо можливість редагувати FIX
+                    const panel = getEl(id).querySelector('.audit-panel');
+                    panel.classList.remove('hidden');
+                    panel.querySelector('.audit-reason').innerText = res.reason || "Знайдені помилки або неперекладений текст.";
+                    panel.querySelector('.audit-fix-input').value = res.fix || "";
                 }
             } catch(e) { 
                 btn.classList.remove('animate-pulse');
@@ -2168,28 +2234,54 @@
         }
 
         function createTaskUI(lang, id) {
+            // Оновлений дизайн карточки з підтримкою Тултипів та Панелі Редагування Аудиту
             const html = `
-            <div id="${id}" class="task-card glass-panel rounded-[1.8rem] p-4 flex items-center justify-between gap-6 border-l-4 border-indigo-600/20 animate__animated animate__fadeIn">
-                <div class="flex items-center gap-4 flex-1 min-w-0">
-                    <div class="w-12 h-12 rounded-xl bg-zinc-950 flex items-center justify-center text-indigo-400 font-black text-xl uppercase shrink-0 border border-white/5 shadow-2xl">
-                        ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : lang.substring(0, 2)}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-between mb-1.5">
-                            <h3 class="font-black text-white text-sm truncate uppercase italic tracking-widest">${lang}</h3>
-                            <button onclick="deleteTask('${id}')" class="text-zinc-700 hover:text-rose-500 transition-all p-1" title="Видалити задачу"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            <div id="${id}" class="task-card glass-panel rounded-[1.8rem] p-4 border-l-4 border-indigo-600/20 animate__animated animate__fadeIn flex flex-col gap-4">
+                <div class="flex items-center justify-between gap-6 w-full">
+                    <div class="flex items-center gap-4 flex-1 min-w-0">
+                        <div class="w-12 h-12 rounded-xl bg-zinc-950 flex items-center justify-center text-indigo-400 font-black text-xl uppercase shrink-0 border border-white/5 shadow-2xl">
+                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : lang.substring(0, 2)}
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge text-zinc-600 text-[8px] uppercase tracking-widest font-black">В ЧЕРЗІ</span>
-                            <div class="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden border border-white/5 p-0.5"><div class="progress-bar w-0 h-full bg-indigo-500 rounded-full transition-all duration-500"></div></div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <h3 class="font-black text-white text-sm truncate uppercase italic tracking-widest">${lang}</h3>
+                                <button onclick="deleteTask('${id}')" class="text-zinc-700 hover:text-rose-500 transition-all p-1" title="Видалити задачу"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="status-badge text-zinc-600 text-[8px] uppercase tracking-widest font-black">В ЧЕРЗІ</span>
+                                <div class="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden border border-white/5 p-0.5"><div class="progress-bar w-0 h-full bg-indigo-500 rounded-full transition-all duration-500"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-preview preview-box hidden shrink-0 group relative"><div class="absolute inset-0 bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center"><i data-lucide="maximize" class="w-5 h-5 text-white"></i></div></div>
+                    
+                    <div class="actions hidden flex flex-wrap items-center gap-2">
+                        <div class="tooltip-container tooltip-bottom-right">
+                            <button class="audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all"><i data-lucide="check-circle" class="w-4 h-4"></i></button>
+                            <span class="tooltip-text"><b>Аудит граматики</b><br>Перевіряє текст на помилки та залишки інших мов.</span>
+                        </div>
+                        <div class="tooltip-container tooltip-bottom-right">
+                            <button class="redo-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                            <span class="tooltip-text"><b>Переробити</b><br>Генерує заново. Якщо був аудит — застосує виправлення.</span>
+                        </div>
+                        <div class="tooltip-container tooltip-bottom-right">
+                            <button class="dl-btn p-3 bg-indigo-600/10 rounded-xl text-indigo-400 hover:bg-indigo-600 hover:text-white shadow-xl transition-all"><i data-lucide="download" class="w-5 h-5"></i></button>
+                            <span class="tooltip-text">Завантажити цей креатив</span>
                         </div>
                     </div>
                 </div>
-                <div class="task-preview preview-box hidden shrink-0 group relative"><div class="absolute inset-0 bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center"><i data-lucide="maximize" class="w-5 h-5 text-white"></i></div></div>
-                <div class="actions hidden flex flex-wrap items-center gap-2">
-                     <button class="audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all" title="Аудит граматики"><i data-lucide="check-circle" class="w-4 h-4"></i></button>
-                     <button class="redo-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all" title="Переробити (з фіксом / Повторити)"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
-                     <button class="dl-btn p-3 bg-indigo-600/10 rounded-xl text-indigo-400 hover:bg-indigo-600 hover:text-white shadow-xl transition-all" title="Завантажити файл"><i data-lucide="download" class="w-5 h-5"></i></button>
+
+                <!-- Редактор Аудиту (Прихований за замовчуванням) -->
+                <div class="audit-panel hidden w-full mt-2 p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl animate__animated animate__fadeIn">
+                    <div class="flex items-start gap-2 mb-3 text-rose-400 text-xs">
+                        <i data-lucide="bot" class="w-4 h-4 shrink-0 mt-0.5"></i>
+                        <span class="audit-reason font-medium leading-relaxed"></span>
+                    </div>
+                    <label class="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-2 flex items-center gap-1"><i data-lucide="edit-3" class="w-3 h-3"></i> Виправлений текст (можна редагувати):</label>
+                    <textarea class="audit-fix-input w-full bg-black/50 border border-rose-500/30 rounded-lg p-3 text-white text-xs resize-y focus:border-rose-500 outline-none" rows="3"></textarea>
+                    <div class="mt-2 text-right">
+                        <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Натисніть "Переробити" (🔄) вище, щоб застосувати</span>
+                    </div>
                 </div>
             </div>`;
             getEl('tasksContainer')?.insertAdjacentHTML('afterbegin', html);
@@ -2208,23 +2300,36 @@
             validate();
         };
 
-        function finalizeTaskUI(id, url, lang, type = 'prod') {
-            const el = getEl(id); el.style.borderLeftColor = 'var(--emerald)';
+        function finalizeTaskUI(id, url, lang, type = 'prod', isRedo = false) {
+            const el = getEl(id); 
+            el.style.borderLeftColor = 'var(--emerald)';
             el.querySelector('.progress-bar').style.width = '100%';
+            
             const sb = el.querySelector('.status-badge');
-            sb.innerText = "ГОТОВО"; sb.className = "status-badge px-2 py-0.5 rounded font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] uppercase tracking-widest";
+            sb.innerText = "ГОТОВО"; 
+            sb.className = "status-badge px-2 py-0.5 rounded font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] uppercase tracking-widest";
             
             const actions = el.querySelector('.actions');
             actions.classList.remove('hidden');
+            
             // Reset visibility of buttons if they were hidden by an error retry
-            el.querySelector('.audit-btn').classList.remove('hidden');
-            el.querySelector('.dl-btn').classList.remove('hidden');
-            el.querySelector('.redo-btn').classList.remove('hidden');
-
+            const auditBtn = el.querySelector('.audit-btn');
+            const dlBtn = el.querySelector('.dl-btn');
             const redoBtn = el.querySelector('.redo-btn');
-            redoBtn.className = "redo-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all";
-            redoBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4"></i>';
-            redoBtn.title = "Переробити";
+            
+            auditBtn.classList.remove('hidden');
+            dlBtn.classList.remove('hidden');
+            redoBtn.classList.remove('hidden');
+
+            // Якщо це генерація ПІСЛЯ аудиту (isRedo) - нагадуємо перевірити
+            if (isRedo && type === 'prod') {
+                auditBtn.classList.add('animate-pulse', 'ring-2', 'ring-emerald-500', 'ring-offset-2', 'ring-offset-zinc-950', 'text-emerald-400');
+                sb.innerText = "ПОТРЕБУЄ АУДИТУ"; 
+                sb.className = "status-badge px-2 py-0.5 rounded font-black bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[8px] uppercase tracking-widest";
+            }
+
+            // Ховаємо панель аудиту після успішного рендеру
+            el.querySelector('.audit-panel').classList.add('hidden');
 
             // ОБНОВЛЕНИЕ ПРЕВЬЮ: Заменяем картинку (innerHTML =), а не дописываем рядом (+=)
             const preview = el.querySelector('.task-preview');
@@ -2233,7 +2338,7 @@
             preview.onclick = () => { getEl('zoomContent').src = url; getEl('zoomModal').classList.remove('hidden'); };
             
             // Завантаження ОДНОГО файлу з новим неймінгом
-            el.querySelector('.dl-btn').onclick = () => { 
+            dlBtn.onclick = () => { 
                 const task = state.tasks.find(t => t.id === id);
                 if (!task) return;
                 const fileName = generateFileName(task);
@@ -2241,13 +2346,21 @@
             };
             
             if(type === 'prod') {
-                el.querySelector('.audit-btn').onclick = () => runAudit(id, url, lang, type);
+                auditBtn.onclick = () => runAudit(id, url, lang, type);
                 redoBtn.onclick = () => {
-                    const fix = el.dataset.fix || null;
+                    const auditPanel = el.querySelector('.audit-panel');
+                    let fix = null;
+                    if (!auditPanel.classList.contains('hidden')) {
+                        fix = el.querySelector('.audit-fix-input').value.trim(); // Беремо текст, який міг редагувати юзер
+                    }
+                    
+                    // Знімаємо підсвічування аудиту, якщо користувач натиснув Redo
+                    auditBtn.classList.remove('animate-pulse', 'ring-2', 'ring-emerald-500', 'ring-offset-2', 'ring-offset-zinc-950', 'text-emerald-400');
+                    
                     runTaskProcess(lang, id, fix);
                 };
             } else {
-                el.querySelector('.audit-btn').classList.add('hidden'); // No audit for lab
+                auditBtn.classList.add('hidden'); // No audit for lab
                 redoBtn.onclick = () => {
                     const task = state.tasks.find(t => t.id === id);
                     runLabPipeline(id, lang.split(' ')[1], task.refB64);
@@ -2279,7 +2392,7 @@
                 redoBtn.classList.remove('hidden');
                 redoBtn.className = "redo-btn px-4 py-2 bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg";
                 redoBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-3 h-3"></i> ПОВТОРИТИ ЗАПИТ';
-                redoBtn.title = "Спробувати ще раз (API відхилило запит)";
+                
                 redoBtn.onclick = () => {
                     // Reset UI for retry
                     actions.classList.add('hidden');
@@ -2294,7 +2407,7 @@
             }
         }
 
-        // 8. WIPE & EXPORT (Оновлено для нового неймінгу)
+        // 8. WIPE & EXPORT 
         async function downloadAllZip() {
             const zip = new JSZip(); const folder = zip.folder("Studio_Export");
             state.tasks.forEach(t => {
