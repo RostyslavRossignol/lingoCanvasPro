@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V2.3</title>
+        <title>UA Studio | LingoCanvas Pro Beta V2.4</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -316,7 +316,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.3
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.4
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -364,7 +364,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.3
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.4
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -518,8 +518,29 @@
                                         </div>
                                     </label>
 
+                                    <label
+                                        class="flex items-center justify-between p-3 rounded-xl bg-zinc-950/50 border border-white/5 hover:border-indigo-500/30">
+                                        <div
+                                            class="flex items-center gap-3 cursor-pointer">
+                                            <input type="checkbox" id="optGames"
+                                                class="custom-check" checked>
+                                            <span
+                                                class="text-[8px] font-black text-zinc-500 uppercase">Назви
+                                                Ігор</span>
+                                        </div>
+                                        <div
+                                            class="tooltip-container tooltip-left">
+                                            <i data-lucide="help-circle"
+                                                class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
+                                            <span class="tooltip-text">Не
+                                                перекладає назви слотів (Coin
+                                                Volcano, Coin Strike тощо) та
+                                                дрібний технічний текст.</span>
+                                        </div>
+                                    </label>
+
                                     <div
-                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-center">
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-center col-span-2 sm:col-span-1">
                                         <span
                                             class="text-[8px] text-zinc-600 block mb-1 uppercase font-black">Формат
                                             виводу</span>
@@ -1475,7 +1496,6 @@
                     </div>
 
                     <div class="space-y-4 mb-6">
-                        <!-- NEW BLOCK EXPLAINING PROMPTS ARE OPTIONAL -->
                         <div
                             class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl flex gap-4 items-start">
                             <div
@@ -2405,12 +2425,13 @@
             const modelRender = getEl('modelSelectorProd').value;
 
             try {
-                // === ЕТАП 1: РОЗУМНИЙ ПЕРЕКЛАД (ОРИГІНАЛЬНИЙ СТАБІЛЬНИЙ ПРОМПТ З V1.1) ===
+                // === ЕТАП 1: РОЗУМНИЙ ПЕРЕКЛАД (ОРИГІНАЛЬНИЙ СТАБІЛЬНИЙ ПРОМПТ З V1.1 + ЗАХИСТ ІГОР) ===
                 let translatedText = forceText;
                 
                 if (!translatedText) {
                     const fsRule = getEl('optFS').checked ? "5. ALLOWED IN ENGLISH: The exact abbreviation 'FS'. CRITICAL: The full phrases 'Free Spins', 'Spins', or 'Free' MUST BE TRANSLATED into " + lang + "." : "";
                     const codeRule = getEl('optCodes').checked ? "6. ALLOWED IN ENGLISH: Promotional codes (e.g. VIP100, BONUS)." : "";
+                    const gamesRule = getEl('optGames').checked ? "7. DO NOT translate the names of slot games (e.g., 'Coin Volcano', 'Coin Strike', 'Gates of Olympus') and DO NOT translate tiny unreadable technical/legal text. Leave game names exactly in English." : "";
                     
                     let translatePrompt = `Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
                     STRICT RULES: 
@@ -2419,7 +2440,8 @@
                     3. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
                     4. Keep formatting and the visual layout of text blocks exactly as close to the reference as possible.
                     ${fsRule}
-                    ${codeRule}`;
+                    ${codeRule}
+                    ${gamesRule}`;
 
                     // Додаємо інструкції користувача ТІЛЬКИ якщо вони є (щоб не ламати стабільний промпт порожніми блоками)
                     const userPrompt = getEl('promptProd').value.trim();
@@ -2632,20 +2654,21 @@
                 const isFSChecked = getEl('optFS') && getEl('optFS').checked;
                 const fsAuditRule = isFSChecked ? `The exact abbreviation 'FS' is ALLOWED to be in English. However, full words like 'Free Spins', 'Spins' or 'Free' MUST be translated to ${lang}. If 'Free Spins' is left in English, it is a FATAL ERROR.` : `ALL words including 'Free Spins' and 'FS' MUST be translated to ${lang}.`;
                 const userPrompt = getEl('promptProd').value.trim();
+                const gamesAuditRule = getEl('optGames') && getEl('optGames').checked ? "Slot game names (like 'Coin Volcano', 'Coin Strike') are ALLOWED to remain in English." : "";
 
                 // ЖОРСТКИЙ ПРОМПТ АУДИТУ З ПОВЕРНЕННЯМ ПРИЧИНИ ПОМИЛКИ
                 const prompt = `Act as a strict native ${lang} proofreader. Check ALL the text in the image.
                 CRITICAL RULES:
                 1. EVERY sentence, question, answer, call-to-action, and button MUST be translated to ${lang}. 
-                2. If ANY part of the conversational text (e.g., questions like "Why should I install", answers, buttons) is left in English or a different language, THIS IS A FATAL ERROR.
+                2. If ANY part of the conversational text is left in English or a different language, THIS IS A FATAL ERROR.
                 3. ${fsAuditRule}
-                4. Ignore brand names and promotional codes (like VIP, BONUS, 20FSP) - they are allowed to remain untouched.
+                4. Ignore brand names and promotional codes (like VIP, BONUS). ${gamesAuditRule} They MUST remain in English.
                 5. Check for grammatical and spelling errors in the ${lang} text. Do not punish for missing punctuation like dots at the end of short phrases.
                 6. Keep in mind the user provided these custom instructions: "${userPrompt}". Ensure they were followed.
                 
                 RETURN ONLY VALID JSON EXACTLY IN THIS FORMAT:
-                If everything is perfect: {"ok": true, "reason": "Perfect", "fix": ""}
-                If there is ANY error: {"ok": false, "reason": "Short explanation of the error (e.g., 'Forgot to translate button', 'Grammar error in Title')", "fix": "Write the FULL, completely translated and grammatically perfect text here in ${lang}. Ensure everything is translated according to the rules."}`;
+                If everything is perfect: {"ok": true, "reason": "Perfect", "fix": "Write the FULL exact text that is currently on the image here, keeping its structure. This allows the user to review it."}
+                If there is ANY error: {"ok": false, "reason": "Short explanation of the error", "fix": "Write the FULL completely corrected text here in ${lang}."}`;
                 
                 const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -2658,20 +2681,36 @@
                 
                 btn.classList.remove('animate-pulse'); // Знімаємо пульсацію після відповіді
                 
+                const panel = getEl(id).querySelector('.audit-panel');
+                const reasonText = panel.querySelector('.audit-reason');
+                const textarea = panel.querySelector('.audit-fix-input');
+
+                panel.classList.remove('hidden');
+
                 if(res.ok) {
                     btn.className = "audit-btn p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl";
                     updateTaskUI(id, 100, "Текст чіткий");
-                    getEl(id).querySelector('.audit-panel').classList.add('hidden'); // Ховаємо панель помилок, якщо вона була
+                    
+                    panel.className = "audit-panel w-full mt-2 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl animate__animated animate__fadeIn";
+                    reasonText.innerText = "Успіх! Текст на картинці виглядає так (ви можете відредагувати його і натиснути 🔄 для оновлення):";
+                    reasonText.parentElement.className = "flex items-start gap-2 mb-3 text-emerald-400 text-xs";
+                    textarea.value = res.fix || "";
+                    textarea.className = "audit-fix-input w-full bg-black/50 border border-emerald-500/30 rounded-lg p-3 text-white text-xs resize-y focus:border-emerald-500 outline-none";
                 } else {
                     btn.className = "audit-btn p-2.5 bg-rose-500/20 text-rose-400 rounded-xl";
                     updateTaskUI(id, 100, "Знайдені помилки");
                     
-                    // Показуємо панель помилок і даємо можливість редагувати FIX
-                    const panel = getEl(id).querySelector('.audit-panel');
-                    panel.classList.remove('hidden');
-                    panel.querySelector('.audit-reason').innerText = res.reason || "Знайдені помилки або неперекладений текст.";
-                    panel.querySelector('.audit-fix-input').value = res.fix || "";
+                    panel.className = "audit-panel w-full mt-2 p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl animate__animated animate__fadeIn";
+                    reasonText.innerText = res.reason || "Знайдені помилки або неперекладений текст.";
+                    reasonText.parentElement.className = "flex items-start gap-2 mb-3 text-rose-400 text-xs";
+                    textarea.value = res.fix || "";
+                    textarea.className = "audit-fix-input w-full bg-black/50 border border-rose-500/30 rounded-lg p-3 text-white text-xs resize-y focus:border-rose-500 outline-none";
                 }
+                
+                // Adjust height
+                const lineCount = (textarea.value.match(/\n/g) || []).length + 1;
+                textarea.rows = Math.min(Math.max(lineCount, 2), 6);
+
             } catch(e) { 
                 btn.classList.remove('animate-pulse');
                 updateTaskUI(id, 100, "Аудит Fail"); 
@@ -2809,9 +2848,6 @@
                 sb.innerText = "ПОТРЕБУЄ АУДИТУ"; 
                 sb.className = "status-badge px-2 py-0.5 rounded font-black bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[8px] uppercase tracking-widest";
             }
-
-            // Ховаємо панель аудиту після успішного рендеру
-            if(el.querySelector('.audit-panel')) el.querySelector('.audit-panel').classList.add('hidden');
 
             // ОБНОВЛЕНИЕ ПРЕВЬЮ
             const preview = el.querySelector('.task-preview');
