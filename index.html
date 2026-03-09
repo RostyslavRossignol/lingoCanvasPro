@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V3.0</title>
+        <title>UA Studio | LingoCanvas Pro Beta V3.1</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -68,6 +68,13 @@
         html.light .text-indigo-400 { color: #4f46e5 !important; }
         html.light .text-amber-400 { color: #d97706 !important; }
         html.light .text-fuchsia-400 { color: #c026d3 !important; }
+
+        /* ВИПРАВЛЕННЯ ЧИТАБЕЛЬНОСТІ ТЕКСТІВ FAQ ТА ОПИСІВ ДЛЯ СВІТЛОЇ ТЕМИ */
+        html.light .text-emerald-200\/80 { color: #065f46 !important; font-weight: 500; }
+        html.light .text-rose-200\/70 { color: #9f1239 !important; font-weight: 500; }
+        html.light .text-amber-200\/80 { color: #92400e !important; font-weight: 500; }
+        html.light .text-amber-500\/70 { color: #b45309 !important; font-weight: 500; }
+        html.light .text-fuchsia-200\/80 { color: #86198f !important; font-weight: 500; }
 
         html.light .bg-zinc-950, html.light .bg-zinc-900, html.light .bg-black\/40, html.light .bg-black\/30, html.light .bg-black\/20 { 
             background-color: rgba(241, 245, 249, 0.9) !important; 
@@ -335,7 +342,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.0
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.1
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -383,7 +390,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.0
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.1
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -3146,6 +3153,139 @@
         }
 
         // ==========================================
+        // 5. CREATIVE LAB (CARBON COPY CONSISTENCY ENGINE)
+        // ==========================================
+        async function startLabBatch() {
+            if (state.isProcessing) return;
+            state.isProcessing = true; 
+            state.isAborted = false;
+            getEl('processLabBtn').disabled = true;
+            const count = parseInt(getEl('variationCount').value);
+            getEl('emptyQueue')?.remove();
+            setTxt('queueCount', `${state.tasks.length + count} ОБ’ЄКТІВ`);
+
+            // Reset and show stop button
+            const stopBtn = getEl('stopProcessBtn');
+            stopBtn.classList.remove('hidden', 'bg-zinc-600', 'opacity-50');
+            stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+            stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
+            lucide.createIcons();
+
+            // ROUND ROBIN LOGIC: Cycle through references correctly
+            for(let i=1; i<=count; i++){
+                if (state.isAborted) break;
+                const id = `lab-${Math.random().toString(36).substr(2, 7)}`;
+                createTaskUI(`Concept ${i}`, id);
+                
+                const refIndex = (i - 1) % state.labRefs.length;
+                const selectedRef = state.labRefs[refIndex];
+
+                await runLabPipeline(id, i, selectedRef);
+                if (state.isAborted) break;
+                await new Promise(r => setTimeout(r, 4000));
+            }
+            
+            state.isProcessing = false; 
+            state.isAborted = false;
+            stopBtn.classList.add('hidden');
+            validate();
+            setLiveModel("", false);
+        }
+
+        async function runLabPipeline(id, num, refB64) {
+            updateTaskUI(id, 20, "Стилістичний аналіз...");
+            setLiveModel(MODEL_VISION, true);
+            const labModel = getEl('modelSelectorLab').value;
+
+            try {
+                // STAGE 1: Analysis (Flash 3.1 Vision) - Focus on EXACT Character details for a SINGLE reference
+                const analysisPrompt = `[MANDATORY OVERRIDE] You are an Elite Art Director. Analyze this single reference image. 
+                Identify the MAIN CHARACTER(S), their exact clothing, facial features, and art style. 
+                Write a highly detailed technical prompt describing this character so another AI can draw this EXACT SAME PERSON/MASCOT as a carbon copy. Do not include text descriptions.`;
+                
+                const analysisPayload = {
+                    contents: [{ parts: [{ text: analysisPrompt }, { inlineData: { mimeType: "image/png", data: refB64 } }] }]
+                };
+                const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(analysisPayload)
+                });
+                const analysisData = await analysisResp.json();
+                if(analysisData.error) throw new Error(analysisData.error.message);
+                const techPrompt = analysisData.candidates[0].content.parts[0].text;
+
+                updateTaskUI(id, 55, "Генерація нового дизайну...");
+                setLiveModel(labModel, true);
+
+                // STAGE 2: Render (Selected Image Model) - STRICT Character preservation
+                const bonus = getEl('bonusText').value;
+                const ignore = getEl('optIgnoreRefText').checked;
+                const ratio = getEl('resSelectorLab').value;
+                const stylesArray = Array.from(document.querySelectorAll('.style-check:checked')).map(c => c.value);
+                const extraStyles = stylesArray.length > 0 ? ` APPLIED STYLES: ${stylesArray.join(', ')}.` : '';
+                
+                // STEALTH PROMPTING ДЛЯ ЛАБОРАТОРИИ
+                const gambleLevel = document.querySelector('input[name="gambling_level"]:checked').value;
+                let gamblePrompt = "";
+                switch(gambleLevel) {
+                    case 'heavy': gamblePrompt = "CRITICAL RULE: MAXIMIZE GAME-WINNING ELEMENTS. Add prominent golden coins, slot machine reels, playing cards, and glowing treasures. Make it a high-energy jackpot aesthetic."; break;
+                    case 'moderate': gamblePrompt = "RULE: MODERATE game-winning elements. Keep it balanced, subtle hints of wealth and luck."; break;
+                    case 'safe': gamblePrompt = "ABSOLUTELY STRICT NEGATIVE PROMPT: NO SLOTS, NO COINS, NO CHIPS, NO ROULETTE, NO CARDS. Keep the exact character but make the environment 100% neutral and safe for general audiences."; break;
+                    case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or gaming objects unless they are strictly present in the reference images."; break;
+                }
+                
+                // SUPER HQ Trigger Lab 
+                const hqLab = getEl('optSuperHQLab').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
+
+                const finalPrompt = `
+                [MANDATORY OVERRIDE: EXACT CHARACTER CLONING]
+                ACT AS AN ELITE AI IMAGE GENERATOR. GENERATE A PREMIUM MOBILE GAMING CREATIVE VARIATION #${num} (Session ID: ${id}).
+                CRITICAL INSTRUCTION 1: You MUST extract the EXACT main character from the provided reference image. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
+                CRITICAL INSTRUCTION 2: DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
+                CRITICAL INSTRUCTION 3: OUTPUT EXACTLY ONE SINGLE IMAGE. DO NOT CREATE A GRID, MULTIPLE PANELS, OR COLLAGES.
+                CRITICAL INSTRUCTION 4: ZERO NOISE & ARTIFACTS. Generate with absolutely clean solid colors, NO grain, NO compression artifacts, and smooth gradients.
+                
+                CHARACTER GUIDE: ${techPrompt}
+                ${extraStyles}
+                ${gamblePrompt}
+                ${hqLab}
+                RECOMPOSITION: Generate a brand new layout that perfectly fits the requested ${ratio} dimension.
+                TEXT TO INTEGRATE SEAMLESSLY: "${bonus}". (Preserve exact line breaks if provided).
+                ${ignore ? 'CRITICAL: STRICTLY IGNORE ALL TEXT FROM REFERENCE IMAGES. DO NOT REPLICATE THEIR TEXT.' : ''}
+                QUALITY: UNREAL ENGINE 5, 8K RESOLUTION, AAA-tier marketing quality.
+                EXTRA PROMPT: ${getEl('promptLab').value}`;
+
+                const payload = { 
+                    contents: [{ parts: [{ text: finalPrompt }, { inlineData: { mimeType: "image/png", data: refB64 } }] }], 
+                    generationConfig: { responseModalities: ["IMAGE"] } 
+                };
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${labModel}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const d = await res.json();
+                if(d.error) throw new Error(d.error.message);
+                const b64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
+                const url = `data:image/png;base64,${b64}`;
+                
+                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
+                if (existingTaskIndex !== -1) {
+                    state.tasks[existingTaskIndex].b64 = b64;
+                } else {
+                    let cleanLang = `concept`;
+                    langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
+                    let langIndex = langCounters[cleanLang];
+
+                    // Сохраняем refB64 чтобы при Redo использовать его снова
+                    state.tasks.push({ id, lang: `Concept_${num}`, b64: b64, type: 'lab', originalLang: 'concept', langIndex: langIndex, refB64: refB64 });
+                }
+
+                finalizeTaskUI(id, url, `Concept ${num}`, 'lab');
+            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); }
+        }
+
+        // ==========================================
         // 6. SYNTAX AUDIT 
         // ==========================================
         async function runAudit(id, url, lang, type = 'prod') {
@@ -3328,7 +3468,7 @@
                 getEl('auditAllBtn').classList.add('hidden');
             }
             validate();
-        }
+        };
 
         function finalizeTaskUI(id, url, lang, type = 'prod', isRedo = false) {
             const el = getEl(id); 
