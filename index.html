@@ -2431,12 +2431,12 @@
                 if (!translatedText) {
                     const fsRule = getEl('optFS').checked ? "5. ALLOWED IN ENGLISH: The exact abbreviation 'FS'. CRITICAL: The full phrases 'Free Spins', 'Spins', or 'Free' MUST BE TRANSLATED into " + lang + "." : "";
                     const codeRule = getEl('optCodes').checked ? "6. ALLOWED IN ENGLISH: Promotional codes (e.g. VIP100, BONUS)." : "";
-                    const gamesRule = getEl('optGames').checked ? "7. DO NOT translate the names of slot games (e.g., 'Coin Volcano', 'Coin Strike', 'Gates of Olympus') and DO NOT translate tiny unreadable technical/legal text. Leave game names exactly in English." : "";
+                    const gamesRule = getEl('optGames').checked ? "7. CRITICAL: DO NOT translate the names of slot games (e.g., 'Coin Volcano', 'Coin Strike'), game mechanics/features (e.g., 'Hold and Win', '3x3', 'Mystery', 'Jackpot', 'Bonus'), or tiny technical text. Leave these EXACTLY in English." : "";
                     
-                    let translatePrompt = `Extract ALL text from this image (including chat bubbles, buttons, main titles, and small text) and translate it to ${lang}.
+                    let translatePrompt = `Extract ALL text from this image. Translate the main marketing phrases, bonuses, and buttons into ${lang}, BUT keep specific game terminology and small background text in English.
                     STRICT RULES: 
-                    1. Return ONLY the final translated string. No conversational filler or explanations.
-                    2. Make a natural, semantic translation (not a robotic word-for-word translation). Ensure there are absolutely no grammatical errors in ${lang}.
+                    1. Return ONLY the final string containing all text from the image. No explanations.
+                    2. Make a natural, semantic translation for the main sentences (not a robotic word-for-word translation). Ensure flawless ${lang} grammar.
                     3. NEVER add extra punctuation (like dots or periods) at the end of lines or promotional codes unless they strictly exist in the original image.
                     4. Keep formatting and the visual layout of text blocks exactly as close to the reference as possible.
                     ${fsRule}
@@ -2654,21 +2654,21 @@
                 const isFSChecked = getEl('optFS') && getEl('optFS').checked;
                 const fsAuditRule = isFSChecked ? `The exact abbreviation 'FS' is ALLOWED to be in English. However, full words like 'Free Spins', 'Spins' or 'Free' MUST be translated to ${lang}. If 'Free Spins' is left in English, it is a FATAL ERROR.` : `ALL words including 'Free Spins' and 'FS' MUST be translated to ${lang}.`;
                 const userPrompt = getEl('promptProd').value.trim();
-                const gamesAuditRule = getEl('optGames') && getEl('optGames').checked ? "Slot game names (like 'Coin Volcano', 'Coin Strike') are ALLOWED to remain in English." : "";
+                const gamesAuditRule = getEl('optGames') && getEl('optGames').checked ? "Slot game names ('Coin Volcano', etc.), game mechanics ('Hold and Win', '3x3', 'Mystery', etc.), and tiny background text are ALLOWED to remain in English." : "";
 
                 // ЖОРСТКИЙ ПРОМПТ АУДИТУ З ПОВЕРНЕННЯМ ПРИЧИНИ ПОМИЛКИ
                 const prompt = `Act as a strict native ${lang} proofreader. Check ALL the text in the image.
                 CRITICAL RULES:
-                1. EVERY sentence, question, answer, call-to-action, and button MUST be translated to ${lang}. 
-                2. If ANY part of the conversational text is left in English or a different language, THIS IS A FATAL ERROR.
+                1. EVERY main marketing sentence, question, answer, and button MUST be translated to ${lang}. 
+                2. If ANY part of the main conversational text is left in English, THIS IS A FATAL ERROR.
                 3. ${fsAuditRule}
-                4. Ignore brand names and promotional codes (like VIP, BONUS). ${gamesAuditRule} They MUST remain in English.
+                4. Ignore brand names and promo codes. ${gamesAuditRule} They MUST remain in English. Do not flag them as errors.
                 5. Check for grammatical and spelling errors in the ${lang} text. Do not punish for missing punctuation like dots at the end of short phrases.
                 6. Keep in mind the user provided these custom instructions: "${userPrompt}". Ensure they were followed.
                 
                 RETURN ONLY VALID JSON EXACTLY IN THIS FORMAT:
-                If everything is perfect: {"ok": true, "reason": "Perfect", "fix": "Write the FULL exact text that is currently on the image here, keeping its structure. This allows the user to review it."}
-                If there is ANY error: {"ok": false, "reason": "Short explanation of the error", "fix": "Write the FULL completely corrected text here in ${lang}."}`;
+                If everything is perfect: {"ok": true, "reason": "Все ідеально! Переклад правильний.", "fix": "Write the FULL exact text that is currently on the image here, keeping its structure. This allows the user to review it."}
+                If there is ANY error: {"ok": false, "reason": "Поясніть помилку коротко УКРАЇНСЬКОЮ МОВОЮ (наприклад, 'Не перекладено текст кнопки' або 'Граматична помилка в заголовку')", "fix": "Write the FULL completely corrected text here in ${lang}."}`;
                 
                 const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
