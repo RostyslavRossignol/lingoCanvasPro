@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V2.6</title>
+        <title>UA Studio | LingoCanvas Pro Beta V3.0</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -31,6 +31,7 @@
             --rose: #f43f5e;
             --cyan: #06b6d4;
             --amber: #f59e0b;
+            --fuchsia: #d946ef;
         }
 
         /* ЗБІЛЬШЕНО БАЗОВИЙ ШРИФТ ДЛЯ МАСШТАБУВАННЯ ВСЬОГО UI (+11.5%) */
@@ -66,6 +67,7 @@
         html.light .text-rose-400 { color: #e11d48 !important; }
         html.light .text-indigo-400 { color: #4f46e5 !important; }
         html.light .text-amber-400 { color: #d97706 !important; }
+        html.light .text-fuchsia-400 { color: #c026d3 !important; }
 
         html.light .bg-zinc-950, html.light .bg-zinc-900, html.light .bg-black\/40, html.light .bg-black\/30, html.light .bg-black\/20 { 
             background-color: rgba(241, 245, 249, 0.9) !important; 
@@ -109,11 +111,17 @@
         html.light .btn-action.btn-amber {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
         }
+        html.light .btn-action.btn-fuchsia {
+            background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%) !important;
+        }
         html.light .btn-action:hover:not(:disabled) {
             box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;
         }
         html.light .btn-action.btn-amber:hover:not(:disabled) {
             box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3) !important;
+        }
+        html.light .btn-action.btn-fuchsia:hover:not(:disabled) {
+            box-shadow: 0 10px 25px rgba(217, 70, 239, 0.3) !important;
         }
         html.light .btn-action:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); box-shadow: none !important; }
 
@@ -200,17 +208,24 @@
         .btn-action.btn-amber {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
+        .btn-action.btn-fuchsia {
+            background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%);
+        }
         .btn-action:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(99,102,241, 0.3); }
         .btn-action.btn-amber:hover:not(:disabled) { box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3); }
-        .btn-action:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+        .btn-action.btn-fuchsia:hover:not(:disabled) { box-shadow: 0 10px 25px rgba(217, 70, 239, 0.3); }
+        .btn-action:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); box-shadow: none !important; }
 
         .tab-btn { transition: all 0.3s ease; border-bottom: 2px solid transparent; opacity: 0.4; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.65rem; padding: 0.4rem 1rem; }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); opacity: 1; transform: translateY(-1px); }
         
         .tab-btn-amber.active { color: var(--amber); border-bottom-color: var(--amber); opacity: 1; transform: translateY(-1px); }
+        .tab-btn-fuchsia.active { color: var(--fuchsia); border-bottom-color: var(--fuchsia); opacity: 1; transform: translateY(-1px); }
 
         .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.05); transition: all 0.4s ease; min-height: 100px; position: relative; background: rgba(24, 24, 27, 0.4); border-radius: 1.2rem; }
-        .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); transform: scale(1.02); }
+        .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); transform: scale(1.02); z-index: 50; }
+        
+        .drop-zone-fuchsia.active { border-color: var(--fuchsia); background: rgba(217, 70, 239, 0.2); }
 
         .badge-counter { font-size: 8px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 99px; font-weight: 900; }
 
@@ -222,6 +237,8 @@
         }
         select option { background-color: #18181b !important; color: #ffffff !important; padding: 10px !important; }
         select:focus, input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(99,102,241,0.2); }
+        
+        .focus-fuchsia:focus { border-color: var(--fuchsia) !important; box-shadow: 0 0 10px rgba(217, 70, 239, 0.2) !important; }
 
         /* CHECKBOXES & RADIOS */
         .custom-check {
@@ -318,7 +335,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.6
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.0
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -366,7 +383,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.6
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.0
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -385,6 +402,10 @@
                             class="tab-btn tab-btn-amber rounded-lg opacity-40 flex items-center gap-1"><i
                                 data-lucide="scissors" class="w-3 h-3"></i>
                             Хірургічна Ретуш</button>
+                        <button onclick="switchTab('pwa')" id="tabPwa"
+                            class="tab-btn tab-btn-fuchsia rounded-lg opacity-40 flex items-center gap-1"><i
+                                data-lucide="layout-grid" class="w-3 h-3"></i>
+                            PWA Вітрина</button>
                     </nav>
                     <button onclick="toggleTheme()"
                         class="p-2 bg-zinc-900/50 hover:bg-indigo-500/20 text-zinc-500 hover:text-indigo-500 rounded-xl border border-white/5 transition-all"
@@ -793,7 +814,7 @@
                                         </div>
                                     </div>
                                     <textarea id="promptProd" rows="4"
-                                        placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Впишіть сюди побажання, або вставте свій словник перекладів (напр. Polish: Jak mogę dostac... Portuguese: Como faço...) тільки якщо це необхідно."
+                                        placeholder="ПРОМПТ НЕ ОБОВ'ЯЗКОВИЙ! Впишіть сюди побажання, або вставте свій словник перекладів (напр. Polish: Jak могу достать... Portuguese: Como faço...) тільки якщо це необхідно."
                                         class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y"></textarea>
                                 </div>
                             </section>
@@ -1351,7 +1372,7 @@
                                     <!-- OCR inputs will be injected here -->
                                 </div>
 
-                                <div class="pt-4 border-t border-white/5">
+                                <div class="pt-4 border-t border-white/5 mt-4">
                                     <p
                                         class="text-[9px] text-amber-500/70 italic mb-3 text-center px-2">Якщо
                                         ШІ схибив зі шрифтом — просто натисніть
@@ -1376,11 +1397,312 @@
                                 </div>
                             </section>
                         </div>
+
+                        <!-- ====== PWA BUILDER TAB (MODULE 4) ====== -->
+                        <div id="pwaControls"
+                            class="hidden space-y-6 animate__animated animate__fadeIn">
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4 border border-fuchsia-500/20 bg-fuchsia-500/5">
+                                <div class="flex items-center justify-between">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-fuchsia-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="image"
+                                            class="w-3.5 h-3.5"></i> 1.
+                                        РЕФЕРЕНСИ ДЛЯ PWA (MAX 5)</h2>
+                                    <div
+                                        class="tooltip-container tooltip-left tooltip-down z-50">
+                                        <i data-lucide="help-circle"
+                                            class="w-3.5 h-3.5 text-fuchsia-500 hover:text-fuchsia-400"></i>
+                                        <span class="tooltip-text">Завантажте
+                                            кілька скріншотів гри/казино. ШІ
+                                            проаналізує їх і створить єдиний
+                                            стиль для всіх PWA-скріншотів та
+                                            іконки.</span>
+                                    </div>
+                                </div>
+                                <div id="dropZonePwa"
+                                    class="drop-zone p-6 text-center cursor-pointer group border-fuchsia-500/20 hover:border-fuchsia-500/50 bg-fuchsia-500/10 transition-all">
+                                    <input type="file" id="fileInputPwa"
+                                        class="hidden" accept="image/*"
+                                        multiple>
+                                    <div id="previewPwa"
+                                        class="flex gap-4 h-full w-full items-center justify-center flex-wrap"></div>
+                                    <div id="placeholderPwa"
+                                        class="text-center pointer-events-none">
+                                        <i data-lucide="layout-grid"
+                                            class="w-8 h-8 text-fuchsia-500/50 mx-auto mb-2 group-hover:text-fuchsia-400 transition-colors"></i>
+                                        <p
+                                            class="text-fuchsia-500 font-bold uppercase text-[9px]">Перетягніть
+                                            скрини сюди</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section
+                                class="glass-panel rounded-[2rem] p-6 space-y-4 border border-fuchsia-500/20">
+                                <div
+                                    class="flex items-center justify-between mb-2">
+                                    <h2
+                                        class="text-[9px] font-black uppercase text-fuchsia-500 tracking-widest flex items-center gap-2"><i
+                                            data-lucide="smartphone"
+                                            class="w-3.5 h-3.5"></i> 2.
+                                        НАЛАШТУВАННЯ ВІТРИНИ</h2>
+                                </div>
+
+                                <div
+                                    class="bg-fuchsia-500/10 border border-fuchsia-500/20 p-4 rounded-xl mb-4">
+                                    <h3
+                                        class="text-[10px] font-black text-fuchsia-400 uppercase mb-2 flex items-center gap-1.5"><i
+                                            data-lucide="info"
+                                            class="w-3 h-3"></i> Як це
+                                        працює:</h3>
+                                    <ul
+                                        class="text-fuchsia-200/80 text-[10px] space-y-1.5 list-disc pl-4">
+                                        <li><b>Якість референсів:</b> Чим
+                                            чистіше і якісніше ваші вихідні
+                                            скріншоти (без зайвого сміття) — тим
+                                            кращим і точнішим буде
+                                            результат.</li>
+                                        <li>Окремо буде згенерована <b>квадратна
+                                                іконка (аватарка)</b>, яка
+                                            автоматично стиснеться до 512x512
+                                            px.</li>
+                                        <li>Кожне зображення генерується окремо,
+                                            але ШІ збереже <b>спільний
+                                                візуальний стиль</b>.</li>
+                                        <li><b>Не сподобався 1 скрін?:</b> Ви
+                                            можете точково перегенерувати
+                                            будь-який екран кнопкою 🔄 в черзі
+                                            (навіть змінивши текст чи масштаб
+                                            саме для нього).</li>
+                                    </ul>
+                                </div>
+
+                                <!-- AI FREEDOM MODE FOR PWA -->
+                                <div id="pwaFreedomBlock"
+                                    class="p-4 rounded-xl border border-fuchsia-500 shadow-[0_0_15px_rgba(217,70,239,0.3)] animate-pulse transition-all mb-4 bg-fuchsia-500/5">
+                                    <div
+                                        class="flex items-center justify-between mb-3">
+                                        <label
+                                            class="text-[9px] font-black text-fuchsia-400 uppercase flex items-center gap-2">
+                                            <i data-lucide="user-check"
+                                                class="w-4 h-4"></i> Режим
+                                            персонажа (ОБОВ'ЯЗКОВО)
+                                        </label>
+                                        <div
+                                            class="tooltip-container tooltip-left z-50">
+                                            <i data-lucide="help-circle"
+                                                class="w-4 h-4 text-fuchsia-500 hover:text-fuchsia-400"></i>
+                                            <span class="tooltip-text">Оберіть
+                                                режим роботи ШІ.
+                                                <br><br><b>Точна копія:</b>
+                                                суворо зберігає обличчя та одяг
+                                                як на
+                                                референсі.<br><br><b>Вільна:</b>
+                                                малює схожого, але нового героя
+                                                у різноманітних позах (більш
+                                                креативно).</span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <label
+                                            class="flex items-center gap-2 p-3 rounded-lg bg-zinc-950/80 border border-white/10 cursor-pointer hover:border-fuchsia-500/50 group transition-all"
+                                            onclick="stopPwaPulse()">
+                                            <input type="radio"
+                                                name="pwa_freedom"
+                                                value="strict"
+                                                class="custom-radio"
+                                                onchange="validate()">
+                                            <span
+                                                class="text-[9px] font-black text-zinc-400 group-hover:text-white uppercase">Точна
+                                                Копія (1:1)</span>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-2 p-3 rounded-lg bg-zinc-950/80 border border-white/10 cursor-pointer hover:border-fuchsia-500/50 group transition-all"
+                                            onclick="stopPwaPulse()">
+                                            <input type="radio"
+                                                name="pwa_freedom" value="free"
+                                                class="custom-radio"
+                                                onchange="validate()">
+                                            <span
+                                                class="text-[9px] font-black text-zinc-400 group-hover:text-white uppercase">Вільна
+                                                (Креатив)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 mb-4">
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <span
+                                                class="text-[8px] text-zinc-600 block uppercase font-black">Кількість
+                                                Скріншотів</span>
+                                        </div>
+                                        <select id="pwaScreenCount"
+                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer focus-fuchsia">
+                                            <option value="3" selected>3 Скріни
+                                                + 1 Іконка</option>
+                                            <option value="4">4 Скріни + 1
+                                                Іконка</option>
+                                        </select>
+                                    </div>
+
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <span
+                                                class="text-[8px] text-zinc-600 block uppercase font-black">Масштаб
+                                                тексту на екранах</span>
+                                            <div
+                                                class="tooltip-container tooltip-left z-50">
+                                                <i data-lucide="help-circle"
+                                                    class="w-3 h-3 text-zinc-500 hover:text-fuchsia-400"></i>
+                                                <span class="tooltip-text">Керує
+                                                    розміром бонусного тексту.
+                                                    Якщо ШІ малює занадто
+                                                    дрібно, виберіть
+                                                    "Гігантський". Можна
+                                                    змінювати точково перед
+                                                    перегенерацією (🔄).</span>
+                                            </div>
+                                        </div>
+                                        <select id="pwaTextScale"
+                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer focus-fuchsia">
+                                            <option value="standard"
+                                                selected>Стандартний
+                                                (Акуратний)</option>
+                                            <option value="large">Великий
+                                                (Яскравий акцент)</option>
+                                            <option value="massive">Гігантський
+                                                (Максимальний)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <!-- Screen 1 -->
+                                    <div class="space-y-1">
+                                        <label
+                                            class="text-[8px] font-black text-fuchsia-500 uppercase ml-2">Текст
+                                            Скріншоту 1</label>
+                                        <textarea id="pwaText1" rows="2"
+                                            placeholder="Напр: 50 FS БЕЗ ДЕПОЗИТУ&#10;ПО ПРОМОКОДУ WIN2026"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner resize-y focus-fuchsia"></textarea>
+                                    </div>
+                                    <!-- Screen 2 -->
+                                    <div class="space-y-1">
+                                        <label
+                                            class="text-[8px] font-black text-fuchsia-500 uppercase ml-2">Текст
+                                            Скріншоту 2</label>
+                                        <textarea id="pwaText2" rows="2"
+                                            placeholder="Напр: 100% ДО ПЕРШОГО ДЕПОЗИТУ&#10;+ 100 FREESPINS"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner resize-y focus-fuchsia"></textarea>
+                                    </div>
+                                    <!-- Screen 3 -->
+                                    <div class="space-y-1">
+                                        <label
+                                            class="text-[8px] font-black text-fuchsia-500 uppercase ml-2">Текст
+                                            Скріншоту 3</label>
+                                        <textarea id="pwaText3" rows="2"
+                                            placeholder="Напр: ШВИДКІ ВИПЛАТИ&#10;КРАЩІ СЛОТИ"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner resize-y focus-fuchsia"></textarea>
+                                    </div>
+                                    <!-- Screen 4 (Hidden by default) -->
+                                    <div id="pwaScreen4Container"
+                                        class="space-y-1 hidden">
+                                        <label
+                                            class="text-[8px] font-black text-fuchsia-500 uppercase ml-2">Текст
+                                            Скріншоту 4</label>
+                                        <textarea id="pwaText4" rows="2"
+                                            placeholder="Напр: ЩОТИЖНЕВИЙ КЕШБЕК 20%"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner resize-y focus-fuchsia"></textarea>
+                                    </div>
+
+                                    <div
+                                        class="w-full h-px bg-white/10 my-4"></div>
+
+                                    <!-- Icon Text -->
+                                    <div class="space-y-1">
+                                        <div
+                                            class="flex justify-between items-center">
+                                            <label
+                                                class="text-[8px] font-black text-fuchsia-400 uppercase ml-2">Текст
+                                                для Іконки (Аватарки)</label>
+                                            <span
+                                                class="text-[8px] text-zinc-500 font-bold uppercase mr-2">Формат:
+                                                512x512</span>
+                                        </div>
+                                        <textarea id="pwaIconText" rows="1"
+                                            placeholder="Назва гри або логотип (напр. PINK JOKER)"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-fuchsia-500/30 bg-fuchsia-950/20 font-black shadow-inner resize-none focus-fuchsia"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 pt-4">
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-center">
+                                        <span
+                                            class="text-[8px] text-zinc-600 block mb-1 uppercase font-black">Формат
+                                            виводу</span>
+                                        <select id="pwaFileType"
+                                            class="bg-transparent border-none p-0 text-[9px] font-black text-fuchsia-400 cursor-pointer focus-fuchsia">
+                                            <option value="image/png">PNG Studio
+                                                HQ</option>
+                                            <option value="image/jpeg">JPEG Web
+                                                Optimized</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                        class="p-3 rounded-xl bg-zinc-950/50 border border-white/5">
+                                        <div
+                                            class="flex items-center justify-between mb-1">
+                                            <span
+                                                class="text-[8px] text-zinc-600 uppercase font-black">Модель
+                                                ШІ</span>
+                                        </div>
+                                        <select id="modelSelectorPwa"
+                                            class="w-full bg-transparent border-none p-0 text-[10px] text-white font-bold cursor-pointer focus-fuchsia">
+                                            <option
+                                                value="gemini-3.1-flash-image-preview"
+                                                selected>Nano Banana 2
+                                                (Flash)</option>
+                                            <option
+                                                value="gemini-2.5-flash-image">Nano
+                                                Banana (Standard)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-white/5 mt-4">
+                                    <div
+                                        class="flex items-center justify-between mb-1 mt-2">
+                                        <label
+                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Загальний
+                                            промпт стилю - <span
+                                                class="text-emerald-400">ОПЦІОНАЛЬНО</span></label>
+                                    </div>
+                                    <textarea id="promptPwa" rows="3"
+                                        placeholder="Вкажіть додаткові побажання (напр. зроби все в червоних тонах, додай більше золотих монет на фон)..."
+                                        class="w-full rounded-xl px-4 py-3 text-[10px] border-white/5 bg-black/20 resize-y focus-fuchsia"></textarea>
+                                </div>
+                            </section>
+
+                            <button id="processPwaBtn" disabled
+                                class="btn-action btn-fuchsia w-full py-5 rounded-[1.5rem] font-black text-[12px] uppercase tracking-widest shadow-xl flex items-center justify-center gap-2 transition-all">
+                                <i data-lucide="layout-grid"
+                                    class="w-4 h-4"></i> ЗГЕНЕРУВАТИ PWA
+                            </button>
+                        </div>
+
                     </div>
 
                     <!-- WATERMARK AUTHOR -->
                     <div
-                        class="mt-8 mb-4 text-center text-xs font-black uppercase tracking-[0.3em] text-zinc-400 opacity-50 hover:opacity-100 transition-opacity cursor-default">
+                        class="mt-8 mb-4 text-center text-[13px] font-black uppercase tracking-[0.4em] text-zinc-400 opacity-60 hover:opacity-100 transition-opacity cursor-default">
                         Made by ROSSIGNOL
                     </div>
                 </div>
@@ -1583,6 +1905,27 @@
                                     його вам у вигляді полів. Ви точково
                                     вписуєте переклад, а ШІ просто накладає його
                                     замість старого (або стирає повністю).</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-fuchsia-900/30 border border-fuchsia-500/20 p-4 rounded-xl flex gap-4 items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-fuchsia-500/20 text-fuchsia-400 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="layout-grid"
+                                    class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-black text-white uppercase mb-1">4.
+                                    PWA Вітрина</h3>
+                                <p
+                                    class="text-zinc-400 text-xs leading-relaxed">Створення
+                                    повноцінної упаковки для вашого PWA.
+                                    Завантажте кілька референсів слотів/ігор, і
+                                    ШІ згенерує 3-4 консистентних вертикальних
+                                    скріншоти (9:16) та аватарку (512x512) в
+                                    єдиному стилі.</p>
                             </div>
                         </div>
                     </div>
@@ -1788,13 +2131,8 @@
                                 оригінальному референсу.
 
                                 Ось мій словник:
-                                Польська: Jak mogę dostać 250 FS? 1) Kliknij
-                                link 2) Dokonaj wpłaty...
-                                Португальська: Como faço para ganhar 250 FS? 1)
-                                Clique no link...
-
-                                Не допускай помилок, заміни тільки текст, усе
-                                інше має бути без змін.</p>
+                                Польська: Jak могу достать... Portuguese: Como
+                                faço...) тільки якщо це необхідно.</p>
                         </div>
                     </div>
 
@@ -1880,6 +2218,7 @@
             apiKey: null, 
             masterB64: null, 
             labRefs: [], 
+            pwaRefs: [],
             tasks: [], 
             isProcessing: false, 
             isAborted: false, 
@@ -1907,7 +2246,20 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             initApp();
+            
+            // PWA Select logic
+            getEl('pwaScreenCount').addEventListener('change', (e) => {
+                getEl('pwaScreen4Container').classList.toggle('hidden', e.target.value !== '4');
+            });
         });
+
+        // Зупинка пульсації PWA блоку
+        window.stopPwaPulse = () => {
+            const block = getEl('pwaFreedomBlock');
+            block.classList.remove('animate-pulse', 'border-fuchsia-500', 'shadow-[0_0_15px_rgba(217,70,239,0.3)]');
+            block.classList.add('border-white/5');
+            validate();
+        };
 
         function initApp() {
             getEl('langGrid').innerHTML = geoLangs.map(l=>`
@@ -1936,11 +2288,13 @@
             // Start Confirmation Logic
             getEl('processProdBtn').onclick = () => { pendingTaskType = 'prod'; getEl('startConfirmModal').classList.remove('hidden'); };
             getEl('processLabBtn').onclick = () => { pendingTaskType = 'lab'; getEl('startConfirmModal').classList.remove('hidden'); };
+            getEl('processPwaBtn').onclick = () => { pendingTaskType = 'pwa'; getEl('startConfirmModal').classList.remove('hidden'); };
 
             getEl('startConfirmYes').onclick = () => {
                 getEl('startConfirmModal').classList.add('hidden');
                 if (pendingTaskType === 'prod') startBatchProduction();
                 if (pendingTaskType === 'lab') startLabBatch();
+                if (pendingTaskType === 'pwa') startPwaBatch();
                 pendingTaskType = null;
             };
 
@@ -1991,6 +2345,7 @@
             setupDropZone('dropZoneProd', 'fileInputProd', 'prod');
             setupDropZone('dropZoneLab', 'fileInputLab', 'lab');
             setupDropZone('dropZoneRetouch', 'fileInputRetouch', 'retouch');
+            setupDropZone('dropZonePwa', 'fileInputPwa', 'pwa');
         }
         
         // DRAG AND DROP HANDLER
@@ -2016,11 +2371,13 @@
                 const dt = e.dataTransfer;
                 const files = dt.files;
                 if(type === 'lab' && state.labRefs.length >= 3) return;
+                if(type === 'pwa' && state.pwaRefs.length >= 5) return;
                 handleFiles(files, type);
             }, false);
 
             zone.onclick = () => { 
                 if(type === 'lab' && state.labRefs.length >= 3) return; 
+                if(type === 'pwa' && state.pwaRefs.length >= 5) return;
                 input.click(); 
             };
             input.onchange = e => handleFiles(e.target.files, type);
@@ -2095,7 +2452,9 @@
             let template = '';
             if(task.type === 'prod') template = getEl('namingTemplateProd').value.trim();
             else if(task.type === 'lab') template = getEl('namingTemplateLab').value.trim();
-            // Retouch gets basic naming
+            
+            if(task.type === 'pwa_screen') return `screen_${task.pwaIndex}.png`;
+            if(task.type === 'pwa_icon') return `icon.png`;
 
             let baseLang = task.originalLang.replace(/\s+/g, '_').toLowerCase();
             let index = task.langIndex;
@@ -2118,6 +2477,33 @@
                 }
                 return `${baseLang}${numInsert}_${template}${ext}`;
             }
+        }
+        
+        // --- УТИЛИТА РЕСАЙЗА АВАТАРКИ ---
+        async function resizeImageBase64(base64Str, maxSize = 512, mimeType = "image/png") {
+            return new Promise((resolve) => {
+                let img = new Image();
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // Завжди робимо ідеальний квадрат maxSize x maxSize
+                    let canvas = document.createElement('canvas');
+                    canvas.width = maxSize;
+                    canvas.height = maxSize;
+                    let ctx = canvas.getContext('2d');
+                    
+                    // Малюємо з масштабуванням і обрізкою по центру
+                    let size = Math.min(width, height);
+                    let x = (width - size) / 2;
+                    let y = (height - size) / 2;
+                    
+                    ctx.drawImage(img, x, y, size, size, 0, 0, maxSize, maxSize);
+                    let dataUrl = canvas.toDataURL(mimeType);
+                    resolve(dataUrl.split(',')[1]);
+                };
+                img.src = "data:image/png;base64," + base64Str;
+            });
         }
 
         // 3. GATE (API VERIFY)
@@ -2180,6 +2566,222 @@
             else targetEl.value = text;
             closePrompts();
         };
+
+        // ==========================================
+        // MODULE 4: PWA BUILDER
+        // ==========================================
+        async function startPwaBatch() {
+            if (state.isProcessing) return;
+            state.isProcessing = true; 
+            state.isAborted = false;
+            getEl('processPwaBtn').disabled = true;
+            
+            const screenCount = parseInt(getEl('pwaScreenCount').value);
+            const totalTasks = screenCount + 1; // Screens + 1 Icon
+            
+            // Читання налаштувань
+            const freedomRadio = document.querySelector('input[name="pwa_freedom"]:checked');
+            const freedomLevel = freedomRadio ? freedomRadio.value : 'free';
+            const textScale = getEl('pwaTextScale').value;
+            
+            getEl('emptyQueue')?.remove();
+            setTxt('queueCount', `${state.tasks.length + totalTasks} ОБ’ЄКТІВ`);
+
+            // Show stop button
+            const stopBtn = getEl('stopProcessBtn');
+            stopBtn.classList.remove('hidden', 'bg-zinc-600', 'opacity-50');
+            stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+            stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
+            lucide.createIcons();
+
+            try {
+                updateTaskUI("main", 10, "Аналіз PWA референсів...");
+                setLiveModel(MODEL_VISION, true);
+                
+                // 1. Analyze references to extract style DNA + LOGOS
+                let themeContext = "";
+                if (state.pwaRefs.length > 0) {
+                    const analysisPrompt = `You are an expert App Store Optimization (ASO) designer. Analyze these reference game/casino screenshots. 
+                    1. Extract the core visual identity: main characters/mascots, dominant color palette, atmosphere, and art style. 
+                    2. CRITICAL: Identify any specific game logos (e.g., 'Pink Joker', 'Coin Volcano', etc.) or casino brands present.
+                    3. Identify gameplay elements (slot reels, specific symbols like bells/stars/coins).
+                    Output a detailed master prompt describing this visual universe. Explicitly list the identified logos so another AI can recreate them. Do not include text descriptions of the promotional text, only the art style and logos.`;
+                    
+                    const analysisPayload = {
+                        contents: [{ parts: [{ text: analysisPrompt }, ...state.pwaRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }))] }]
+                    };
+                    const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(analysisPayload)
+                    });
+                    const analysisData = await analysisResp.json();
+                    if(analysisData.error) throw new Error(analysisData.error.message);
+                    themeContext = analysisData.candidates[0].content.parts[0].text;
+                } else {
+                    themeContext = "Generic vibrant mobile casino/gaming app style with gold coins and glowing UI elements.";
+                }
+
+                const pwaModel = getEl('modelSelectorPwa').value;
+                const fileType = getEl('pwaFileType').value;
+                const generalPrompt = getEl('promptPwa').value.trim();
+
+                // Build PWA Data Object to store for Redo
+                const pwaData = { themeContext, generalPrompt, model: pwaModel, fileType, freedomLevel, textScale };
+
+                // 2. Generate Screens
+                for (let i = 1; i <= screenCount; i++) {
+                    if (state.isAborted) break;
+                    
+                    const id = `pwa-screen-${Math.random().toString(36).substr(2, 7)}`;
+                    createTaskUI(`Скріншот ${i}`, id);
+                    
+                    pwaData.screenText = getEl(`pwaText${i}`).value;
+                    await runPwaScreenPipeline(id, i, pwaData);
+                    
+                    if (state.isAborted) break;
+                    await new Promise(r => setTimeout(r, 4000));
+                }
+
+                // 3. Generate Icon
+                if (!state.isAborted) {
+                    const iconId = `pwa-icon-${Math.random().toString(36).substr(2, 7)}`;
+                    createTaskUI(`Іконка 512x512`, iconId);
+                    
+                    pwaData.iconText = getEl('pwaIconText').value;
+                    await runPwaIconPipeline(iconId, pwaData);
+                }
+
+            } catch(e) {
+                alert("Помилка генерації PWA: " + e.message);
+            }
+
+            state.isProcessing = false; 
+            state.isAborted = false;
+            stopBtn.classList.add('hidden');
+            validate();
+            setLiveModel("", false);
+        }
+
+        async function runPwaScreenPipeline(id, num, pwaData) {
+            updateTaskUI(id, 40, "Рендеринг екрану...");
+            setLiveModel(pwaData.model, true);
+
+            try {
+                let compositionRule = "";
+                if(num === 1) compositionRule = "COMPOSITION: Introduce the app. Focus on the main character/mascot and perfectly integrate the GAME LOGO / BRAND (if any was identified in the theme) prominently near the top or bottom.";
+                else if(num === 2) compositionRule = "COMPOSITION: Focus on GAMEPLAY. Show slot machine reels, a game grid (e.g. 3x3), or specific game symbols like bells, stars, or fruit. Make it look like the user is actively playing.";
+                else if(num === 3) compositionRule = "COMPOSITION: Focus on WINNING & WEALTH. Huge explosion of gold coins, treasures, or a jackpot atmosphere. Change the character's pose or focus purely on the loot.";
+                else if(num === 4) compositionRule = "COMPOSITION: Focus on APP FEATURES / UI. Show a clean thematic background, maybe a glowing chest or a smooth abstract design that highlights the promotional text perfectly.";
+
+                let freedomRule = "";
+                if(pwaData.freedomLevel === 'strict') {
+                    freedomRule = "MANDATORY RULE: STRICT 1:1 CARBON COPY. You MUST use the EXACT character, face, background, and UI elements (slots, grids) shown in the attached reference images. DO NOT invent a new character. Copy-paste the exact visual assets and intelligently re-arrange/outpaint them to fit the new layout.";
+                } else {
+                    freedomRule = "CHARACTER RULE: CREATIVE FREEDOM. Design a character inspired by the references but feel free to alter the face, outfit details, and pose to make the scene highly dynamic and unique.";
+                }
+
+                let scaleRule = "";
+                if(pwaData.textScale === "large") scaleRule = "CRITICAL TEXT RULE: Make the text LARGE, BOLD, and highly readable. It must stand out vividly against the background. Do not make it small.";
+                else if(pwaData.textScale === "massive") scaleRule = "CRITICAL TEXT RULE: Make the text ABSOLUTELY MASSIVE and hyper-visible. The typography must dominate the composition and instantly catch the viewer's eye.";
+
+                const finalPrompt = `
+                ACT AS AN ELITE APP STORE OPTIMIZATION DESIGNER. GENERATE PROMOTIONAL SCREENSHOT #${num} OF A SEQUENCE.
+                THEME/UNIVERSE TO FOLLOW STRICTLY: ${pwaData.themeContext}
+                ${freedomRule}
+                
+                TEXT TO INTEGRATE BEAUTIFULLY (glowing 3D typography): 
+                "${pwaData.screenText}"
+                (Preserve exact line breaks if provided).
+                ${scaleRule}
+                
+                ${compositionRule}
+                LAYOUT: Exactly 9:16 vertical orientation.
+                CRITICAL INSTRUCTION: ZERO NOISE & ARTIFACTS. Generate with absolutely clean solid colors, NO grain, NO compression artifacts, and smooth gradients.
+                VARIETY RULE: Ensure this screenshot looks distinctly different from others in the sequence (don't just copy the exact same character pose every time).
+                EXTRA PROMPT: ${pwaData.generalPrompt}`;
+
+                // Force 1080x1920 for screens AND ADD IMAGE REFS BACK!
+                const imageParts = state.pwaRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }));
+                const payload = { 
+                    contents: [{ parts: [{ text: finalPrompt + "\nFORMAT: 1080x1920" }, ...imageParts] }], 
+                    generationConfig: { responseModalities: ["IMAGE"] } 
+                };
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${pwaData.model}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const d = await res.json();
+                if(d.error) throw new Error(d.error.message);
+                const b64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
+                const url = `data:${pwaData.fileType};base64,${b64}`;
+                
+                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
+                if (existingTaskIndex !== -1) {
+                    state.tasks[existingTaskIndex].b64 = b64;
+                    state.tasks[existingTaskIndex].pwaData = pwaData;
+                } else {
+                    state.tasks.push({ id, lang: `Скріншот ${num}`, b64: b64, type: 'pwa_screen', pwaIndex: num, pwaData: pwaData });
+                }
+
+                finalizeTaskUI(id, url, `Скріншот ${num}`, 'pwa_screen');
+            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'pwa_screen', num, pwaData); }
+        }
+
+        async function runPwaIconPipeline(id, pwaData) {
+            updateTaskUI(id, 40, "Рендеринг іконки...");
+            setLiveModel(pwaData.model, true);
+
+            try {
+                let freedomRule = "";
+                if(pwaData.freedomLevel === 'strict') {
+                    freedomRule = "MANDATORY RULE: STRICT 1:1 CARBON COPY. You MUST use the EXACT character face and assets from the attached reference images. DO NOT invent a new character.";
+                } else {
+                    freedomRule = "CHARACTER RULE: CREATIVE FREEDOM. Design a character inspired by the references but feel free to alter details to make it a perfect app icon.";
+                }
+
+                const finalPrompt = `
+                ACT AS AN ELITE APP ICON DESIGNER. GENERATE A SQUARE APP ICON.
+                THEME/UNIVERSE TO FOLLOW STRICTLY: ${pwaData.themeContext}
+                ${freedomRule}
+                
+                TEXT TO INTEGRATE AS LOGO: 
+                "${pwaData.iconText}"
+                
+                LAYOUT: Exactly 1:1 square orientation. Close-up on the main character face or key object. Highly vibrant, high contrast, perfect for a mobile phone screen. Text should look like a game logo.
+                CRITICAL INSTRUCTION: ZERO NOISE & ARTIFACTS. Generate with absolutely clean solid colors, NO grain, NO compression artifacts, and smooth gradients.
+                EXTRA PROMPT: ${pwaData.generalPrompt}`;
+
+                const imageParts = state.pwaRefs.map(b => ({ inlineData: { mimeType: "image/png", data: b } }));
+                const payload = { 
+                    contents: [{ parts: [{ text: finalPrompt + "\nFORMAT: 1080x1080" }, ...imageParts] }], 
+                    generationConfig: { responseModalities: ["IMAGE"] } 
+                };
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${pwaData.model}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const d = await res.json();
+                if(d.error) throw new Error(d.error.message);
+                const rawB64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
+                
+                updateTaskUI(id, 80, "Стиснення (512x512)...");
+                // RESIZE AVATAR TO 512x512
+                const finalB64 = await resizeImageBase64(rawB64, 512, pwaData.fileType);
+                const url = `data:${pwaData.fileType};base64,${finalB64}`;
+                
+                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
+                if (existingTaskIndex !== -1) {
+                    state.tasks[existingTaskIndex].b64 = finalB64;
+                    state.tasks[existingTaskIndex].pwaData = pwaData;
+                } else {
+                    state.tasks.push({ id, lang: `Іконка PWA`, b64: finalB64, type: 'pwa_icon', pwaData: pwaData });
+                }
+
+                finalizeTaskUI(id, url, `Іконка PWA`, 'pwa_icon');
+            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'pwa_icon', 'icon', pwaData); }
+        }
 
         // ==========================================
         // NEW MODULE: SURGICAL RETOUCH (MODULE 3)
@@ -2270,6 +2872,9 @@
         async function renderRetouchImage() {
             if(!state.retouchB64 || state.isProcessing) return;
             
+            const rawLangs = getEl('retouchLangs').value.trim();
+            let langs = rawLangs ? rawLangs.split(',').map(l => l.trim()).filter(l => l.length > 1) : ['Retouch Result'];
+            
             state.isProcessing = true;
             state.isAborted = false;
 
@@ -2298,9 +2903,16 @@
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
 
-            const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
-            createTaskUI('Хірургічна Ретуш', id);
-            await runRetouchPipeline(id, baseActions);
+            for(let lang of langs) {
+                if(state.isAborted) break;
+                
+                const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
+                createTaskUI(lang, id);
+                await runRetouchPipeline(id, lang, baseActions);
+                
+                if(state.isAborted) break;
+                if(langs.length > 1) await new Promise(r => setTimeout(r, 3000));
+            }
 
             state.isProcessing = false;
             state.isAborted = false;
@@ -2312,17 +2924,60 @@
             validate();
         }
 
-        async function runRetouchPipeline(id, baseActions) {
+        async function runRetouchPipeline(id, lang, baseActions) {
             const modelRender = getEl('modelSelectorRetouch').value;
             updateTaskUI(id, 20, "Підготовка рендеру...");
-            setLiveModel(modelRender, true);
+            setLiveModel(MODEL_LITE, true);
 
             try {
+                let currentActions = JSON.parse(JSON.stringify(baseActions)); // Deep copy
+
+                // TRANSLATION STEP (if lang is a real language and not just "Retouch Result")
+                if (lang !== 'Retouch Result') {
+                    updateTaskUI(id, 40, "Переклад тексту...");
+                    let textsToTranslate = {};
+                    currentActions.forEach(action => {
+                        if (action.newVal !== "[DELETE_THIS_TEXT]" && action.newVal !== "") {
+                            textsToTranslate[action.index] = action.newVal;
+                        }
+                    });
+
+                    if (Object.keys(textsToTranslate).length > 0) {
+                        const translatePrompt = `Translate the following texts into ${lang}.
+                        STRICT RULES:
+                        1. Return ONLY a valid JSON object mapping the IDs to the translated strings. Do not use markdown blocks (\`\`\`json).
+                        2. Do not translate numbers, brand names, or promo codes like 'FS'.
+                        
+                        Texts to translate:
+                        ${JSON.stringify(textsToTranslate)}`;
+
+                        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_LITE}:generateContent?key=${state.apiKey}`, {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ contents: [{ parts: [{ text: translatePrompt }] }] })
+                        });
+                        
+                        const d = await resp.json();
+                        if(d.error) throw new Error(d.error.message);
+                        
+                        let rawRes = d.candidates[0].content.parts[0].text;
+                        // Parse safely
+                        rawRes = rawRes.substring(rawRes.indexOf('{'), rawRes.lastIndexOf('}') + 1);
+                        const translations = JSON.parse(rawRes);
+                        
+                        currentActions.forEach(action => {
+                            if(translations[action.index]) {
+                                action.newVal = translations[action.index];
+                            }
+                        });
+                    }
+                }
+
                 // BUILD RENDER PROMPT
                 updateTaskUI(id, 60, "Малювання...");
+                setLiveModel(modelRender, true);
 
                 let instructions = "EXACT MODIFICATIONS REQUIRED:\n";
-                baseActions.forEach(action => {
+                currentActions.forEach(action => {
                     if (action.newVal === "[DELETE_THIS_TEXT]") {
                         instructions += `- Locate text "${action.original}" (${action.location}) and COMPLETELY DELETE IT by painting over it seamlessly with the surrounding background.\n`;
                     } else if (action.newVal !== action.original) {
@@ -2342,7 +2997,9 @@
                 const resB64 = await callGemini(modelRender, renderPrompt, state.retouchB64, true, "image/png");
                 const finalUrl = `data:image/png;base64,${resB64}`;
                 
-                let cleanLang = 'retouch';
+                let cleanLang = lang.replace(/\s+/g, '_').toLowerCase();
+                if(cleanLang === 'retouch_result') cleanLang = 'retouch';
+                
                 langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
                 let langIndex = langCounters[cleanLang];
 
@@ -2352,12 +3009,12 @@
                     state.tasks[existingTaskIndex].b64 = resB64;
                     state.tasks[existingTaskIndex].baseActions = baseActions;
                 } else {
-                    state.tasks.push({ id, lang: 'Хірургічна Ретуш', b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
+                    state.tasks.push({ id, lang: lang, b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
                 }
                 
-                finalizeTaskUI(id, finalUrl, 'Хірургічна Ретуш', 'retouch');
+                finalizeTaskUI(id, finalUrl, lang, 'retouch');
             } catch(e) {
-                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', null, baseActions);
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', lang, baseActions);
             }
         }
 
@@ -2489,143 +3146,10 @@
         }
 
         // ==========================================
-        // 5. CREATIVE LAB (CARBON COPY CONSISTENCY ENGINE)
-        // ==========================================
-        async function startLabBatch() {
-            if (state.isProcessing) return;
-            state.isProcessing = true; 
-            state.isAborted = false;
-            getEl('processLabBtn').disabled = true;
-            const count = parseInt(getEl('variationCount').value);
-            getEl('emptyQueue')?.remove();
-            setTxt('queueCount', `${state.tasks.length + count} ОБ’ЄКТІВ`);
-
-            // Reset and show stop button
-            const stopBtn = getEl('stopProcessBtn');
-            stopBtn.classList.remove('hidden', 'bg-zinc-600', 'opacity-50');
-            stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
-            stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
-            lucide.createIcons();
-
-            // ROUND ROBIN LOGIC: Cycle through references correctly
-            for(let i=1; i<=count; i++){
-                if (state.isAborted) break;
-                const id = `lab-${Math.random().toString(36).substr(2, 7)}`;
-                createTaskUI(`Concept ${i}`, id);
-                
-                const refIndex = (i - 1) % state.labRefs.length;
-                const selectedRef = state.labRefs[refIndex];
-
-                await runLabPipeline(id, i, selectedRef);
-                if (state.isAborted) break;
-                await new Promise(r => setTimeout(r, 4000));
-            }
-            
-            state.isProcessing = false; 
-            state.isAborted = false;
-            stopBtn.classList.add('hidden');
-            validate();
-            setLiveModel("", false);
-        }
-
-        async function runLabPipeline(id, num, refB64) {
-            updateTaskUI(id, 20, "Стилістичний аналіз...");
-            setLiveModel(MODEL_VISION, true);
-            const labModel = getEl('modelSelectorLab').value;
-
-            try {
-                // STAGE 1: Analysis (Flash 3.1 Vision) - Focus on EXACT Character details for a SINGLE reference
-                const analysisPrompt = `[MANDATORY OVERRIDE] You are an Elite Art Director. Analyze this single reference image. 
-                Identify the MAIN CHARACTER(S), their exact clothing, facial features, and art style. 
-                Write a highly detailed technical prompt describing this character so another AI can draw this EXACT SAME PERSON/MASCOT as a carbon copy. Do not include text descriptions.`;
-                
-                const analysisPayload = {
-                    contents: [{ parts: [{ text: analysisPrompt }, { inlineData: { mimeType: "image/png", data: refB64 } }] }]
-                };
-                const analysisResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(analysisPayload)
-                });
-                const analysisData = await analysisResp.json();
-                if(analysisData.error) throw new Error(analysisData.error.message);
-                const techPrompt = analysisData.candidates[0].content.parts[0].text;
-
-                updateTaskUI(id, 55, "Генерація нового дизайну...");
-                setLiveModel(labModel, true);
-
-                // STAGE 2: Render (Selected Image Model) - STRICT Character preservation
-                const bonus = getEl('bonusText').value;
-                const ignore = getEl('optIgnoreRefText').checked;
-                const ratio = getEl('resSelectorLab').value;
-                const stylesArray = Array.from(document.querySelectorAll('.style-check:checked')).map(c => c.value);
-                const extraStyles = stylesArray.length > 0 ? ` APPLIED STYLES: ${stylesArray.join(', ')}.` : '';
-                
-                // STEALTH PROMPTING ДЛЯ ЛАБОРАТОРИИ
-                const gambleLevel = document.querySelector('input[name="gambling_level"]:checked').value;
-                let gamblePrompt = "";
-                switch(gambleLevel) {
-                    case 'heavy': gamblePrompt = "CRITICAL RULE: MAXIMIZE GAME-WINNING ELEMENTS. Add prominent golden coins, slot machine reels, playing cards, and glowing treasures. Make it a high-energy jackpot aesthetic."; break;
-                    case 'moderate': gamblePrompt = "RULE: MODERATE game-winning elements. Keep it balanced, subtle hints of wealth and luck."; break;
-                    case 'safe': gamblePrompt = "ABSOLUTELY STRICT NEGATIVE PROMPT: NO SLOTS, NO COINS, NO CHIPS, NO ROULETTE, NO CARDS. Keep the exact character but make the environment 100% neutral and safe for general audiences."; break;
-                    case 'exact': gamblePrompt = "RULE: 1:1 EXACT CHARACTER AND OBJECT EXTRACTION. Do not invent new background elements or gaming objects unless they are strictly present in the reference images."; break;
-                }
-                
-                // SUPER HQ Trigger Lab 
-                const hqLab = getEl('optSuperHQLab').checked ? " RULE: ULTRA HIGH DEFINITION. Force generation at maximum possible resolution (4K quality), ultra-sharp details, uncompressed PNG. STRICTLY maintain the requested format/aspect ratio." : "";
-
-                const finalPrompt = `
-                [MANDATORY OVERRIDE: EXACT CHARACTER CLONING]
-                ACT AS AN ELITE AI IMAGE GENERATOR. GENERATE A PREMIUM MOBILE GAMING CREATIVE VARIATION #${num} (Session ID: ${id}).
-                CRITICAL INSTRUCTION 1: You MUST extract the EXACT main character from the provided reference image. The face, identity, clothing, and proportions MUST BE A 100% CARBON COPY of the reference. 
-                CRITICAL INSTRUCTION 2: DO NOT invent a generic new character. DO NOT use celebrities like Dwayne Johnson. Use the exact person/mascot shown in the input image. Place this exact character in a new pose or camera angle.
-                CRITICAL INSTRUCTION 3: OUTPUT EXACTLY ONE SINGLE IMAGE. DO NOT CREATE A GRID, MULTIPLE PANELS, OR COLLAGES.
-                CRITICAL INSTRUCTION 4: ZERO NOISE & ARTIFACTS. Generate with absolutely clean solid colors, NO grain, NO compression artifacts, and smooth gradients.
-                
-                CHARACTER GUIDE: ${techPrompt}
-                ${extraStyles}
-                ${gamblePrompt}
-                ${hqLab}
-                RECOMPOSITION: Generate a brand new layout that perfectly fits the requested ${ratio} dimension.
-                TEXT TO INTEGRATE SEAMLESSLY: "${bonus}". (Preserve exact line breaks if provided).
-                ${ignore ? 'CRITICAL: STRICTLY IGNORE ALL TEXT FROM REFERENCE IMAGES. DO NOT REPLICATE THEIR TEXT.' : ''}
-                QUALITY: UNREAL ENGINE 5, 8K RESOLUTION, AAA-tier marketing quality.
-                EXTRA PROMPT: ${getEl('promptLab').value}`;
-
-                const payload = { 
-                    contents: [{ parts: [{ text: finalPrompt }, { inlineData: { mimeType: "image/png", data: refB64 } }] }], 
-                    generationConfig: { responseModalities: ["IMAGE"] } 
-                };
-
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${labModel}:generateContent?key=${state.apiKey}`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const d = await res.json();
-                if(d.error) throw new Error(d.error.message);
-                const b64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
-                const url = `data:image/png;base64,${b64}`;
-                
-                const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
-                if (existingTaskIndex !== -1) {
-                    state.tasks[existingTaskIndex].b64 = b64;
-                } else {
-                    let cleanLang = `concept`;
-                    langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
-                    let langIndex = langCounters[cleanLang];
-
-                    // Сохраняем refB64 чтобы при Redo использовать его снова
-                    state.tasks.push({ id, lang: `Concept_${num}`, b64: b64, type: 'lab', originalLang: 'concept', langIndex: langIndex, refB64: refB64 });
-                }
-
-                finalizeTaskUI(id, url, `Concept ${num}`, 'lab');
-            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); }
-        }
-
-        // ==========================================
         // 6. SYNTAX AUDIT 
         // ==========================================
         async function runAudit(id, url, lang, type = 'prod') {
-            if(type === 'lab' || type === 'retouch') return; // Лаба і ретуш не потребують аудиту граматики
+            if(type === 'lab' || type === 'retouch' || type.startsWith('pwa')) return; // Тільки для Цеху
             
             updateTaskUI(id, 20, "Глибока перевірка...");
             setLiveModel(MODEL_VISION, true);
@@ -2748,7 +3272,7 @@
                 <div class="flex items-center justify-between gap-6 w-full">
                     <div class="flex items-center gap-4 flex-1 min-w-0">
                         <div class="w-12 h-12 rounded-xl bg-zinc-950 flex items-center justify-center text-indigo-400 font-black text-xl uppercase shrink-0 border border-white/5 shadow-2xl">
-                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : (lang.includes('Retouch') ? '<i data-lucide="scissors" class="w-6 h-6"></i>' : lang.substring(0, 2))}
+                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : (lang.includes('Retouch') ? '<i data-lucide="scissors" class="w-6 h-6"></i>' : (lang.includes('Скріншот') || lang.includes('Іконка') ? '<i data-lucide="layout-grid" class="w-6 h-6"></i>' : lang.substring(0, 2)))}
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between mb-1.5">
@@ -2764,13 +3288,13 @@
                     <div class="task-preview preview-box hidden shrink-0 group relative"><div class="absolute inset-0 bg-indigo-600/30 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center"><i data-lucide="maximize" class="w-5 h-5 text-white"></i></div></div>
                     
                     <div class="actions hidden flex flex-wrap items-center gap-2">
-                        <div class="tooltip-container tooltip-bottom-right">
+                        <div class="tooltip-container tooltip-bottom-right audit-btn-wrap">
                             <button class="audit-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all"><i data-lucide="check-circle" class="w-4 h-4"></i></button>
                             <span class="tooltip-text"><b>Аудит граматики</b><br>Перевіряє текст на помилки та залишки інших мов.</span>
                         </div>
                         <div class="tooltip-container tooltip-bottom-right">
                             <button class="redo-btn p-2.5 bg-zinc-900 rounded-xl text-zinc-500 hover:text-white transition-all"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
-                            <span class="tooltip-text"><b>Переробити</b><br>Генерує заново. Якщо був аудит — застосує виправлення.</span>
+                            <span class="tooltip-text"><b>Переробити</b><br>Генерує заново з поточними налаштуваннями з лівої панелі.</span>
                         </div>
                         <div class="tooltip-container tooltip-bottom-right">
                             <button class="dl-btn p-3 bg-indigo-600/10 rounded-xl text-indigo-400 hover:bg-indigo-600 hover:text-white shadow-xl transition-all"><i data-lucide="download" class="w-5 h-5"></i></button>
@@ -2804,7 +3328,7 @@
                 getEl('auditAllBtn').classList.add('hidden');
             }
             validate();
-        };
+        }
 
         function finalizeTaskUI(id, url, lang, type = 'prod', isRedo = false) {
             const el = getEl(id); 
@@ -2819,11 +3343,12 @@
             actions.classList.remove('hidden');
             
             // Reset visibility of buttons if they were hidden by an error retry
+            const auditBtnWrap = el.querySelector('.audit-btn-wrap');
             const auditBtn = el.querySelector('.audit-btn');
             const dlBtn = el.querySelector('.dl-btn');
             const redoBtn = el.querySelector('.redo-btn');
             
-            auditBtn.classList.remove('hidden');
+            if(auditBtnWrap) auditBtnWrap.classList.remove('hidden');
             dlBtn.classList.remove('hidden');
             redoBtn.classList.remove('hidden');
 
@@ -2866,16 +3391,46 @@
                     runTaskProcess(lang, id, fix);
                 };
             } else if(type === 'lab') {
-                auditBtn.classList.add('hidden'); // No audit for lab
+                if(auditBtnWrap) auditBtnWrap.classList.add('hidden'); // No audit for lab
                 redoBtn.onclick = () => {
                     const task = state.tasks.find(t => t.id === id);
                     runLabPipeline(id, lang.split(' ')[1], task.refB64);
                 };
             } else if(type === 'retouch') {
-                auditBtn.classList.add('hidden'); // No audit for retouch
+                if(auditBtnWrap) auditBtnWrap.classList.add('hidden'); // No audit for retouch
                 redoBtn.onclick = () => {
                     const task = state.tasks.find(t => t.id === id);
-                    runRetouchPipeline(id, task.baseActions);
+                    runRetouchPipeline(id, task.lang, task.baseActions);
+                };
+            } else if(type.startsWith('pwa')) {
+                if(auditBtnWrap) auditBtnWrap.classList.add('hidden'); // No audit for PWA
+                
+                // Вмикаємо точкове перегенерування для PWA! Беремо актуальні значення з інтерфейсу.
+                redoBtn.onclick = () => {
+                    const task = state.tasks.find(t => t.id === id);
+                    const currentModel = getEl('modelSelectorPwa').value;
+                    const currentFreedom = document.querySelector('input[name="pwa_freedom"]:checked')?.value || 'free';
+                    const currentScale = getEl('pwaTextScale').value;
+                    const currentPrompt = getEl('promptPwa').value.trim();
+                    const currentFileType = getEl('pwaFileType').value;
+
+                    if(type === 'pwa_icon') {
+                        task.pwaData.iconText = getEl('pwaIconText').value;
+                        task.pwaData.model = currentModel;
+                        task.pwaData.freedomLevel = currentFreedom;
+                        task.pwaData.textScale = currentScale;
+                        task.pwaData.generalPrompt = currentPrompt;
+                        task.pwaData.fileType = currentFileType;
+                        runPwaIconPipeline(id, task.pwaData.themeContext, task.pwaData.iconText, task.pwaData.generalPrompt, task.pwaData.model, task.pwaData.fileType, task.pwaData.freedomLevel);
+                    } else {
+                        task.pwaData.screenText = getEl(`pwaText${task.pwaIndex}`).value;
+                        task.pwaData.model = currentModel;
+                        task.pwaData.freedomLevel = currentFreedom;
+                        task.pwaData.textScale = currentScale;
+                        task.pwaData.generalPrompt = currentPrompt;
+                        task.pwaData.fileType = currentFileType;
+                        runPwaScreenPipeline(id, task.pwaIndex, task.pwaData.themeContext, task.pwaData.screenText, task.pwaData.generalPrompt, task.pwaData.model, task.pwaData.fileType, task.pwaData.freedomLevel);
+                    }
                 };
             }
             
@@ -2897,11 +3452,13 @@
                 // Show ONLY the redo button for retry
                 const actions = el.querySelector('.actions');
                 actions.classList.remove('hidden');
-                el.querySelector('.audit-btn').classList.add('hidden');
+                const auditWrap = el.querySelector('.audit-btn-wrap');
+                if(auditWrap) auditWrap.classList.add('hidden');
                 el.querySelector('.dl-btn').classList.add('hidden');
                 
                 const redoBtn = el.querySelector('.redo-btn');
                 redoBtn.classList.remove('hidden');
+                redoBtn.parentElement.classList.remove('hidden');
                 redoBtn.className = "redo-btn px-4 py-2 bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg";
                 redoBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-3 h-3"></i> ПОВТОРИТИ ЗАПИТ';
                 
@@ -2914,7 +3471,9 @@
                     
                     if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
                     else if(type === 'lab') runLabPipeline(id, langOrNum, extraData);
-                    else if(type === 'retouch') runRetouchPipeline(id, extraData);
+                    else if(type === 'retouch') runRetouchPipeline(id, langOrNum, extraData);
+                    else if(type === 'pwa' && langOrNum === 'icon') runPwaIconPipeline(id, extraData.themeContext, extraData.iconText, extraData.generalPrompt, extraData.model, extraData.fileType, extraData.freedomLevel);
+                    else if(type === 'pwa') runPwaScreenPipeline(id, langOrNum, extraData.themeContext, extraData.screenText, extraData.generalPrompt, extraData.model, extraData.fileType, extraData.freedomLevel);
                 };
                 lucide.createIcons();
             }
@@ -2942,12 +3501,15 @@
                 </div>`;
             state.tasks = []; 
             state.labRefs = [];
+            state.pwaRefs = [];
             state.retouchB64 = null;
             state.detectedTexts = [];
             langCounters = {}; 
             taskCounter = 1; 
             
             updateLabPreviews();
+            updatePwaPreviews();
+            
             getEl('previewRetouch').innerHTML = '';
             getEl('previewRetouch').classList.add('hidden');
             getEl('placeholderRetouch').classList.remove('hidden');
@@ -2976,10 +3538,33 @@
             getEl('placeholderLab').classList.toggle('hidden', state.labRefs.length > 0);
             validate();
         }
+        
+        function updatePwaPreviews() {
+            const container = getEl('previewPwa');
+            container.innerHTML = '';
+            state.pwaRefs.forEach((b64, index) => {
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-fuchsia-500/20 shadow-2xl animate__animated animate__zoomIn relative group">
+                        <img src="data:image/png;base64,${b64}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-rose-500/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer" onclick="removePwaRef(${index})">
+                            <i data-lucide="trash-2" class="text-white w-8 h-8"></i>
+                        </div>
+                    </div>
+                `);
+            });
+            lucide.createIcons();
+            getEl('placeholderPwa').classList.toggle('hidden', state.pwaRefs.length > 0);
+            validate();
+        }
 
         window.removeLabRef = (index) => {
             state.labRefs.splice(index, 1);
             updateLabPreviews();
+        };
+        
+        window.removePwaRef = (index) => {
+            state.pwaRefs.splice(index, 1);
+            updatePwaPreviews();
         };
 
         function handleFiles(files, type) {
@@ -2995,6 +3580,10 @@
                         if(state.labRefs.length >= 3) state.labRefs.shift(); // Max 3
                         state.labRefs.push(b64);
                         updateLabPreviews();
+                    } else if(type === 'pwa') {
+                        if(state.pwaRefs.length >= 5) state.pwaRefs.shift(); // Max 5
+                        state.pwaRefs.push(b64);
+                        updatePwaPreviews();
                     } else if(type === 'retouch') {
                         state.retouchB64 = b64;
                         getEl('previewRetouch').innerHTML = `<img src="${e.target.result}" class="w-full h-full object-contain rounded-xl">`;
@@ -3016,12 +3605,16 @@
             
             getEl('processProdBtn').disabled = !state.masterB64 || totalGeo === 0 || state.isProcessing || !state.apiKey;
             getEl('processLabBtn').disabled = state.labRefs.length === 0 || state.isProcessing || !state.apiKey;
+            
+            const pwaFreedomSelected = document.querySelector('input[name="pwa_freedom"]:checked');
+            getEl('processPwaBtn').disabled = state.pwaRefs.length === 0 || state.isProcessing || !state.apiKey || !pwaFreedomSelected;
         }
 
         window.switchTab = (t) => {
             getEl('productionControls').classList.toggle('hidden', t !== 'production');
             getEl('labControls').classList.toggle('hidden', t !== 'lab');
             getEl('retouchControls').classList.toggle('hidden', t !== 'retouch');
+            getEl('pwaControls').classList.toggle('hidden', t !== 'pwa');
             
             getEl('tabProd').classList.toggle('active', t === 'production');
             getEl('tabProd').classList.toggle('opacity-40', t !== 'production');
@@ -3031,9 +3624,18 @@
             
             getEl('tabRetouch').classList.toggle('active', t === 'retouch');
             getEl('tabRetouch').classList.toggle('opacity-40', t !== 'retouch');
+            
+            getEl('tabPwa').classList.toggle('active', t === 'pwa');
+            getEl('tabPwa').classList.toggle('opacity-40', t !== 'pwa');
         };
 
         window.closeZoom = () => getEl('zoomModal').classList.add('hidden');
+        
+        // ВІДНОВЛЕНІ ОБРОБНИКИ КЛІКІВ ДЛЯ ЗАВАНТАЖЕННЯ ФАЙЛІВ (ЦЕХ ТА ЛАБА)
+        getEl('dropZoneProd').onclick = () => getEl('fileInputProd').click();
+        getEl('fileInputProd').onchange = e => handleFiles(e.target.files, 'prod');
+        getEl('dropZoneLab').onclick = () => { if(state.labRefs.length < 3) getEl('fileInputLab').click(); };
+        getEl('fileInputLab').onchange = e => handleFiles(e.target.files, 'lab');
         
         const space = getEl('spaceEngine');
         for(let i=0; i<100; i++) {
