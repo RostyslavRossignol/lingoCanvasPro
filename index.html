@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V2.4</title>
+        <title>UA Studio | LingoCanvas Pro Beta V2.6</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -115,6 +115,7 @@
         html.light .btn-action.btn-amber:hover:not(:disabled) {
             box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3) !important;
         }
+        html.light .btn-action:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); box-shadow: none !important; }
 
         html.light .tooltip-text { background-color: #ffffff; color: #0f172a; border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         html.light .tooltip-text::after { border-color: #ffffff transparent transparent transparent; }
@@ -152,13 +153,13 @@
         @keyframes floatAstro { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(80px, -50px) rotate(-10deg); } }
 
         /* --- TOOLTIPS --- */
-        .tooltip-container { position: relative; display: inline-flex; align-items: center; justify-content: center; cursor: help; z-index: 50; }
+        .tooltip-container { position: relative; display: inline-flex; align-items: center; justify-content: center; cursor: help; }
 
         .tooltip-text {
             visibility: hidden; opacity: 0; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%);
             background-color: #1f2937; color: #f3f4f6; text-align: center; padding: 12px 16px; border-radius: 12px;
             font-size: 11px; white-space: normal; width: max-content; max-width: 260px;
-            z-index: 99999; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; 
+            z-index: 999999 !important; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; 
             border: 1px solid rgba(255,255,255,0.15); font-weight: 500; letter-spacing: normal; text-transform: none; line-height: 1.5;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
@@ -179,6 +180,7 @@
         .tooltip-bottom-right:hover .tooltip-text { top: 160%; bottom: auto; }
 
         .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .tooltip-container:hover { z-index: 999999; }
         .tooltip-container:not(.tooltip-down):not(.tooltip-bottom-right):hover .tooltip-text { bottom: 160%; }
 
         /* --- STUDIO UI --- */
@@ -208,7 +210,7 @@
         .tab-btn-amber.active { color: var(--amber); border-bottom-color: var(--amber); opacity: 1; transform: translateY(-1px); }
 
         .drop-zone { border: 2px dashed rgba(255, 255, 255, 0.05); transition: all 0.4s ease; min-height: 100px; position: relative; background: rgba(24, 24, 27, 0.4); border-radius: 1.2rem; }
-        .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); }
+        .drop-zone.active { border-color: var(--accent); background: var(--accent-glow); transform: scale(1.02); }
 
         .badge-counter { font-size: 8px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 99px; font-weight: 900; }
 
@@ -242,8 +244,8 @@
             background: white; border-radius: 50%;
         }
 
-        .task-card { transition: all 0.3s ease; border-left: 5px solid transparent; }
-        .task-card:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.02); }
+        .task-card { position: relative; z-index: 1; transition: all 0.3s ease; border-left: 5px solid transparent; }
+        .task-card:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.02); z-index: 100; }
 
         .main-app-container { flex: 1; display: flex; flex-direction: column; padding: 1rem; max-width: 95rem; margin: 0 auto; width: 100%; overflow: hidden; z-index: 10; }
 
@@ -316,7 +318,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.4
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V2.6
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -364,7 +366,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.4
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V2.6
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -420,6 +422,7 @@
                                         <i data-lucide="help-circle"
                                             class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
                                         <span class="tooltip-text">Завантажте
+                                            або перетягніть
                                             оригінальний креатив для адаптації.
                                             Система використає найновішу модель
                                             2026
@@ -427,18 +430,18 @@
                                     </div>
                                 </div>
                                 <div id="dropZoneProd"
-                                    class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-white/10 hover:border-indigo-500/40">
+                                    class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-white/10 hover:border-indigo-500/40 transition-all">
                                     <input type="file" id="fileInputProd"
                                         class="hidden" accept="image/*">
                                     <div id="previewProd"
-                                        class="hidden h-full w-full flex items-center justify-center"></div>
+                                        class="hidden h-full w-full flex items-center justify-center pointer-events-none"></div>
                                     <div id="placeholderProd"
-                                        class="text-center">
+                                        class="text-center pointer-events-none">
                                         <i data-lucide="upload"
-                                            class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
+                                            class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400 transition-colors"></i>
                                         <p
-                                            class="text-zinc-500 font-bold uppercase text-[9px]">Закинь
-                                            вихідний файл</p>
+                                            class="text-zinc-500 font-bold uppercase text-[9px]">Перетягніть
+                                            або клікніть для завантаження</p>
                                     </div>
                                 </div>
                             </section>
@@ -509,7 +512,7 @@
                                             class="tooltip-container tooltip-left">
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
-                                            <span class="tooltip-text">ІІ шукає
+                                            <span class="tooltip-text">ШІ шукає
                                                 брендові елементи та логотипи на
                                                 картинці і блокує будь-які зміни
                                                 у
@@ -601,7 +604,7 @@
                                                 новий
                                                 (напр. VIP2026), впишіть його
                                                 тут.
-                                                ІІ автоматично знайде старий код
+                                                ШІ автоматично знайде старий код
                                                 и
                                                 замінить його.</span>
                                         </div>
@@ -626,7 +629,7 @@
                                                 <span class="tooltip-text">Якщо
                                                     вибрано розмір, відмінний
                                                     від
-                                                    оригіналу, ІІ домалює
+                                                    оригіналу, ШІ домалює
                                                     (outpaint)
                                                     фон, зберігаючи композицію в
                                                     центрі.</span>
@@ -642,6 +645,8 @@
                                                 Portrait</option>
                                             <option value="1080x1920">9:16
                                                 Story</option>
+                                            <option value="1920x1080">16:9
+                                                Landscape</option>
                                         </select>
                                     </div>
                                     <div
@@ -650,7 +655,7 @@
                                             class="flex items-center justify-between mb-1">
                                             <span
                                                 class="text-[8px] text-zinc-600 uppercase font-black">Модель
-                                                ІІ (Малювання)</span>
+                                                ШІ (Малювання)</span>
                                             <div
                                                 class="tooltip-container tooltip-left">
                                                 <i data-lucide="help-circle"
@@ -816,7 +821,7 @@
                                         class="tooltip-container tooltip-left tooltip-down z-50">
                                         <i data-lucide="help-circle"
                                             class="w-3.5 h-3.5 text-zinc-500 hover:text-indigo-400"></i>
-                                        <span class="tooltip-text">ІІ
+                                        <span class="tooltip-text">ШІ
                                             максимально
                                             точно скопіює ПЕРСОНАЖА зі
                                             скріншотів і
@@ -827,19 +832,19 @@
                                     </div>
                                 </div>
                                 <div id="dropZoneLab"
-                                    class="drop-zone p-6 text-center cursor-pointer group border-white/10 hover:border-indigo-500/40">
+                                    class="drop-zone p-6 text-center cursor-pointer group border-white/10 hover:border-indigo-500/40 transition-all">
                                     <input type="file" id="fileInputLab"
                                         class="hidden" accept="image/*"
                                         multiple>
                                     <div id="previewLab"
                                         class="flex gap-4 h-full w-full items-center justify-center flex-wrap"></div>
                                     <div id="placeholderLab"
-                                        class="text-center">
+                                        class="text-center pointer-events-none">
                                         <i data-lucide="copy"
-                                            class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400"></i>
+                                            class="w-8 h-8 text-zinc-600 mx-auto mb-2 group-hover:text-indigo-400 transition-colors"></i>
                                         <p
-                                            class="text-zinc-500 font-bold uppercase text-[9px]">Завантаж
-                                            скріни рума / персонажів</p>
+                                            class="text-zinc-500 font-bold uppercase text-[9px]">Перетягніть
+                                            або клікніть для завантаження</p>
                                     </div>
                                 </div>
                             </section>
@@ -868,7 +873,7 @@
                                             <i data-lucide="help-circle"
                                                 class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                             <span class="tooltip-text">Якщо
-                                                увімкнено, ІІ категорично
+                                                увімкнено, ШІ категорично
                                                 ігнорує
                                                 старий текст зі скріншотів,
                                                 використовуючи ТІЛЬКИ ваш новий
@@ -922,16 +927,15 @@
                                                     class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                                 <span
                                                     class="tooltip-text">Введіть
-                                                    текст, який ІІ має красиво
+                                                    текст, який ШІ має красиво
                                                     вписати у новий дизайн.
-                                                    Бажано
-                                                    до 4-5 слів для кращого
-                                                    результату.</span>
+                                                    Використовуйте Shift+Enter
+                                                    для переносу рядків.</span>
                                             </div>
                                         </div>
-                                        <input type="text" id="bonusText"
-                                            placeholder="Напр: 200 FS + 500$ Deposit Bonus"
-                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner">
+                                        <textarea id="bonusText" rows="2"
+                                            placeholder="Напр: 200 FS&#10;+ 500$ Deposit Bonus"
+                                            class="w-full rounded-xl px-4 py-3 text-[11px] text-white border border-white/5 bg-black/40 font-black shadow-inner resize-y"></textarea>
                                     </div>
 
                                     <!-- Style Checkpoints -->
@@ -1069,7 +1073,7 @@
                                                     <i data-lucide="help-circle"
                                                         class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                                     <span
-                                                        class="tooltip-text">ІІ
+                                                        class="tooltip-text">ШІ
                                                         видалить всі специфічні
                                                         елементи.
                                                         Залишить точну копію
@@ -1095,7 +1099,7 @@
                                                     <i data-lucide="help-circle"
                                                         class="w-3 h-3 text-zinc-600 hover:text-indigo-400"></i>
                                                     <span
-                                                        class="tooltip-text">ІІ
+                                                        class="tooltip-text">ШІ
                                                         максимально копіює ВСЕ:
                                                         і
                                                         персонажа, і фон, і
@@ -1153,6 +1157,8 @@
                                                     Portrait</option>
                                                 <option value="1080x1920">9:16
                                                     Story</option>
+                                                <option value="1920x1080">16:9
+                                                    Landscape</option>
                                             </select>
                                         </div>
                                     </div>
@@ -1192,7 +1198,7 @@
                                             class="flex items-center justify-between">
                                             <label
                                                 class="text-[8px] font-black text-zinc-600 uppercase ml-2">Модель
-                                                ІІ (Малювання)</label>
+                                                ШІ (Малювання)</label>
                                             <div
                                                 class="tooltip-container tooltip-left">
                                                 <i data-lucide="help-circle"
@@ -1275,23 +1281,23 @@
                                         <i data-lucide="help-circle"
                                             class="w-3.5 h-3.5 text-amber-500 hover:text-amber-400"></i>
                                         <span class="tooltip-text">Завантажте
-                                            ОДИН креатив. ІІ просканує його і
-                                            знайде весь текст для точкової
-                                            заміни.</span>
+                                            або перетягніть ОДИН креатив. ШІ
+                                            просканує його і знайде весь текст
+                                            для точкової заміни.</span>
                                     </div>
                                 </div>
                                 <div id="dropZoneRetouch"
-                                    class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-amber-500/20 hover:border-amber-500/50 bg-amber-500/10">
+                                    class="drop-zone p-6 text-center cursor-pointer group flex items-center justify-center border-amber-500/20 hover:border-amber-500/50 bg-amber-500/10 transition-all">
                                     <input type="file" id="fileInputRetouch"
                                         class="hidden" accept="image/*">
                                     <div id="previewRetouch"
-                                        class="hidden h-full w-full flex items-center justify-center"></div>
+                                        class="hidden h-full w-full flex items-center justify-center pointer-events-none"></div>
                                     <div id="placeholderRetouch"
-                                        class="text-center">
+                                        class="text-center pointer-events-none">
                                         <i data-lucide="upload-cloud"
-                                            class="w-8 h-8 text-amber-500/50 mx-auto mb-2 group-hover:text-amber-400"></i>
+                                            class="w-8 h-8 text-amber-500/50 mx-auto mb-2 group-hover:text-amber-400 transition-colors"></i>
                                         <p
-                                            class="text-amber-500 font-bold uppercase text-[9px]">Завантажити
+                                            class="text-amber-500 font-bold uppercase text-[9px]">Перетягніть
                                             файл для ретуші</p>
                                     </div>
                                 </div>
@@ -1311,14 +1317,33 @@
                                             data-lucide="edit"
                                             class="w-3.5 h-3.5"></i> 2.
                                         ЗНАЙДЕНИЙ ТЕКСТ</h2>
-                                    <div class="tooltip-container tooltip-left">
-                                        <i data-lucide="help-circle"
-                                            class="w-3.5 h-3.5 text-amber-500 hover:text-amber-400"></i>
-                                        <span class="tooltip-text">Відредагуйте
-                                            текст. Якщо потрібно видалити напис
-                                            з картинки - просто зітріть його тут
-                                            або натисніть кошик.</span>
-                                    </div>
+                                </div>
+
+                                <!-- ОНОВЛЕНИЙ FAQ БЛОК -->
+                                <div
+                                    class="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl mb-4">
+                                    <h3
+                                        class="text-[10px] font-black text-amber-400 uppercase mb-2 flex items-center gap-1.5"><i
+                                            data-lucide="info"
+                                            class="w-3 h-3"></i> Як працює
+                                        ретуш:</h3>
+                                    <ul
+                                        class="text-amber-200/80 text-[10px] space-y-1.5 list-disc pl-4">
+                                        <li>ШІ знайде весь текст на зображенні
+                                            та виведе його в поля нижче.</li>
+                                        <li><b>Щоб замінити текст:</b> впишіть
+                                            новий текст (або переклад) у
+                                            відповідне поле.</li>
+                                        <li><b>Щоб стерти текст:</b> натисніть
+                                            іконку кошика <i
+                                                data-lucide="trash-2"
+                                                class="w-3 h-3 inline-block text-rose-400"></i>
+                                            біля поля. ШІ ідеально зафарбує це
+                                            місце фоном!</li>
+                                        <li>Якщо натиснути кошик для всіх рядків
+                                            — ви отримаєте абсолютно чистий
+                                            дизайн (кліншот).</li>
+                                    </ul>
                                 </div>
 
                                 <div id="detectedTextList"
@@ -1327,31 +1352,9 @@
                                 </div>
 
                                 <div class="pt-4 border-t border-white/5">
-                                    <div
-                                        class="flex items-center justify-between mb-1 mt-2">
-                                        <label
-                                            class="text-[8px] font-black text-zinc-600 uppercase ml-1">Мови
-                                            для генерації (Опціонально)</label>
-                                        <div
-                                            class="tooltip-container tooltip-left">
-                                            <i data-lucide="help-circle"
-                                                class="w-3 h-3 text-amber-500 hover:text-amber-400"></i>
-                                            <span class="tooltip-text">Введіть
-                                                мови через кому (напр. Polish,
-                                                Turkish). ІІ автоматично
-                                                перекладе ваш текст і створить
-                                                окремий креатив для кожної мови!
-                                                Залиште порожнім для однієї
-                                                генерації.</span>
-                                        </div>
-                                    </div>
-                                    <input type="text" id="retouchLangs"
-                                        placeholder="Напр: Polish, Portuguese, Spanish..."
-                                        class="w-full rounded-xl px-4 py-3 text-[10px] text-white border border-white/5 bg-black/30 font-bold focus:border-amber-500/50 transition-all mb-3">
-
                                     <p
                                         class="text-[9px] text-amber-500/70 italic mb-3 text-center px-2">Якщо
-                                        ІІ схибив зі шрифтом — просто натисніть
+                                        ШІ схибив зі шрифтом — просто натисніть
                                         "Переробити" (🔄) на готовій картинці в
                                         черзі справа.</p>
 
@@ -1377,7 +1380,7 @@
 
                     <!-- WATERMARK AUTHOR -->
                     <div
-                        class="mt-8 mb-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+                        class="mt-8 mb-4 text-center text-xs font-black uppercase tracking-[0.3em] text-zinc-400 opacity-50 hover:opacity-100 transition-opacity cursor-default">
                         Made by ROSSIGNOL
                     </div>
                 </div>
@@ -1512,7 +1515,7 @@
                                     <b>автоматично</b>! Промпти вставляти не
                                     обов'язково.<br>
                                     • <b>У Цеху:</b> завантажте креатив,
-                                    виберіть мови і натисніть старт — ІІ сам усе
+                                    виберіть мови і натисніть старт — ШІ сам усе
                                     перекладе.<br>
                                     • <b>У Лабі:</b> завантажте скріншот рума,
                                     впишіть бонус у спеціальне поле і
@@ -1520,7 +1523,7 @@
                                     <span
                                         class="text-[10px] text-emerald-400/80 italic mt-1 block">*Використовуйте
                                         поле промптів лише якщо вам потрібен
-                                        унікальний стиль, або ІІ не впорався з
+                                        унікальний стиль, або ШІ не впорався з
                                         дефолтним завданням.</span>
                                 </p>
                             </div>
@@ -1539,7 +1542,7 @@
                                 <p
                                     class="text-zinc-400 text-xs leading-relaxed">Призначений
                                     <b>ТІЛЬКИ</b> для перекладу та адаптації
-                                    готових креативів під різні мови та ГЕО. ІІ
+                                    готових креативів під різні мови та ГЕО. ШІ
                                     залишає дизайн без змін, професійно
                                     замінюючи лише текст.</p>
                             </div>
@@ -1576,10 +1579,10 @@
                                 <p
                                     class="text-zinc-400 text-xs leading-relaxed">Крайній
                                     варіант, якщо дефолтна генерація дає збої.
-                                    ІІ сканує весь текст на зображенні, виводить
+                                    ШІ сканує весь текст на зображенні, виводить
                                     його вам у вигляді полів. Ви точково
-                                    вписуєте переклад, а ІІ просто накладає його
-                                    замість старого.</p>
+                                    вписуєте переклад, а ШІ просто накладає його
+                                    замість старого (або стирає повністю).</p>
                             </div>
                         </div>
                     </div>
@@ -1981,10 +1984,46 @@
             getEl('auditAllBtn').onclick = runAuditAll;
 
             // RETOUCH TAB LOGIC
-            getEl('dropZoneRetouch').onclick = () => getEl('fileInputRetouch').click();
-            getEl('fileInputRetouch').onchange = e => handleFiles(e.target.files, 'retouch');
             getEl('analyzeRetouchBtn').onclick = analyzeRetouchImage;
             getEl('processRetouchBtn').onclick = renderRetouchImage;
+            
+            // SET UP DRAG AND DROP ZONES
+            setupDropZone('dropZoneProd', 'fileInputProd', 'prod');
+            setupDropZone('dropZoneLab', 'fileInputLab', 'lab');
+            setupDropZone('dropZoneRetouch', 'fileInputRetouch', 'retouch');
+        }
+        
+        // DRAG AND DROP HANDLER
+        function setupDropZone(zoneId, inputId, type) {
+            const zone = getEl(zoneId);
+            const input = getEl(inputId);
+            
+            const preventDefaults = (e) => { e.preventDefault(); e.stopPropagation(); };
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                zone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                zone.addEventListener(eventName, () => zone.classList.add('active'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                zone.addEventListener(eventName, () => zone.classList.remove('active'), false);
+            });
+
+            zone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if(type === 'lab' && state.labRefs.length >= 3) return;
+                handleFiles(files, type);
+            }, false);
+
+            zone.onclick = () => { 
+                if(type === 'lab' && state.labRefs.length >= 3) return; 
+                input.click(); 
+            };
+            input.onchange = e => handleFiles(e.target.files, type);
         }
 
         // --- THEME TOGGLE LOGIC ---
@@ -2231,9 +2270,6 @@
         async function renderRetouchImage() {
             if(!state.retouchB64 || state.isProcessing) return;
             
-            const rawLangs = getEl('retouchLangs').value.trim();
-            let langs = rawLangs ? rawLangs.split(',').map(l => l.trim()).filter(l => l.length > 1) : ['Retouch Result'];
-            
             state.isProcessing = true;
             state.isAborted = false;
 
@@ -2246,7 +2282,7 @@
             state.detectedTexts.forEach((item, index) => {
                 const el = getEl(`retouch-item-${index}`);
                 if(!el) return;
-                const newVal = el.querySelector('.retouch-input').value.trim();
+                const newVal = el.querySelector('.retouch-input').value;
                 baseActions.push({
                     original: item.original_text,
                     location: item.location_hint,
@@ -2262,16 +2298,9 @@
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
 
-            for(let lang of langs) {
-                if(state.isAborted) break;
-                
-                const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
-                createTaskUI(lang, id);
-                await runRetouchPipeline(id, lang, baseActions);
-                
-                if(state.isAborted) break;
-                if(langs.length > 1) await new Promise(r => setTimeout(r, 3000));
-            }
+            const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
+            createTaskUI('Хірургічна Ретуш', id);
+            await runRetouchPipeline(id, baseActions);
 
             state.isProcessing = false;
             state.isAborted = false;
@@ -2283,64 +2312,21 @@
             validate();
         }
 
-        async function runRetouchPipeline(id, lang, baseActions) {
+        async function runRetouchPipeline(id, baseActions) {
             const modelRender = getEl('modelSelectorRetouch').value;
             updateTaskUI(id, 20, "Підготовка рендеру...");
-            setLiveModel(MODEL_LITE, true);
+            setLiveModel(modelRender, true);
 
             try {
-                let currentActions = JSON.parse(JSON.stringify(baseActions)); // Deep copy
-
-                // TRANSLATION STEP (if lang is a real language and not just "Retouch Result")
-                if (lang !== 'Retouch Result') {
-                    updateTaskUI(id, 40, "Переклад тексту...");
-                    let textsToTranslate = {};
-                    currentActions.forEach(action => {
-                        if (action.newVal !== "[DELETE_THIS_TEXT]" && action.newVal !== "") {
-                            textsToTranslate[action.index] = action.newVal;
-                        }
-                    });
-
-                    if (Object.keys(textsToTranslate).length > 0) {
-                        const translatePrompt = `Translate the following texts into ${lang}.
-                        STRICT RULES:
-                        1. Return ONLY a valid JSON object mapping the IDs to the translated strings. Do not use markdown blocks (\`\`\`json).
-                        2. Do not translate numbers, brand names, or promo codes like 'FS'.
-                        
-                        Texts to translate:
-                        ${JSON.stringify(textsToTranslate)}`;
-
-                        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_LITE}:generateContent?key=${state.apiKey}`, {
-                            method: 'POST', headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ contents: [{ parts: [{ text: translatePrompt }] }] })
-                        });
-                        
-                        const d = await resp.json();
-                        if(d.error) throw new Error(d.error.message);
-                        
-                        let rawRes = d.candidates[0].content.parts[0].text;
-                        // Parse safely
-                        rawRes = rawRes.substring(rawRes.indexOf('{'), rawRes.lastIndexOf('}') + 1);
-                        const translations = JSON.parse(rawRes);
-                        
-                        currentActions.forEach(action => {
-                            if(translations[action.index]) {
-                                action.newVal = translations[action.index];
-                            }
-                        });
-                    }
-                }
-
                 // BUILD RENDER PROMPT
                 updateTaskUI(id, 60, "Малювання...");
-                setLiveModel(modelRender, true);
 
                 let instructions = "EXACT MODIFICATIONS REQUIRED:\n";
-                currentActions.forEach(action => {
+                baseActions.forEach(action => {
                     if (action.newVal === "[DELETE_THIS_TEXT]") {
                         instructions += `- Locate text "${action.original}" (${action.location}) and COMPLETELY DELETE IT by painting over it seamlessly with the surrounding background.\n`;
                     } else if (action.newVal !== action.original) {
-                        instructions += `- Replace text "${action.original}" (${action.location}) with EXACTLY: "${action.newVal}". Mimic the original font style perfectly.\n`;
+                        instructions += `- Replace text "${action.original}" (${action.location}) with EXACTLY: "${action.newVal}". Preserve any line breaks (\\n) in the new text. Mimic the original font style perfectly.\n`;
                     }
                 });
 
@@ -2356,9 +2342,7 @@
                 const resB64 = await callGemini(modelRender, renderPrompt, state.retouchB64, true, "image/png");
                 const finalUrl = `data:image/png;base64,${resB64}`;
                 
-                let cleanLang = lang.replace(/\s+/g, '_').toLowerCase();
-                if(cleanLang === 'retouch_result') cleanLang = 'retouch';
-                
+                let cleanLang = 'retouch';
                 langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
                 let langIndex = langCounters[cleanLang];
 
@@ -2366,13 +2350,14 @@
                 const existingTaskIndex = state.tasks.findIndex(t => t.id === id);
                 if (existingTaskIndex !== -1) {
                     state.tasks[existingTaskIndex].b64 = resB64;
+                    state.tasks[existingTaskIndex].baseActions = baseActions;
                 } else {
-                    state.tasks.push({ id, lang: lang, b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
+                    state.tasks.push({ id, lang: 'Хірургічна Ретуш', b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
                 }
                 
-                finalizeTaskUI(id, finalUrl, lang, 'retouch');
+                finalizeTaskUI(id, finalUrl, 'Хірургічна Ретуш', 'retouch');
             } catch(e) {
-                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', lang, baseActions);
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', null, baseActions);
             }
         }
 
@@ -2446,7 +2431,7 @@
                     // Додаємо інструкції користувача ТІЛЬКИ якщо вони є (щоб не ламати стабільний промпт порожніми блоками)
                     const userPrompt = getEl('promptProd').value.trim();
                     if (userPrompt) {
-                        translatePrompt += `\n\nUSER INSTRUCTIONS & CUSTOM DICTIONARY (PRIORITY):\n"""\n${userPrompt}\n"""\nIf the user provided an exact translation specifically for "${lang}" in the instructions above, you MUST use their provided translation exactly as written and return ONLY that text.`;
+                        translatePrompt += `\n\nUSER INSTRUCTIONS & CUSTOM DICTIONARY (PRIORITY):\n"""\n${userPrompt}\n"""\nIf the user provided an exact translation specifically for "${lang}" in the instructions above, you MUST use їхній переклад точно так, як написано, and return ONLY that text.`;
                     }
 
                     translatedText = await callGemini(MODEL_VISION, translatePrompt, state.masterB64);
@@ -2601,7 +2586,7 @@
                 ${gamblePrompt}
                 ${hqLab}
                 RECOMPOSITION: Generate a brand new layout that perfectly fits the requested ${ratio} dimension.
-                TEXT TO INTEGRATE SEAMLESSLY: "${bonus}".
+                TEXT TO INTEGRATE SEAMLESSLY: "${bonus}". (Preserve exact line breaks if provided).
                 ${ignore ? 'CRITICAL: STRICTLY IGNORE ALL TEXT FROM REFERENCE IMAGES. DO NOT REPLICATE THEIR TEXT.' : ''}
                 QUALITY: UNREAL ENGINE 5, 8K RESOLUTION, AAA-tier marketing quality.
                 EXTRA PROMPT: ${getEl('promptLab').value}`;
@@ -2668,7 +2653,7 @@
                 
                 RETURN ONLY VALID JSON EXACTLY IN THIS FORMAT:
                 If everything is perfect: {"ok": true, "reason": "Все ідеально! Переклад правильний.", "fix": "Write the FULL exact text that is currently on the image here, keeping its structure. This allows the user to review it."}
-                If there is ANY error: {"ok": false, "reason": "Поясніть помилку коротко УКРАЇНСЬКОЮ МОВОЮ (наприклад, 'Не перекладено текст кнопки' або 'Граматична помилка в заголовку')", "fix": "Write the FULL completely corrected text here in ${lang}."}`;
+                If there is ANY error: {"ok": false, "reason": "Детально поясніть помилку УКРАЇНСЬКОЮ МОВОЮ. ОБОВ'ЯЗКОВО вкажіть конкретні слова або фрази з помилкою в оригіналі та поясніть, чому це неправильно (наприклад: 'Слово \\"Play\\" не перекладено. Має бути \\"Грати\\"').", "fix": "Write the FULL completely corrected text here in ${lang}."}`;
                 
                 const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_VISION}:generateContent?key=${state.apiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -2849,6 +2834,9 @@
                 sb.className = "status-badge px-2 py-0.5 rounded font-black bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[8px] uppercase tracking-widest";
             }
 
+            // Ховаємо панель аудиту після успішного рендеру
+            if(el.querySelector('.audit-panel')) el.querySelector('.audit-panel').classList.add('hidden');
+
             // ОБНОВЛЕНИЕ ПРЕВЬЮ
             const preview = el.querySelector('.task-preview');
             preview.classList.remove('hidden'); 
@@ -2887,7 +2875,7 @@
                 auditBtn.classList.add('hidden'); // No audit for retouch
                 redoBtn.onclick = () => {
                     const task = state.tasks.find(t => t.id === id);
-                    runRetouchPipeline(id, task.lang, task.baseActions);
+                    runRetouchPipeline(id, task.baseActions);
                 };
             }
             
@@ -2926,7 +2914,7 @@
                     
                     if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
                     else if(type === 'lab') runLabPipeline(id, langOrNum, extraData);
-                    else if(type === 'retouch') runRetouchPipeline(id, langOrNum, extraData);
+                    else if(type === 'retouch') runRetouchPipeline(id, extraData);
                 };
                 lucide.createIcons();
             }
@@ -3046,12 +3034,6 @@
         };
 
         window.closeZoom = () => getEl('zoomModal').classList.add('hidden');
-        
-        // ВІДНОВЛЕНІ ОБРОБНИКИ КЛІКІВ ДЛЯ ЗАВАНТАЖЕННЯ ФАЙЛІВ (ЦЕХ ТА ЛАБА)
-        getEl('dropZoneProd').onclick = () => getEl('fileInputProd').click();
-        getEl('fileInputProd').onchange = e => handleFiles(e.target.files, 'prod');
-        getEl('dropZoneLab').onclick = () => { if(state.labRefs.length < 3) getEl('fileInputLab').click(); };
-        getEl('fileInputLab').onchange = e => handleFiles(e.target.files, 'lab');
         
         const space = getEl('spaceEngine');
         for(let i=0; i<100; i++) {
