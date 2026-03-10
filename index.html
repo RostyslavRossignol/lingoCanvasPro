@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="uk" class="dark">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UA Studio | LingoCanvas Pro Beta V3.2</title>
+        <!-- ФАВІКОН (Іконка сайту) -->
+        <link rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
         <!-- Google tag (gtag.js) -->
         <script async
             src="https://www.googletagmanager.com/gtag/js?id=G-8963FJKFV0"></script>
         <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8963FJKFV0');
 
-        gtag('config', 'G-8963FJKFV0');
+            // Обгортка для безпечної відправки подій (захист від AdBlock)
+            window.trackEvent = function(eventName, params = {}) {
+                if (typeof gtag === 'function') {
+                    gtag('event', eventName, params);
+                }
+            };
         </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V3.1</title>
-        <!-- ФАВІКОН (Іконка сайту) -->
-        <link rel="icon"
-            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -352,7 +359,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.1
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.2
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -400,7 +407,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.1
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.2
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -2552,6 +2559,9 @@
                 getEl('apiStatusBadge').children[1].innerText = "API ПІДКЛЮЧЕНО";
                 lucide.createIcons();
                 validate();
+                
+                // TRACKING
+                trackEvent('app_unlocked');
             } catch(e) {
                 getEl('unlockBtn').disabled = false; getEl('unlockLoader').classList.add('hidden');
                 setTxt('gateStatus', `ПОМИЛКА: ${e.message}`); getEl('gateStatus').classList.remove('hidden');
@@ -2610,6 +2620,9 @@
             stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
+            
+            // TRACKING
+            trackEvent('generation_started', { module: 'pwa', count: totalTasks });
 
             try {
                 updateTaskUI("main", 10, "Аналіз PWA референсів...");
@@ -2631,6 +2644,10 @@
                         method: 'POST', headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(analysisPayload)
                     });
+                    
+                    // TRACKING
+                    trackEvent('api_call', { model: MODEL_VISION, is_image: false, purpose: 'pwa_analysis' });
+                    
                     const analysisData = await analysisResp.json();
                     if(analysisData.error) throw new Error(analysisData.error.message);
                     themeContext = analysisData.candidates[0].content.parts[0].text;
@@ -2728,6 +2745,10 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                
+                // TRACKING
+                trackEvent('api_call', { model: pwaData.model, is_image: true, purpose: 'pwa_screen' });
+                
                 const d = await res.json();
                 if(d.error) throw new Error(d.error.message);
                 const b64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
@@ -2742,7 +2763,11 @@
                 }
 
                 finalizeTaskUI(id, url, `Скріншот ${num}`, 'pwa_screen');
-            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'pwa_screen', num, pwaData); }
+                trackEvent('image_generated_success', { module: 'pwa_screen' });
+            } catch(e) { 
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'pwa_screen', num, pwaData); 
+                trackEvent('image_generated_error', { module: 'pwa_screen' });
+            }
         }
 
         async function runPwaIconPipeline(id, pwaData) {
@@ -2779,6 +2804,10 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                
+                // TRACKING
+                trackEvent('api_call', { model: pwaData.model, is_image: true, purpose: 'pwa_icon' });
+                
                 const d = await res.json();
                 if(d.error) throw new Error(d.error.message);
                 const rawB64 = d.candidates[0].content.parts.find(p => p.inlineData).inlineData.data;
@@ -2797,7 +2826,11 @@
                 }
 
                 finalizeTaskUI(id, url, `Іконка PWA`, 'pwa_icon');
-            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'pwa_icon', 'icon', pwaData); }
+                trackEvent('image_generated_success', { module: 'pwa_icon' });
+            } catch(e) { 
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'pwa_icon', 'icon', pwaData); 
+                trackEvent('image_generated_error', { module: 'pwa_icon' });
+            }
         }
 
         // ==========================================
@@ -2824,6 +2857,9 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: state.retouchB64 } }] }] })
                 });
+                
+                // TRACKING
+                trackEvent('api_call', { model: MODEL_VISION, is_image: false, purpose: 'retouch_analysis' });
                 
                 const d = await resp.json();
                 if(d.error) throw new Error(d.error.message);
@@ -2920,6 +2956,9 @@
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
 
+            // TRACKING
+            trackEvent('generation_started', { module: 'retouch', count: langs.length });
+
             for(let lang of langs) {
                 if(state.isAborted) break;
                 
@@ -2972,6 +3011,9 @@
                             method: 'POST', headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ contents: [{ parts: [{ text: translatePrompt }] }] })
                         });
+                        
+                        // TRACKING
+                        trackEvent('api_call', { model: MODEL_LITE, is_image: false, purpose: 'retouch_translate' });
                         
                         const d = await resp.json();
                         if(d.error) throw new Error(d.error.message);
@@ -3030,8 +3072,10 @@
                 }
                 
                 finalizeTaskUI(id, finalUrl, lang, 'retouch');
+                trackEvent('image_generated_success', { module: 'retouch' });
             } catch(e) {
                 updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', lang, baseActions);
+                trackEvent('image_generated_error', { module: 'retouch' });
             }
         }
 
@@ -3058,6 +3102,9 @@
             stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
+
+            // TRACKING
+            trackEvent('generation_started', { module: 'prod', count: allLangs.length });
 
             for(const lang of allLangs){
                 if (state.isAborted) break;
@@ -3157,8 +3204,10 @@
                 }
                 
                 finalizeTaskUI(id, finalUrl, lang, 'prod', !!forceText); // !!forceText === isRedo
+                trackEvent('image_generated_success', { module: 'prod' });
             } catch(e) { 
                 updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'prod', lang, forceText); 
+                trackEvent('image_generated_error', { module: 'prod' });
             }
         }
 
@@ -3180,6 +3229,9 @@
             stopBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
             stopBtn.innerHTML = '<i data-lucide="octagon" class="w-4 h-4"></i> ЗУПИНИТИ ВСЕ';
             lucide.createIcons();
+
+            // TRACKING
+            trackEvent('generation_started', { module: 'lab', count: count });
 
             // ROUND ROBIN LOGIC: Cycle through references correctly
             for(let i=1; i<=count; i++){
@@ -3220,6 +3272,10 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(analysisPayload)
                 });
+                
+                // TRACKING
+                trackEvent('api_call', { model: MODEL_VISION, is_image: false, purpose: 'lab_analysis' });
+                
                 const analysisData = await analysisResp.json();
                 if(analysisData.error) throw new Error(analysisData.error.message);
                 const techPrompt = analysisData.candidates[0].content.parts[0].text;
@@ -3292,7 +3348,11 @@
                 }
 
                 finalizeTaskUI(id, url, `Concept ${num}`, 'lab');
-            } catch(e) { updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); }
+                trackEvent('image_generated_success', { module: 'lab' });
+            } catch(e) { 
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'lab', num, refB64); 
+                trackEvent('image_generated_error', { module: 'lab' });
+            }
         }
 
         // ==========================================
@@ -3333,6 +3393,10 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: url.split(',')[1] } }] }] })
                 });
+                
+                // TRACKING
+                trackEvent('api_call', { model: MODEL_VISION, is_image: false, purpose: 'audit' });
+                
                 const d = await resp.json();
                 const raw = d.candidates[0].content.parts[0].text;
                 const jsonMatch = raw.match(/\{.*\}/s);
@@ -3345,6 +3409,8 @@
                 const textarea = panel.querySelector('.audit-fix-input');
 
                 panel.classList.remove('hidden');
+                
+                trackEvent('audit_run', { is_success: res.ok });
 
                 if(res.ok) {
                     btn.className = "audit-btn p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl";
@@ -3403,6 +3469,10 @@
         // 7. SHARED CORE & UI CONTROLS
         // ==========================================
         async function callGemini(model, text, b64, isImg = false, mime = "image/png") {
+            
+            // TRACKING
+            trackEvent('api_call', { model: model, is_image: isImg, purpose: 'generation' });
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${state.apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text }, { inlineData: { mimeType: "image/png", data: b64 } }] }],
@@ -3523,6 +3593,10 @@
                 const task = state.tasks.find(t => t.id === id);
                 if (!task) return;
                 const fileName = generateFileName(task);
+                
+                // TRACKING
+                trackEvent('image_downloaded', { module: type, file_name: fileName });
+
                 const a = document.createElement('a'); a.href = url; a.download = fileName; a.click(); 
             };
             
@@ -3571,7 +3645,7 @@
                         task.pwaData.textScale = currentScale;
                         task.pwaData.generalPrompt = currentPrompt;
                         task.pwaData.fileType = currentFileType;
-                        runPwaIconPipeline(id, task.pwaData.themeContext, task.pwaData.iconText, task.pwaData.generalPrompt, task.pwaData.model, task.pwaData.fileType, task.pwaData.freedomLevel);
+                        runPwaIconPipeline(id, task.pwaData);
                     } else {
                         task.pwaData.screenText = getEl(`pwaText${task.pwaIndex}`).value;
                         task.pwaData.model = currentModel;
@@ -3579,7 +3653,7 @@
                         task.pwaData.textScale = currentScale;
                         task.pwaData.generalPrompt = currentPrompt;
                         task.pwaData.fileType = currentFileType;
-                        runPwaScreenPipeline(id, task.pwaIndex, task.pwaData.themeContext, task.pwaData.screenText, task.pwaData.generalPrompt, task.pwaData.model, task.pwaData.fileType, task.pwaData.freedomLevel);
+                        runPwaScreenPipeline(id, task.pwaIndex, task.pwaData);
                     }
                 };
             }
@@ -3622,8 +3696,8 @@
                     if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
                     else if(type === 'lab') runLabPipeline(id, langOrNum, extraData);
                     else if(type === 'retouch') runRetouchPipeline(id, langOrNum, extraData);
-                    else if(type === 'pwa' && langOrNum === 'icon') runPwaIconPipeline(id, extraData.themeContext, extraData.iconText, extraData.generalPrompt, extraData.model, extraData.fileType, extraData.freedomLevel);
-                    else if(type === 'pwa') runPwaScreenPipeline(id, langOrNum, extraData.themeContext, extraData.screenText, extraData.generalPrompt, extraData.model, extraData.fileType, extraData.freedomLevel);
+                    else if(type === 'pwa_icon') runPwaIconPipeline(id, extraData);
+                    else if(type === 'pwa_screen') runPwaScreenPipeline(id, langOrNum, extraData);
                 };
                 lucide.createIcons();
             }
@@ -3638,6 +3712,10 @@
                 const fileName = generateFileName(t);
                 folder.file(fileName, t.b64, {base64: true});
             });
+            
+            // TRACKING
+            trackEvent('zip_downloaded', { file_count: state.tasks.length });
+
             const content = await zip.generateAsync({type:"blob"});
             const a = document.createElement('a'); a.href = URL.createObjectURL(content); a.download = `Batch_Export_${Date.now()}.zip`; a.click();
         }
@@ -3777,6 +3855,9 @@
             
             getEl('tabPwa').classList.toggle('active', t === 'pwa');
             getEl('tabPwa').classList.toggle('opacity-40', t !== 'pwa');
+            
+            // TRACKING
+            trackEvent('tab_switched', { tab_name: t });
         };
 
         window.closeZoom = () => getEl('zoomModal').classList.add('hidden');
