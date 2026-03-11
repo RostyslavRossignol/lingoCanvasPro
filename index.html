@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UA Studio | LingoCanvas Pro Beta V3.2</title>
+        <title>UA Studio | LingoCanvas Pro Beta V3.3</title>
         <!-- ФАВІКОН (Іконка сайту) -->
         <link rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -359,7 +359,7 @@
                             class="text-2xl font-black uppercase tracking-tighter text-white leading-none">LingoCanvas
                             <span class="text-indigo-500">PRO</span></h1>
                         <p
-                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.2
+                            class="text-zinc-500 text-[8px] uppercase mt-3 font-black tracking-widest opacity-70">V3.3
                             UA STUDIO BETA</p>
                     </div>
                     <div class="space-y-6">
@@ -407,7 +407,7 @@
                                     class="text-[8px] font-black uppercase tracking-widest">API
                                     ОФЛАЙН</span></div>
                             <p
-                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.2
+                                class="text-zinc-600 text-[8px] font-black uppercase tracking-widest">V3.3
                                 UA Studio Beta</p>
                         </div>
                     </div>
@@ -2925,9 +2925,6 @@
         async function renderRetouchImage() {
             if(!state.retouchB64 || state.isProcessing) return;
             
-            const rawLangs = getEl('retouchLangs').value.trim();
-            let langs = rawLangs ? rawLangs.split(',').map(l => l.trim()).filter(l => l.length > 1) : ['Retouch Result'];
-            
             state.isProcessing = true;
             state.isAborted = false;
 
@@ -2957,18 +2954,11 @@
             lucide.createIcons();
 
             // TRACKING
-            trackEvent('generation_started', { module: 'retouch', count: langs.length });
+            trackEvent('generation_started', { module: 'retouch', count: 1 });
 
-            for(let lang of langs) {
-                if(state.isAborted) break;
-                
-                const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
-                createTaskUI(lang, id);
-                await runRetouchPipeline(id, lang, baseActions);
-                
-                if(state.isAborted) break;
-                if(langs.length > 1) await new Promise(r => setTimeout(r, 3000));
-            }
+            const id = `retouch-${Math.random().toString(36).substr(2, 7)}`;
+            createTaskUI('Хірургічна Ретуш', id);
+            await runRetouchPipeline(id, baseActions);
 
             state.isProcessing = false;
             state.isAborted = false;
@@ -2980,63 +2970,17 @@
             validate();
         }
 
-        async function runRetouchPipeline(id, lang, baseActions) {
+        async function runRetouchPipeline(id, baseActions) {
             const modelRender = getEl('modelSelectorRetouch').value;
             updateTaskUI(id, 20, "Підготовка рендеру...");
-            setLiveModel(MODEL_LITE, true);
+            setLiveModel(modelRender, true);
 
             try {
-                let currentActions = JSON.parse(JSON.stringify(baseActions)); // Deep copy
-
-                // TRANSLATION STEP (if lang is a real language and not just "Retouch Result")
-                if (lang !== 'Retouch Result') {
-                    updateTaskUI(id, 40, "Переклад тексту...");
-                    let textsToTranslate = {};
-                    currentActions.forEach(action => {
-                        if (action.newVal !== "[DELETE_THIS_TEXT]" && action.newVal !== "") {
-                            textsToTranslate[action.index] = action.newVal;
-                        }
-                    });
-
-                    if (Object.keys(textsToTranslate).length > 0) {
-                        const translatePrompt = `Translate the following texts into ${lang}.
-                        STRICT RULES:
-                        1. Return ONLY a valid JSON object mapping the IDs to the translated strings. Do not use markdown blocks (\`\`\`json).
-                        2. Do not translate numbers, brand names, or promo codes like 'FS'.
-                        
-                        Texts to translate:
-                        ${JSON.stringify(textsToTranslate)}`;
-
-                        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_LITE}:generateContent?key=${state.apiKey}`, {
-                            method: 'POST', headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ contents: [{ parts: [{ text: translatePrompt }] }] })
-                        });
-                        
-                        // TRACKING
-                        trackEvent('api_call', { model: MODEL_LITE, is_image: false, purpose: 'retouch_translate' });
-                        
-                        const d = await resp.json();
-                        if(d.error) throw new Error(d.error.message);
-                        
-                        let rawRes = d.candidates[0].content.parts[0].text;
-                        // Parse safely
-                        rawRes = rawRes.substring(rawRes.indexOf('{'), rawRes.lastIndexOf('}') + 1);
-                        const translations = JSON.parse(rawRes);
-                        
-                        currentActions.forEach(action => {
-                            if(translations[action.index]) {
-                                action.newVal = translations[action.index];
-                            }
-                        });
-                    }
-                }
-
                 // BUILD RENDER PROMPT
                 updateTaskUI(id, 60, "Малювання...");
-                setLiveModel(modelRender, true);
 
                 let instructions = "EXACT MODIFICATIONS REQUIRED:\n";
-                currentActions.forEach(action => {
+                baseActions.forEach(action => {
                     if (action.newVal === "[DELETE_THIS_TEXT]") {
                         instructions += `- Locate text "${action.original}" (${action.location}) and COMPLETELY DELETE IT by painting over it seamlessly with the surrounding background.\n`;
                     } else if (action.newVal !== action.original) {
@@ -3056,9 +3000,7 @@
                 const resB64 = await callGemini(modelRender, renderPrompt, state.retouchB64, true, "image/png");
                 const finalUrl = `data:image/png;base64,${resB64}`;
                 
-                let cleanLang = lang.replace(/\s+/g, '_').toLowerCase();
-                if(cleanLang === 'retouch_result') cleanLang = 'retouch';
-                
+                let cleanLang = 'retouch';
                 langCounters[cleanLang] = (langCounters[cleanLang] || 0) + 1;
                 let langIndex = langCounters[cleanLang];
 
@@ -3068,13 +3010,13 @@
                     state.tasks[existingTaskIndex].b64 = resB64;
                     state.tasks[existingTaskIndex].baseActions = baseActions;
                 } else {
-                    state.tasks.push({ id, lang: lang, b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
+                    state.tasks.push({ id, lang: 'Хірургічна Ретуш', b64: resB64, type: 'retouch', originalLang: cleanLang, langIndex: langIndex, baseActions: baseActions });
                 }
                 
-                finalizeTaskUI(id, finalUrl, lang, 'retouch');
+                finalizeTaskUI(id, finalUrl, 'Хірургічна Ретуш', 'retouch');
                 trackEvent('image_generated_success', { module: 'retouch' });
             } catch(e) {
-                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', lang, baseActions);
+                updateTaskUI(id, 100, "API ВІДХИЛИЛО", true, 'retouch', null, baseActions);
                 trackEvent('image_generated_error', { module: 'retouch' });
             }
         }
@@ -3492,7 +3434,7 @@
                 <div class="flex items-center justify-between gap-6 w-full">
                     <div class="flex items-center gap-4 flex-1 min-w-0">
                         <div class="w-12 h-12 rounded-xl bg-zinc-950 flex items-center justify-center text-indigo-400 font-black text-xl uppercase shrink-0 border border-white/5 shadow-2xl">
-                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : (lang.includes('Retouch') ? '<i data-lucide="scissors" class="w-6 h-6"></i>' : (lang.includes('Скріншот') || lang.includes('Іконка') ? '<i data-lucide="layout-grid" class="w-6 h-6"></i>' : lang.substring(0, 2)))}
+                            ${lang.includes('Concept') ? '<i data-lucide="sparkles" class="w-6 h-6"></i>' : (lang.includes('Ретуш') ? '<i data-lucide="scissors" class="w-6 h-6"></i>' : (lang.includes('Скріншот') || lang.includes('Іконка') ? '<i data-lucide="layout-grid" class="w-6 h-6"></i>' : lang.substring(0, 2)))}
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between mb-1.5">
@@ -3624,7 +3566,7 @@
                 if(auditBtnWrap) auditBtnWrap.classList.add('hidden'); // No audit for retouch
                 redoBtn.onclick = () => {
                     const task = state.tasks.find(t => t.id === id);
-                    runRetouchPipeline(id, task.lang, task.baseActions);
+                    runRetouchPipeline(id, task.baseActions);
                 };
             } else if(type.startsWith('pwa')) {
                 if(auditBtnWrap) auditBtnWrap.classList.add('hidden'); // No audit for PWA
@@ -3695,7 +3637,7 @@
                     
                     if(type === 'prod') runTaskProcess(langOrNum, id, extraData);
                     else if(type === 'lab') runLabPipeline(id, langOrNum, extraData);
-                    else if(type === 'retouch') runRetouchPipeline(id, langOrNum, extraData);
+                    else if(type === 'retouch') runRetouchPipeline(id, extraData);
                     else if(type === 'pwa_icon') runPwaIconPipeline(id, extraData);
                     else if(type === 'pwa_screen') runPwaScreenPipeline(id, langOrNum, extraData);
                 };
